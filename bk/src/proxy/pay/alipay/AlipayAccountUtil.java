@@ -1,0 +1,52 @@
+package com.qcmz.cmc.proxy.pay.alipay;
+
+import com.qcmz.cmc.config.SystemConfig;
+import com.qcmz.framework.constant.DictConstants;
+import com.qcmz.framework.util.StringUtil;
+
+public class AlipayAccountUtil {
+	/**
+	 * 出国翻译官帐户
+	 */
+	public static AlipayAccountBean ACCOUNT_VOICETRANS;
+	/**
+	 * 番茄翻译帐户
+	 */
+	public static AlipayAccountBean ACCOUNT_TOMATO;
+	
+	public static boolean init;	
+	public static void init(String notifyServer){
+		if(StringUtil.isBlankOrNull(notifyServer)) return;
+		
+		//出国翻译官
+		ACCOUNT_VOICETRANS = new AlipayAccountBean();
+		ACCOUNT_VOICETRANS.setAppid("2016072501664345");
+		ACCOUNT_VOICETRANS.setAppPrivateKey("MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAOZeQAzRgXSFCGLGT3LIGPiyoH6UwMKrkW7/LMVg76flZfEDiZpqSw2WwJeRJ0Ggm0bY1KACG6K6cazyrShqjdLrPp3c9CZ7HWewqTj9v+AiE1rjgUPldUpQvpzxDy5JZGYNWafeG2G66oXR68Yamy0tz88TB2/sLLleGpPw4TEDAgMBAAECgYEAsZ/Sew+/ZXx97stBzxsCRiBVJ8TCrFdll9QhTT9lCmwSojc8DlgO7rdiYHuHbU7M61+c8pMtg9eGdvfXE+a02omr7pIebr1myJ0s+HU4Fg0TY3WMYXY/t9PEkO6NlkChirC4u2sYcE9S+xWmMu0gzNiZ0CnEJ1Pc3XDB8dY3dKECQQD+R/XCsYImN7CLEXqPjon7DduJLPAmOuZ8MtXiNkggTOqDEq+0JC6Y1WU+xiqefyI6/pofSwWoYBapzPfQpzltAkEA5+zogz65/r7mHrHgbEj9IAXhOZ+dRetjjJXODb1/Xklq3xD7/qlOc2MIF5vTrm1qH4wphm2kUn10vIibS1J+LwJBAMpm8SKGNPjCv04THaGDbiVeBG+OS6HCpJAbzs//MS40yz6F80HKwyR4R9zN1ELRI6gd3QQnrVs3ERMbye5WDYkCQGnoNjkQoNCijeUAZzIrlmNULAgrSh9OoTPmiKSfnxUIQ6Q/VkNxPuDUHTLitqRVVHu5fpDjaoE8xtz9KKUZs4MCQH5bpURcv8Z881BfSDfeH3INNMgYhkJWvZksIYKN8Pjj2vG/xlRPKILc8AvQw3t0EAdznVYhyhl9/68dacjnbrI=");
+		ACCOUNT_VOICETRANS.setAlipayPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB");
+		ACCOUNT_VOICETRANS.setSignType("RSA");
+		ACCOUNT_VOICETRANS.setNotifyUrl(notifyServer+"/services-ssl/paySynAli.do");
+		
+		//番茄翻译
+		ACCOUNT_TOMATO = new AlipayAccountBean();
+		ACCOUNT_TOMATO.setAppid("2018031302366026");
+		ACCOUNT_TOMATO.setAppPrivateKey("MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCmNjN4Ex0Ekrg5pA8JCscR8FxiEF+0WSoT3kfCXTzvzP/sxBL3AapykYn9coZNVMao/bnuQfLH+ZnAnwMEg0tI2QdEtCTbddZ0KIbZy7GOLGS8MYVQfmEiUhKPEUP45QkI6CunXuN1NTVsjFwCwfMEADRkcPGLEI6mOBo7B2aPlV+dwn+pLnoE5s8Ku5AmLKZtDyvQaud9HFU4Q5j1q4jFLvCTZYJTC5DuLkTLqMRbPAcc0GCOZGJCFCFpHDQ2swO1LeqOsNPEerl2OYy2xIchM1vMHcsGyNQBetcMZmqXjvRAvhmjnSLhuZ2x3/+P2u3TFShmM8p6f+dz4hj8TRljAgMBAAECggEBAIJDqnTp7e0enDm4pXv9sWUSzySgFpG+6+ZkaDMhZde+/7jtNrvV12MxQ0eakT1cOtJJAIaFsyQdL+4x8WiBCejPBw5GbTh+kxO4i294X/DARDbmTMh4M+J1FkyASJhx0HHlnAjxqiy7BeLL4nTa0n4JNwadKgFGebY19ADdXPkb3imlswY5SHL10UzwvAlu+2jN2aiuN+RpUPoKAcSO5QPyVvaPk5Tz7edYlrbarJF1T4y87Iq6yCMJIlSZSBmE7GDf3bT4gJVAL5f8Bd8yea7Gvm/WAcufk43axjf9V7dYCvsblfwIAJKrh0IROFelmbUZNuahTPQTVhwo+OwD6GECgYEA8lRBSck1ZEV8kMGplz1GRYg/2wYyd6VEAvoTiYTzJephv6UgH5YHjx3fq17wxapwn9kx5UFlg1bFXRcjxAvXDBBTGy1xMzm2szXA4D7OOjWCeLWNG6UgcAcQIahbUzW5+Cfpy5i/jMDJy7/Hi4GZR19d8gmaGhOyO7JXZ9T0PJECgYEAr5amWpVaoEU/Y3A4a4YneNf25GwZyBgTETpmXk5w6nLlQozWqZhZjjIGApZxptbxljbkaFpSUNenZdt1rlIPMJa0HEGGA+gt8q7r8oteXBsnGYMRSZozbpedXzTTakFAfGNHiuK6eaalRxwVnszesYc74o3nAo7iZN6E49t6wLMCgYEAx7ucaHW4VSJUzndhEfAGOI9ZmmxcMnN8QDvg2ItFYe3yjWRLut0M8/A6h+Rj7XhTBd2eG4iwY/WkDNtitlbP8/iMlyz4TbF3HfTjObFqh13NYTK60JtkxhF8QVGjnEz/MEOtlwsabqgEa7Rxg1HZhZNcOn+hjXbIhB21nzZN7JECgYEAgjHAM5Ze1kvCTqcdDo0wo2fvBzwoebdwG+wjj3W2QADlgU0Qtjvi24636h9HMiBajbkx7zZZptvgoaPyRElQPgTgk7r59deoijOte/BfDQiNG1uV6+9Mh4ogBEIVKMotWI38tDydbCpmjq2CUncyAIx3mOsDCWCM+aINAy7wfAUCgYBo20lXDjFbvffuLCAU4oHDiKvJMqdZNt94PCibZpEoUwyeiWnaxDlDqkGIxq75nUGrENknFpxUmdlczfJZ3Hn8Uh2rJ4S+9Orzx1pf5Y7lq9nUpkqbSGEhOkP+JOU8YVzqTWBSaGviq+95ZVTmaURnXGpiWG/m57UDAXbEvH67Aw==");
+		ACCOUNT_TOMATO.setAlipayPublicKey("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhJSUpPwtzyWeaUmVgYp1fp68HQVmGAqFA1gUr7rotqAz2s5Qp5wgASUyUBtgto9dhpi2JPUUacIWdtFF1pmCMR4jmt3NduWBAsLjp47U4c3LPmy2kB4pQ2Uf5clbkUX5Qq0DQaZKej2dc1LP3eeYhEcPZhI1Nb2UoP1Xehjv+0rkR+ieYfPhvRl17ulC9LwYHVQW+znQQRgFgNvvY6nFIlhgCEkHbyp4CyVBVKN/fkIxheKH/xN1x4N3O/7HnXukiL4vyQ4JM4JIZhcLGhKPadBEcR4dk6KRH/v5yBRuwklW+qWe+uwMxsmmFLcknjAFW+cBxexT0sb0kZ7d8neNQIDAQAB");
+		ACCOUNT_TOMATO.setSignType("RSA2");
+		ACCOUNT_TOMATO.setNotifyUrl(notifyServer+"/services-ssl/paySynAli4Tomato.do");
+		
+		init = true;
+	}
+	
+	public static AlipayAccountBean getAccount(String serviceType){
+		if(!init){
+			init(SystemConfig.CMC_SERVER);
+		}
+		if(DictConstants.DICT_SERVICETYPE_VOICETRANS.equals(serviceType)){
+			return ACCOUNT_VOICETRANS;
+		}else if(DictConstants.DICT_SERVICETYPE_TOMATO.equals(serviceType)){
+			return ACCOUNT_TOMATO;
+		}
+		return null;
+	}
+	
+}

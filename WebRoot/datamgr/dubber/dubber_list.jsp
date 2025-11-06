@@ -1,0 +1,55 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="com.qcmz.framework.constant.DictConstants"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+<%@ taglib uri="dictionary" prefix="dict"%>
+<%@ taglib uri="qcmz" prefix="lt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<html>
+    <head>
+		<title></title>
+	</head>
+	<body>
+	<div>
+		<table class="resultListFence" cellpadding="0" cellspacing="0"  align="center" border="0">
+			<tr>
+				<th style="width:5%">编号</th>
+				<th style="width:10%">分类</th>
+				<th style="width:10%">名称</th>
+				<th style="width:10%">姓名</th>
+				<th style="width:20%">特长</th>
+				<th style="width:30%">风格</th>
+				<th style="width:5%">排序</th>
+				<th style="width:5%">状态</th>
+				<th style="width:5%">操作</th>
+			</tr> 
+			<tbody id="tab">
+			<s:iterator value="pageBean.resultList" status="stut" id="bean">
+			<tr onDblClick="editData('${dubberid}')" >
+				<td>${dubberid}</td>
+				<td>
+					<c:if test="${not empty fullcatid}">
+						<c:forEach var="i" begin="0" step="4" end="${fn:length(fullcatid)-1}">
+							> <dict:text field="<%=DictConstants.DICTNAME_CAT %>" initvalue="${fn:substring(fullcatid, i, i+4)}"/>
+						</c:forEach>
+					</c:if>
+				</td>
+				<td>${title }</td>
+				<td>${fullname }</td>
+				<td>${specialty }</td>
+				<td>${style }</td>
+				<td>${sortindex }</td>
+				<td>
+					<a href="javascript:updateStatus('${dubberid }','${status==0?1:0 }');" title="点击${status==1?'停用':'启用' }"><dict:text table="common" field="status" initvalue="${status}" dataSource="xml"></dict:text></a>
+				</td>
+				<td>
+					<a href="javascript:editData('${dubberid}');"><img src="<lt:contextPath/>/images/edit.gif" alt="编辑" title="编辑"></a>
+				</td>
+			</tr>
+			</s:iterator>
+			</tbody>
+		</table>
+	</div>
+	<lt:pagination methodStr="dataQuery" sytleName="default" pageBean="${pageBean}" />
+	</body>
+</html>

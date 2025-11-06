@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.action.extension" value="action,do" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.action.excludePattern" value="/ueditor.*"/>
+	<constant name="struts.devMode" value="false"/>
+	<!-- 避免action由于aop拦截setter/getter方法导致注入失败 -->
+	<constant name="struts.objectFactory.spring.autoWire.alwaysRespect" value="true" />
+	<!-- 上传文件大小 20M，默认2M -->
+	<constant name="struts.multipart.maxSize" value="20971520"/>
+	
+	<!-- 自定义 -->
+	<package name="struts-custom" extends="struts-default">
+		<!-- 结果类型 -->
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+    	<default-action-ref name="notFound" />
+		<!-- 全局结果 -->
+		<global-results>
+			<result name="exception">/error.jsp</result>
+			<result name="json" type="json">
+				<param name="root">jsonObj</param>
+				<param name="ignoreHierarchy">false</param><!-- 序列化父类 -->
+			</result>
+		</global-results>
+		<!-- 全局异常映射 -->
+		<global-exception-mappings>
+			<exception-mapping result="exception" exception="java.lang.Exception"/>
+		</global-exception-mappings>
+		<action name="notFound">
+			<result>/error.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 后台维护 -->
+    <package name="default" extends="struts-custom">
+		<!-- 主题 -->
+		<action name="themeAction" class="com.qcmz.cmc.web.action.ThemeAction">
+			<result name="query">/datamgr/theme/theme_query.jsp</result>
+			<result name="list">/datamgr/theme/theme_list.jsp</result>
+			<result name="edit">/datamgr/theme/theme_edit.jsp</result>
+		</action>
+		<!-- 主题语句 -->
+		<action name="themeSentenceAction" class="com.qcmz.cmc.web.action.ThemeSentenceAction">
+			<result name="query">/datamgr/theme/sentence_query.jsp</result>
+			<result name="list">/datamgr/theme/sentence_list.jsp</result>
+			<result name="edit">/datamgr/theme/sentence_edit.jsp</result>
+			<result name="addBatch">/datamgr/theme/sentence_addbatch.jsp</result>
+		</action>
+		<!-- 每日一句 -->
+		<action name="daySentenceAction" class="com.qcmz.cmc.web.action.DaySentenceAction">
+			<result name="query">/datamgr/daysentence/daysentence_query.jsp</result>
+			<result name="list">/datamgr/daysentence/daysentence_list.jsp</result>
+			<result name="edit">/datamgr/daysentence/daysentence_edit.jsp</result>
+		</action>
+		 
+		<!-- 译库 -->
+		<action name="transLibAction" class="com.qcmz.cmc.web.action.TransLibAction">
+			<result name="query">/datamgr/translib/translib_query.jsp</result>
+			<result name="list">/datamgr/translib/translib_list.jsp</result>
+			<result name="edit">/datamgr/translib/translib_edit.jsp</result>
+		</action>
+		<!-- 译库采集 -->
+		<action name="transLibSpiderAction" class="com.qcmz.cmc.web.action.TransLibSpiderAction"/>
+		
+		<!-- 翻译差异处理 -->
+		<action name="transDiffAction" class="com.qcmz.cmc.web.action.TransDiffAction">
+			<result name="query">/datamgr/transdiff/transdiff_query.jsp</result>
+			<result name="list">/datamgr/transdiff/transdiff_list.jsp</result>
+		</action>
+		<!-- 翻译用户纠错处理 -->
+		<action name="transUserCorrectAction" class="com.qcmz.cmc.web.action.TransUserCorrectAction">
+			<result name="query">/datamgr/transusercorrect/usercorrect_query.jsp</result>
+			<result name="list">/datamgr/transusercorrect/usercorrect_list.jsp</result>
+		</action>
+		
+		<!-- 翻译修正查询 -->
+		<action name="transCorrectAction" class="com.qcmz.cmc.web.action.TransCorrectAction">
+			<result name="query">/datamgr/transcorrect/transcorrect_query.jsp</result>
+			<result name="list">/datamgr/transcorrect/transcorrect_list.jsp</result>
+		</action>
+		
+		<!-- 翻译机维护 -->
+		<action name="transMachineAction" class="com.qcmz.cmc.web.action.TransMachineAction">
+			<result name="query">/datamgr/tm/tm_query.jsp</result>
+			<result name="list">/datamgr/tm/tm_list.jsp</result>
+			<result name="edit">/datamgr/tm/tm_edit.jsp</result>
+		</action>
+		
+		<!-- 订单维护 -->
+		<action name="orderAction" class="com.qcmz.cmc.web.action.OrderAction">
+			<result name="query">/datamgr/order/order_query.jsp</result>
+			<result name="list">/datamgr/order/order_list.jsp</result>
+			<result name="detail">/datamgr/order/order_detail.jsp</result>
+			<result name="detail_pic">/datamgr/order/order_detail_transpic.jsp</result>
+			<result name="detail_text">/datamgr/order/order_detail_transtext.jsp</result>
+			<result name="detail_video">/datamgr/order/order_detail_transvideo.jsp</result>
+			<result name="detail_package">/datamgr/order/order_detail_package.jsp</result>
+			<result name="detail_transcombo">/datamgr/order/order_detail_transcombo.jsp</result>
+			<result name="detail_dub">/datamgr/order/order_detail_dub.jsp</result>
+			<result name="detail_crowdtask">/datamgr/order/order_detail_crowdtask.jsp</result>
+		</action>
+		<!-- 翻译订单查询 -->
+		<action name="transOrderAction" class="com.qcmz.cmc.web.action.TransOrderAction">
+			<result name="query">/datamgr/transorder/transorder_query.jsp</result>
+			<result name="list">/datamgr/transorder/transorder_list.jsp</result>
+		</action>		
+		<!-- 翻译订单处理 -->
+		<action name="transOrderDealAction" class="com.qcmz.cmc.web.action.TransOrderDealAction">
+			<result name="query">/datamgr/transdeal/transdeal_query.jsp</result>
+			<result name="list">/datamgr/transdeal/transdeal_list.jsp</result>
+			<result name="dealPic">/datamgr/transdeal/transdeal_pic.jsp</result>
+			<result name="dealText">/datamgr/transdeal/transdeal_text.jsp</result>
+			<result name="dealVideo">/datamgr/transdeal/transdeal_video.jsp</result>
+		</action>
+		<!-- 翻译订单校对 -->
+		<action name="transOrderCheckAction" class="com.qcmz.cmc.web.action.TransOrderCheckAction">
+			<result name="query">/datamgr/transcheck/transcheck_query.jsp</result>
+			<result name="list">/datamgr/transcheck/transcheck_list.jsp</result>
+			<result name="checkPic">/datamgr/transcheck/transcheck_pic.jsp</result>
+			<result name="checkText">/datamgr/transcheck/transcheck_text.jsp</result>
+		</action>
+		<!-- 图片翻译捡漏 -->
+		<action name="transPicPickAction" class="com.qcmz.cmc.web.action.TransPicPickAction">
+			<result name="query">/datamgr/transpic/transpic_pick_query.jsp</result>
+			<result name="list">/datamgr/transpic/transpic_pick_list.jsp</result>
+			<result name="edit">/datamgr/transpic/transpic_pick_edit.jsp</result>
+		</action>
+		<!-- 优惠券包订单 -->
+		<action name="packageOrderAction" class="com.qcmz.cmc.web.action.PackageOrderAction">
+			<result name="query">/datamgr/packageorder/packageorder_query.jsp</result>
+			<result name="list">/datamgr/packageorder/packageorder_list.jsp</result>
+		</action>
+		<!-- 翻译套餐订单 -->
+		<action name="transComboOrderAction" class="com.qcmz.cmc.web.action.TransComboOrderAction">
+			<result name="query">/datamgr/transcomboorder/transcomboorder_query.jsp</result>
+			<result name="list">/datamgr/transcomboorder/transcomboorder_list.jsp</result>
+		</action>
+		<!-- 机器配音订单 -->
+		<action name="dubOrderAction" class="com.qcmz.cmc.web.action.DubOrderAction">
+			<result name="query">/datamgr/duborder/duborder_query.jsp</result>
+			<result name="list">/datamgr/duborder/duborder_list.jsp</result>
+		</action>
+		<!-- 真人配音订单 -->
+		<action name="humanDubOrderAction" class="com.qcmz.cmc.web.action.HumanDubOrderAction">
+			<result name="query">/datamgr/duborder/duborder_query_human.jsp</result>
+			<result name="list">/datamgr/duborder/duborder_list_human.jsp</result>
+		</action>
+		<!-- 配音订单处理 -->
+		<action name="dubOrderDealAction" class="com.qcmz.cmc.web.action.DubOrderDealAction">
+			<result name="query">/datamgr/duborder/duborder_deal_query.jsp</result>
+			<result name="list">/datamgr/duborder/duborder_deal_list.jsp</result>
+			<result name="deal">/datamgr/duborder/duborder_deal.jsp</result>
+		</action>
+		<!-- 众包任务订单 -->
+		<action name="crowdTaskOrderAction" class="com.qcmz.cmc.web.action.CrowdTaskOrderAction">
+			<result name="query">/datamgr/crowdtaskorder/crowdtaskorder_query.jsp</result>
+			<result name="list">/datamgr/crowdtaskorder/crowdtaskorder_list.jsp</result>
+		</action>
+		<!-- 众包任务订单处理 -->
+		<action name="crowdTaskOrderDealAction" class="com.qcmz.cmc.web.action.CrowdTaskOrderDealAction">
+			<result name="query">/datamgr/crowdtaskorder/crowdtaskorder_deal_query.jsp</result>
+			<result name="list">/datamgr/crowdtaskorder/crowdtaskorder_deal_list.jsp</result>
+			<result name="deal">/datamgr/crowdtaskorder/crowdtaskorder_deal.jsp</result>
+		</action>
+		
+		<!-- 译员佣金结算 -->
+		<action name="translatorCommissionAction" class="com.qcmz.cmc.web.action.TranslatorCommissionAction">
+			<result name="query">/datamgr/translatorcommission/translatorcommission_query.jsp</result>
+			<result name="list">/datamgr/translatorcommission/translatorcommission_list.jsp</result>
+			<result name="detail">/datamgr/translatorcommission/translatorcommission_detail.jsp</result>
+		</action>
+		
+		<!-- 订单留言 -->
+		<action name="orderMsgAction" class="com.qcmz.cmc.web.action.OrderMsgAction">
+			<result name="query">/datamgr/ordermsg/ordermsg_query.jsp</result>
+			<result name="list">/datamgr/ordermsg/ordermsg_list.jsp</result>
+		</action>
+		
+		<!-- 用户翻译套餐 -->
+		<action name="userTransComboAction" class="com.qcmz.cmc.web.action.UserTransComboAction">
+			<result name="query">/datamgr/usertranscombo/usertranscombo_query.jsp</result>
+			<result name="list">/datamgr/usertranscombo/usertranscombo_list.jsp</result>
+			<result name="detail">/datamgr/usertranscombo/usertranscombo_detail.jsp</result>
+			<result name="edit">/datamgr/usertranscombo/usertranscombo_add.jsp</result>
+		</action>
+		
+		<!-- 配音员 -->
+		<action name="dubberAction" class="com.qcmz.cmc.web.action.DubberAction">
+			<result name="query">/datamgr/dubber/dubber_query.jsp</result>
+			<result name="list">/datamgr/dubber/dubber_list.jsp</result>
+			<result name="edit">/datamgr/dubber/dubber_edit.jsp</result>
+		</action>
+		
+		<!-- 图像识别 -->
+		<action name="imageRecognitionAction" class="com.qcmz.cmc.web.action.ImageRecognitionAction">
+			<result name="query">/datamgr/imagerecognition/imagerecognition_query.jsp</result>
+			<result name="list">/datamgr/imagerecognition/imagerecognition_list.jsp</result>
+		</action>
+		
+		<!-- 众包任务 -->
+		<action name="crowdTaskAction" class="com.qcmz.cmc.web.action.CrowdTaskAction">
+			<result name="query">/datamgr/crowdtask/crowdtask_query.jsp</result>
+			<result name="list">/datamgr/crowdtask/crowdtask_list.jsp</result>
+			<result name="add">/datamgr/crowdtask/crowdtask_add.jsp</result>
+			<result name="edit">/datamgr/crowdtask/crowdtask_edit.jsp</result>
+		</action>
+		<!-- 用户众包任务 -->
+		<action name="userCrowdTaskAction" class="com.qcmz.cmc.web.action.UserCrowdTaskAction">
+			<result name="query">/datamgr/usercrowdtask/usercrowdtask_query.jsp</result>
+			<result name="list">/datamgr/usercrowdtask/usercrowdtask_list.jsp</result>
+			<result name="detail">/datamgr/usercrowdtask/usercrowdtask_detail.jsp</result>
+		</action>
+		<!-- 众包任务黑名单 -->
+		<action name="crowdTaskBlacklistAction" class="com.qcmz.cmc.web.action.CrowdTaskBlacklistAction">
+		</action>
+		<!-- 众包任务数据维护 -->
+		<action name="crowdTaskDataMgrAction" class="com.qcmz.cmc.web.action.CrowdTaskDataMgrAction"/>
+		
+		<!-- 同城任务 -->
+		<action name="localTaskAction" class="com.qcmz.cmc.web.action.LocalTaskAction">
+			<result name="query">/datamgr/localtask/localtask_query.jsp</result>
+			<result name="list">/datamgr/localtask/localtask_list.jsp</result>
+			<result name="edit">/datamgr/localtask/localtask_edit.jsp</result>
+		</action>
+		<!-- 同城任务采集 -->
+		<action name="localTaskSpiderAction" class="com.qcmz.cmc.web.action.LocalTaskSpiderAction">
+			<result name="query">/datamgr/localtaskspider/localtaskspider_query.jsp</result>
+			<result name="list">/datamgr/localtaskspider/localtaskspider_list.jsp</result>
+		</action>
+		<!-- 同城订阅 -->
+		<action name="localTaskSubAction" class="com.qcmz.cmc.web.action.LocalTaskSubAction">
+			<result name="query">/datamgr/localtask/localtask_sub_query.jsp</result>
+			<result name="list">/datamgr/localtask/localtask_sub_list.jsp</result>
+		</action>
+		
+		<!-- 钱包帐户 列表-->
+		<action name="walletAccountAction" class="com.qcmz.cmc.web.action.WalletAccountAction">
+			<result name="query">/datamgr/wallet/walletaccount_query.jsp</result>
+			<result name="list">/datamgr/wallet/walletaccount_list.jsp</result>
+			<result name="detail">/datamgr/wallet/walletaccount_detail.jsp</result>
+			<result name="billlist">/datamgr/wallet/walletaccount_billlist.jsp</result>
+		</action>
+		<!-- 钱包充值列表 -->
+		<action name="walletRechargeAction" class="com.qcmz.cmc.web.action.WalletRechargeAction">
+			<result name="query">/datamgr/wallet/walletrecharge_query.jsp</result>
+			<result name="list">/datamgr/wallet/walletrecharge_list.jsp</result>
+			<result name="offline">/datamgr/wallet/walletrecharge_offline.jsp</result>
+		</action>
+		
+		<!-- 奖励金帐户-->
+		<action name="rewardAccountAction" class="com.qcmz.cmc.web.action.RewardAccountAction">
+			<result name="query">/datamgr/reward/reward_account_query.jsp</result>
+			<result name="list">/datamgr/reward/reward_account_list.jsp</result>
+			<result name="detail">/datamgr/reward/reward_account_detail.jsp</result>
+			<result name="billlist">/datamgr/reward/reward_bill_list.jsp</result>
+			<result name="offline">/datamgr/reward/reward_offline.jsp</result>
+		</action>
+		<!-- 奖励金提现 -->
+		<action name="rewardCashAction" class="com.qcmz.cmc.web.action.RewardCashAction">
+			<result name="query">/datamgr/reward/reward_cash_query.jsp</result>
+			<result name="list">/datamgr/reward/reward_cash_list.jsp</result>
+			<result name="edit">/datamgr/reward/reward_cash_edit.jsp</result>
+		</action>
+		<!-- 奖励活动 -->
+		<action name="rewardActivityAction" class="com.qcmz.cmc.web.action.RewardActivityAction">
+			<result name="query">/datamgr/reward/reward_activity_query.jsp</result>
+			<result name="list">/datamgr/reward/reward_activity_list.jsp</result>
+			<result name="edit">/datamgr/reward/reward_activity_edit.jsp</result>
+			<result name="select">/datamgr/reward/reward_activity_select.jsp</result>
+		</action>
+		
+		<!-- 红包帐户 -->
+		<action name="redPacketAccountAction" class="com.qcmz.cmc.web.action.RedPacketAccountAction">
+			<result name="query">/datamgr/redpacket/redpacket_account_query.jsp</result>
+			<result name="list">/datamgr/redpacket/redpacket_account_list.jsp</result>
+			<result name="edit">/datamgr/redpacket/redpacket_account_edit.jsp</result>
+			<result name="packetList">/datamgr/redpacket/redpacket_account_edit_packetList.jsp</result>
+			<result name="receiveList">/datamgr/redpacket/redpacket_account_edit_receiveList.jsp</result>
+			<result name="cashList">/datamgr/redpacket/redpacket_account_edit_cashList.jsp</result>
+		</action>
+		<!-- 红包维护 -->
+		<action name="redPacketAction" class="com.qcmz.cmc.web.action.RedPacketAction">
+			<result name="query">/datamgr/redpacket/redpacket_query.jsp</result>
+			<result name="list">/datamgr/redpacket/redpacket_list.jsp</result>
+			<result name="receivedList">/datamgr/redpacket/redpacket_receivedList.jsp</result>
+		</action>
+		<!-- 红包提现 -->
+		<action name="redPacketCashAction" class="com.qcmz.cmc.web.action.RedPacketCashAction">
+			<result name="query">/datamgr/redpacket/redpacket_cash_query.jsp</result>
+			<result name="list">/datamgr/redpacket/redpacket_cash_list.jsp</result>
+			<result name="edit">/datamgr/redpacket/redpacket_cash_edit.jsp</result>
+		</action>	
+		
+		<!-- 翻译 -->
+		<action name="transAction" class="com.qcmz.cmc.web.action.TransAction" />
+		
+		<!-- 缓存 -->
+		<action name="cacheAction" class="com.qcmz.cmc.web.action.CacheAction" />
+		<!-- 数据维护 -->
+		<action name="dataMgrAction" class="com.qcmz.cmc.web.action.DataMgrAction"/>
+		<!-- 代理功能维护 -->
+		<action name="proxyFuncAction" class="com.qcmz.cmc.web.action.ProxyFuncAction">
+			<result name="edit">/datamgr/func/proxyFunc.jsp</result>
+		</action>
+		<!-- 功能语言维护 -->
+		<action name="funcLangAction" class="com.qcmz.cmc.web.action.FuncLangAction">
+			<result name="edit">/datamgr/func/funcLang.jsp</result>
+		</action>
+		
+		<!-- 用户信息 -->
+		<action name="userAction" class="com.qcmz.cmc.web.action.UserAction">
+			<result name="show">/datamgr/user/user_detail.jsp</result>
+		</action>
+		
+		<!-- 对话 -->
+		<action name="dialogAction" class="com.qcmz.cmc.web.action.DialogAction">
+			<result name="query">/datamgr/dialog/dialog_query.jsp</result>
+			<result name="list">/datamgr/dialog/dialog_list.jsp</result>
+			<result name="detail">/datamgr/dialog/dialog_detail.jsp</result>
+		</action>
+		<!-- 对话消息 -->
+		<action name="dialogMsgAction" class="com.qcmz.cmc.web.action.DialogMsgAction">
+			<result name="query">/datamgr/dialog/dialogmsg_query.jsp</result>
+			<result name="list">/datamgr/dialog/dialogmsg_list.jsp</result>
+		</action>
+		
+		<!-- 就业信息维护 -->
+		<action name="jobArticleAction" class="com.qcmz.cmc.web.action.JobArticleAction">
+			<result name="query">/datamgr/jobarticle/jobarticle_query.jsp</result>
+			<result name="list">/datamgr/jobarticle/jobarticle_list.jsp</result>
+			<result name="edit">/datamgr/jobarticle/jobarticle_edit.jsp</result>
+		</action>
+		<!-- 同城公司维护 -->
+		<action name="localCompanyAction" class="com.qcmz.cmc.web.action.LocalCompanyAction">
+			<result name="query">/datamgr/localcompany/localcompany_query.jsp</result>
+			<result name="list">/datamgr/localcompany/localcompany_list.jsp</result>
+			<result name="edit">/datamgr/localcompany/localcompany_edit.jsp</result>
+		</action>
+		<!-- 同城来源维护 -->
+		<action name="localSourceAction" class="com.qcmz.cmc.web.action.LocalSourceAction"></action>
+    </package>
+    
+	<!-- 适用于带特殊字符的参数，如配置维护 -->
+	<include file="struts-sp.xml"/>
+
+	<!-- 接口 -->
+	<include file="struts-ws.xml"/>
+</struts>

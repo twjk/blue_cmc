@@ -1,0 +1,40 @@
+package com.qcmz.cmc.job;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.qcmz.cmc.config.JobConfig;
+import com.qcmz.cmc.constant.DictConstant;
+import com.qcmz.cmc.process.LockProcess;
+import com.qcmz.cmc.process.UserCrowdTaskRewardProcess;
+import com.qcmz.framework.job.AbstractJob;
+
+@Component
+public class UserCrowdRewardGrantJob extends AbstractJob {
+	@Autowired
+	private UserCrowdTaskRewardProcess userCrowdTaskRewardProcess;
+	@Autowired
+	private LockProcess lockProcess;
+	
+	@Override
+	protected void work() {
+		Long lockId = null;
+		try {
+			if(!JobConfig.USERCROWDTASK_REWARDGRANT_ISWORK){
+				return;
+			}
+			lockId = lockProcess.addLock4Job(DictConstant.DICT_LOCKTYPE_JOB, getClassName());
+			if(lockId==null){
+				return;
+			}
+			userCrowdTaskRewardProcess.grantReward();
+		} catch (Exception e) {
+			logger.error("用户众包任务奖励发放任务出错", e);
+		} finally{
+			if(lockId!=null){
+				lockProcess.updateExpireTime(lockId, JobConfig.USERCROWDTASK_REWARDGRANT_VALIDTIME);
+			}
+		}
+	}
+
+}

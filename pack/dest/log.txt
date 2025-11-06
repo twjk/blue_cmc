@@ -1,0 +1,1965 @@
+﻿﻿翻译日志清空用truncate table xxx; 占用空间太大了 http://blog.csdn.net/wyzxg/article/details/39667087   4754788k
+翻译日志是否上传OSS开关
+国际化
+微信支付：time_end时间为创建时间
+
+对账，统计，订单处理监控分析
+用户留言、评价、打赏
+查看用户信息？umc出公共页？
+未支付订单超时关闭
+记录一下完成后还退款的原因
+
+客服擅长语言配置（分组）、分单
+客服邮箱、手机号从分组中获取
+客服修改密码、客服版通知（用户留言）
+
+可用翻译途径接口字典
+日常用语重新生成语音
+译库命中次数不准
+
+图片翻译已处理列表排序
+文档翻译
+
+--------众包任务 开始--------
+用户扩展信息
+已经做过前置任务的报名可以直接通过，不需要审核？
+重复领：uuid、ip、经纬度、国家城市
+--------众包任务 结束--------
+
+多线程时，分配任务导致题目重复使用
+
+bdc JPUSH失败导致日志文件大
+自动取消长时间未完成的用户众包任务
+腾讯云存储
+
+邀请奖励：A->B后，不能B->A
+
+配置每次分拣数
+就业精选周边处理：周边用正方形经纬度进行计算
+gds数据采集
+修改招聘联系人后，修改岗位的联系信息？
+
+2025.10.12
+1.用工单位发布的岗位进行审核及推送
+2.db
+	新增：CMC_LT_TASK.VERIFYRESULT
+
+2025.10.10
+1.企业认证
+2.db
+	新增CMC_LT_COMPANY.CERTIFYSTATUS|CREATEWAY|CERTIFYRESULT
+3.上线
+	CMC_LT_COMPANY.CERTIFYSTATUS|CREATEWAY设为不为空
+	update CMC_LT_COMPANY t set t.CERTIFYSTATUS=0 where t.CERTIFYSTATUS is null;
+	update CMC_LT_COMPANY t set t.CREATEWAY=2 where t.CREATEWAY is null;
+
+2025.09.28
+1.添加剂采集任务添加与修改
+
+2025.09.05
+1.发布岗位
+2.开始时间+结束时间->发布时间
+3.接口
+	localTask!findTask|getTask：增加publishTime，删除endTime，保留startTime=publishTime以兼容旧版本
+	新增发布岗位接口(zhaopin!*.do)、公司接口(company!*.do)
+4.lib
+	framework-20200609.jar
+5.db
+	新增字段：CMC_LT_COMPANY.USERID|USCC|CONTACTS|TEL|BUSINESSLICENSE|HR|HRTEL，CMC_LT_TASK.USERID|PUBLISHTIME
+	删除字段：CMC_LT_TASK.STARTTIME|ENDTIME
+6.上线
+	update CMC_LT_COMPANY t set t.USERID=0 where t.USERID is null;
+	update CMC_LT_TASK t set t.PUBLISHTIME=t.STARTTIME where t.PUBLISHTIME is null;
+	修改字段：CMC_LT_COMPANY.USERID默认值设为0，不是Null
+	删除字段：CMC_LT_TASK.STARTTIME|ENDTIME(未执行)
+	接口加权限
+
+2025.07.24
+1.对话消息增加通知推送功能
+
+2025.07.09
+1.新增接口：取消就业精选订阅
+2.用户订阅查询
+
+2025.07.01
+1.新增就业精选接口：订阅、获取订阅信息、获取订阅的就业精选
+2.定时就业精选订阅通知
+3.db
+	新增字段：CMC_LT_SUB.CITYNAME|NOTIFYTIME
+
+2025.06.27
+1.同城订阅入库
+2.就业精选查询增加查询条件：address/lon/lat/reward/rewardType
+3.新增字段基准薪酬refReward，用于比较查询
+4.db
+	新建表：CMC_LT_SUB
+	新增字段：CMC_LT_TASK.REFREWARD
+
+2025.06.12
+1.价格原因，百度阅读助手更换模型ernie-4.0-turbo-8k->ernie-3.5-8k
+
+2025.05.30
+1.同城任务接口(findTask、getTask)返回的title加密
+2.就业信息接口(findArticle)返回的title、link加密
+
+2025.05.15
+1.百度阅读助手更换模型ernie-3.5-8k->ernie-4.0-turbo-8k
+
+2025.04.15
+1.同城采集结果多线程分拣
+
+2025.04.02
+1.就业精选：新增字典“次薪”，多个工作地址"[,]"处理
+
+2025.03.29
+1.完善同城采集结果分拣
+
+2025.03.25
+1.定时任务进行同城采集结果分拣
+
+2025.03.13
+1.同城采集结果利用百度阅读助手分拣到就业精选或就业信息
+2.db
+	新增字段：CMC_LT_TASK.MINREWARD|MAXREWARD|MINEXP|MINEDU|CREATEWAY|SPDID、CMC_JOB_ARTICLE.SPDID
+	修改字段：CMC_LT_TASK.PEOPLENUM由Integer改为String
+
+2025.02.21
+1.众包任务参加奖励金活动
+2.接口
+	CrowdTaskInterface.getTask：增加返回maxInviteRewardAmount(最高邀请奖励金额) 
+3.db
+	新增字段：CMC_CT_TASK.ACTID
+
+2025.02.20
+1.批量修改众包任务的任务描述
+
+2025.02.17
+1.众包任务信息维护：增加编辑“开始时间”
+
+2025.02.04
+1.就业精选：公司信息单独维护
+2.接口
+	localTask!getTask：丢弃taskSource，新增sourceName
+3.db
+	新增表：CMC_LT_COMPANY
+	新增字段：CMC_LT_TASK.SOURCEID/COMPANYID
+	删除字段：CMC_LT_TASK.COMPANYNAME/COMPANYLOGO/COMPANYINTRODUCE/TASKSOURCE
+
+2025.01.13
+1.新增业务类型"26趣答题"
+
+2025.01.09
+1.分享邀请奖励活动
+2.db
+	新增表：CMC_REWARD_ACTIVITY
+	新增字段：CMC_REWARD_PART.INVITEEID/SUBSERVICETYPE/SERVICEID/PARTTIME、CMC_JOB_ARTICLE.ACTID、CMC_LT_TASK.ACTID	
+3.jar
+	umc-client-20190505.jar->umc-client-20250106.jar
+
+2024.12.9
+1.同城信息采集结果按标题分类转入就业信息
+2.下载就业信息外部图片
+3.就业信息接口返回图片
+4.db
+	删除表CMC_LT_CAT
+
+2024.11.21
+1.对话消息长度加到4000
+2.同城信息采集和就业信息维护
+
+2024.10.28
+1.同城任务采集结果人工处理
+2.db
+	CMC_LT_SPD新增字段：DEALPROGRESS、OPERSTARTTIME、OPERENDTIME、OPERCD、OPERNAME
+	
+
+2024.10.23
+1.同城任务新增“全职/兼职”信息workTimeType
+2.对话功能
+3.jar
+	framework-20200609.jar
+	bcprov-jdk15on-1.62.jar->bcprov-jdk15on-152.jar解决和jdk版本不一致
+4.db
+	新增：CMC_LT_TASK.WORKTIMETYPE、CMC_DIALOG、CMC_DIALOG_MSG	
+5.上线
+	update CMC_LT_TASK set WORKTIMETYPE=1 where WORKTIMETYPE is null;
+
+2024.10.18
+1.新增业务类型"24旅行翻译官"
+
+2024.10.08
+1.抓取微信公众号文章
+2.jar
+	selenium：commons-exec-1.3.jar、gson-2.3.1.jar、selenium-server-2.53.1.jar
+3.db
+	新建表：CMC_LT_SPD、CMC_LT_SPDTASK
+
+2024.09.24
+1.定时清除指定日期已取消/已完成的用户任务文件
+
+2024.09.23
+1.清除指定日期已取消/已完成的用户任务文件
+
+2024.09.20
+1.同城任务增加信息：任务来源、链接、多个图片
+2.db
+	增加字段：CMC_LT_TASK.TASKSOURCE,CMC_LT_TASK.LINK
+	新建表：CMC_LT_PIC
+
+2024.09.18
+1.手动删除过期的用户任务文件
+
+2024.09.12
+1.优化众包任务订单处理
+2.定时停止过期任务（父任务除外）
+3.db
+	新增字段：CMC_CT_TASK.ORDERID
+	上限数据处理
+		update CMC_CT_TASK t, CMC_R_TASK rt set t.ORDERID=rt.ORDERID where t.TASKID=rt.TASKID;
+		update CMC_CT_TASK t set t.TASKSOURCE=4 where t.ORDERID is not null;
+
+2024.09.07
+1.新增接口：奖励金奖励RewardInterface.reward()
+2.db
+	新增字段：CMC_REWARD_BILL.CREATEDATE
+	上线处理：update CMC_REWARD_BILL t set CREATEDATE=DATE(CREATETIME) where CREATEDATE is null;
+
+2024.09.02
+1.新增业务23蓝猫星球
+	接收支付宝异步消息PaySynAli4BlueCatAction
+	CMC_B_ALIPAYACCOUNT新增账号2021004170649684
+2.众包任务支持多业务类型
+3.db
+	删除字段：CMC_CT_TASK.SERVICETYPE
+	增加字段：CMC_CT_PLATFORM.SERVICETYPE
+4.jar
+	framework-20200609.jar
+
+2024.09.01
+1.db
+	新增CMC_CT_TASK.TITLEBASE
+
+2024.7.8
+1.维护众包任务排序
+
+2024.7.5
+1.同城任务增加公司相关信息
+2.众包任务
+	给单一题目任务提供修改功能
+	完善自动创建每日任务起止时间的设定，以支撑整点天降红包
+3.db
+	新增CMC_LT_TASK.COMPANYNAME、CMC_LT_TASK.COMPANYLOGO、CMC_LT_TASK.COMPANYINTRODUCE
+
+2024.7.4
+1.同组众包任务，同一用户只能领取一个任务
+2.db
+	新增CMC_CT_TASK.GROUPCODE
+
+2024.7.2
+1.同城任务
+2.db
+	新增CMC_LT_TASK
+3.jar
+	bdc-client-20180309.jar -> bdc-client-20200918.jar
+
+2024.4.26
+1.助力订单增加图片(CMC_R_TASK.PICURL)
+2.手工增加助力任务时可录入题目图片
+
+2024.3.28
+1.手工增加助力任务
+
+2024.2.20
+1.众包任务订单手工转任务
+
+2024.2.1
+1.取消的用户众包任务不计入报名数
+
+2024.1.30
+1.众包任务新增接口：获取任务完成明细findCompletion
+
+2024.1.25
+1.众包任务用户答案增加字段pic用于上传截图CMC_CT_USERANSWER.PIC
+2.新增助力订单与任务：应用加热、多多助力、帮忙投票、公众号起量
+
+2023.9.4
+1.新增获取支付宝openid接口
+
+2023.8.30
+1.支付宝支付版本更新20180309170622->v4.38.61_20230822
+	删除:alipay-sdk-java20180309170622.jar、fastjson-1.2.30.jar
+	新增:
+		alipay-sdk-java-4.38.61.ALL.jar
+		bcprov-jdk15on-1.62.jar
+		commons-logging-1.1.1.jar
+		dom4j-1.6.1.jar
+		fastjson-1.2.83_noneautotype.jar
+		okhttp-3.14.9.jar
+2.提现到支付宝
+3.微信、支付宝的证书路径改为绝对路径，不再放在项目里
+3.db
+	CMC_B_ALIPAYACCOUNT新增：APPPUBLICCERT、ALIPAYPUBLICCERT、ROOTCERT
+
+
+2023.8.18
+1.众包任务订单与微信支付
+2.db
+	新增CMC_R_TASK
+
+2023.8.1
+1.众包任务：新增视频标注功能
+2.文件上传：AliyunOssUtil->FileServiceUtil
+3.db
+	新增CMC_CT_SUBJECT.VIDEO、CMC_CT_SUBJECT.VIDEOSOURCE、CMC_CT_SUBJECT.PIC、CMC_CT_OPTION.OPTIONVALUE、CMC_CT_USERANSWER.OPTIONVALUE
+
+2021.11.1
+1.语音聊天变声器单独使用微软语音key
+
+2021.10.21
+1.图像识别及其相关接口
+2.db
+	新增CMC_IR_CAT、CMC_IR_IMAGE、CMC_IR_RECOGNITION
+3.jar
+	cms-client-20171121.jar -> cms-client-20211021.jar
+	framework-20200609.jar
+
+2021.9.1
+1.真人配音订单
+2.db
+	新增CMC_DUBBER、CMC_PRODUCT_ITEM.REMARK、CMC_R_DUB.DUBBERID、CMC_R_ORDER.MOBILE
+3.jar
+	framework-20200609.jar
+
+2021.8.9
+1.配音订单
+2.db
+	新增CMC_PRODUCT、CMC_PRODUCT_ITEM和CMC_R_DUB
+3.jar
+	framework-20200609.jar
+
+2021.7.21
+1.更换mysql连接包，支持mysql 8.0.x
+2.jar
+	mysql-connector-java-5.1.30-bin.jar -> mysql-connector-java-5.1.49.jar
+	srm-client-20190315.jar
+
+2021.6.22
+1.微软翻译账号支持中国版和全球版
+2.db
+	新增CMC_PROXY_ACCOUNT.REGION
+
+2021.5.8
+1.超过3天未处理的非ios翻译订单自动拒单并退款
+
+2020.9.23
+1.停掉从dmc获取禁用的用户
+2.必应请求增加忽略ssl证书
+3.jar
+	framework-20200609.jar
+
+2020.8.3
+1.新增接口：获取用户翻译套餐列表（findUserCombo）
+
+2020.6.29
+1.高频翻译结果入库时，原文去掉标点符号
+2.framework-20200609.jar
+
+2020.6.23
+1.更换出国翻译官微信支付证书
+2.语音聊天变声器微信支付
+3.framework-20190610.jar -> framework-20200609.jar
+
+2020.5.26
+1.安卓新增两种语言：新增高棉语、缅甸语，不支持合成
+2.翻译测试功能trans.jsp
+
+2020.5.25
+1.安卓新增三种语言：菲律宾语、保加利亚语、斯洛文尼亚语，ios没上线谷歌不支持
+
+2020.5.7
+1.支付宝支付账号管理及使用
+2.修复每日监控里众包任务奖励金超时未发放的监控
+
+2020.5.4
+1.新增VIP会员的订阅订单
+
+2020.4.18
+1.话多多
+2.微信支付账号管理及使用
+3.任务上配置过期是否自动取消用户任务
+4.获取在线参数处理增加返回serviceType
+5.jar
+	framework-20190610.jar
+	bdc-client-20180309.jar
+6.数据库
+	新增字段：
+		CMC_CT_TASK.SERVICETYPE、CMC_CT_TASK.AUTOCANCEL
+		CMC_CT_USERTASK.SERVICETYPE
+		CMC_REWARD_ACCOUNT.SERVICETYPE
+7.上线处理
+	UPDATE CMC_CT_USERTASK set SERVICETYPE='01' where SERVICETYPE is null;
+	UPDATE CMC_CT_TASK set SERVICETYPE='01' where SERVICETYPE is null;
+	UPDATE CMC_CT_TASK set AUTOCANCEL=0 where AUTOCANCEL is null;
+	UPDATE CMC_REWARD_ACCOUNT set SERVICETYPE='01' where SERVICETYPE is null;
+	
+	CMC_CT_TASK.SERVICETYPE设为not null
+	CMC_CT_TASK.AUTOCANCEL设为not null
+	CMC_CT_USERTASK.SERVICETYPE设为not null
+	CMC_REWARD_ACCOUNT.SERVICETYPE设为not null
+	
+	检查支付帐户	
+	
+2020.4.5
+1.奖励金提现手工批量打款
+
+2020.3.25
+1.代理语言新增字段：语音合成代码（ttsCode）
+2.代理语言修改字段：proxyLangCode->mtCode
+3.谷歌语音合成
+4.微软翻译账户由常量改为从数据库中获取，并指定服务地址为亚太区
+5.翻译通道由微软优先调整为百度优先
+6.jar
+	framework-20190610.jar
+7.上线
+	删除字段CMC_PROXY_LANG.PROXYLANGCODE
+
+2020.3.20
+1.语音识别能力和语音合成能力新增字段：是否收费（charge）
+
+2020.3.16
+1.单次提现上限从20提到50，提现成功的不再发邮件提醒
+
+2020.2.29
+1.接入微软语音REST API
+
+2020.2.26
+1.新增用户提现转账结果字段（tradeResult），主要用于记录转账失败原因
+2.数据库
+	新增字段：CMC_REWARD_CASH.TRADERESULT
+
+2020.2.21
+1.接入谷歌语音识别REST API
+2.接口
+	SpeechWSAction.asr：新增参数proxyId
+3.jar
+	framework-20190610.jar
+	baidu-aip-3.4.1.jar -> baidu-aip-4.1.1.jar
+
+
+2020.2.12
+1.微软语音新增土耳其语识别
+
+2020.2.7
+1.解决大量CLOSE_WAIT导致服务宕机
+	必应翻译：设置请求超时x秒，conn.disconnect()，is.close()
+	HttpUtil：conn.disconnect()，is.close()
+2.翻译接口去掉短文快译订单功能
+3.jar
+	framework-20190610.jar
+
+2020.2.6
+1.新增观看激励视频作为众包任务前置任务
+2.接口
+	获取任务详情（getTask）接口前置任务题目增加返回：广告参数（adParam）
+3.数据库
+	CMC_CT_SUBJECT.SUBJECTCAT新增字典：5广告
+	CMC_CT_SUBJECT.SUBJECTTYPE新增字典：9其他
+	新增字段CMC_CT_SUBJECT.ADPARAM
+	
+2020.1.18
+1.钱包：视频激励
+2.接口
+	新增激励接口：WalletWSAction.encourage
+3.数据库
+	CMC_WALLET_BILL新增：CREATEDATE
+4.上线
+	UPDATE CMC_WALLET_BILL set CREATEDATE=CREATETIME where CREATEDATE is null;
+	
+
+2019.12.27
+1.新增接口
+	DayWSAction.findAllSentence
+	TransLibWSAction.findTransLib4Web
+
+2019.12.17
+1.众包任务报名时增加对limitUserId的校验
+2.用户题目增加字段：题目奖励
+3.上线
+	UPDATE CMC_CT_USERSUBJECT t set t.SUBJECTREWARD=t.USREWARD where t.USREWARD>0 and t.SUBJECTREWARD is null;
+	UPDATE CMC_CT_USERSUBJECT t, CMC_CT_SUBJECT s set t.SUBJECTREWARD=s.SUBJECTREWARD where t.SUBJECTID=s.SUBJECTID and t.SUBJECTREWARD is null;
+
+2019.12.12
+1.一题一结 
+2.接口
+2.1修改接口
+	CrowdTaskWSAction.findTask新增返回：题目分配方式（subjectAssign）、任务奖励结算方式（taskRewardSettle）
+	CrowdTaskWSAction.getTask新增返回：题目分配方式（subjectAssign）、任务奖励结算方式（taskRewardSettle）
+	UserCrowdTaskWSAction.findUserTask新增返回：题目分配方式（subjectAssign）、任务奖励结算方式（taskRewardSettle）
+	UserCrowdTaskWSAction.getUserTask删除返回:审校人用户编号（qcUid）、审校状态（qcStatus）
+	UserCrowdTaskWSAction.getUserTask新增返回：题目分配方式（subjectAssign）、任务奖励结算方式（taskRewardSettle）
+	UserCrowdTaskWSAction.findUserSubject新增返回：答题状态（answerStatus）、答题时间（answerTime）
+	UserCrowdTaskQcWSAction.findUserTask新增返回：审校奖励计量单位（qcRewardMeasure）、审校编号（qcId）
+2.2新增接口
+	UserCrowdTaskWSAction.findNewSubject
+	UserCrowdTaskQcWSAction.findUserSubject	
+3.对接说明
+	1) 报名审核通过后，根据题目分配方式（subjectAssign）获取题目
+  		如果subjectAssign=1，题目由系统分配，调用6.2.9findUserSubject获取任务下所有题目
+  		如果subjectAssign=2，题目由用户领取，调用6.2.8findNewSubject获取新的题目，题目快答完提前获取下一页题目
+	2) 用户答题时，根据任务奖励结算方式（taskRewardSettle）处理
+  		如果taskRewardSettle=1，按任务结算，答题处理逻辑不变
+  		如果taskRewardSettle=2，按题目结算，答过的题目不能再答
+	3)人工审校
+  		审校列表，奖励金后面根据（qcRewardMeasure）展示审校奖励计量单位
+  		获取待审校题目列表，改用新接口6.4.4 findUserSubject
+4.数据库
+	CMC_CT_TASK：新增字段题目分配方式（SUBJECTASSIGN）、任务奖励结算方式（TASKREWARDSETTLE）、审校奖励计量（QCREWARDMEASURE）
+	CMC_CT_TASK：字段SUBJECTNUM、TASKREWARD设为非必填，去掉默认值
+	CMC_CT_USERTASK：新增字段SUBJECTNUM
+	CMC_CT_USERSUBJECT：新增字段 答题状态（ANSWERSTATUS）、答题时间（ANSWERTIME）、审校编号（QCID）、用户题目奖励到账状态（USREWARDSTATUS）、用户题目奖励到账时间（USREWARDTIME）
+	CMC_CT_USERTASK：审校相关字段移到CMC_CT_QC
+5.上线
+	#用户任务题目数CMC_CT_USERTASK.SUBJECTNUM
+	UPDATE CMC_CT_USERTASK ut, CMC_CT_TASK t set ut.SUBJECTNUM=t.SUBJECTNUM where ut.TASKID=t.TASKID and ut.SUBJECTNUM is null;
+		
+	#用户题目答题状态CMC_CT_USERSUBJECT.ANSWERSTATUS
+	UPDATE CMC_CT_USERSUBJECT t set t.ANSWERSTATUS=0;
+	UPDATE CMC_CT_USERSUBJECT t set t.ANSWERSTATUS=1 where EXISTS(select a.UAID from CMC_CT_USERANSWER a where a.UTID=t.UTID and a.SUBJECTID=t.SUBJECTID);
+	ANSWERSTATUS默认值设置为0，必填
+	
+	#用户题目答题时间CMC_CT_USERSUBJECT.ANSWERTIME
+	UPDATE CMC_CT_USERSUBJECT t, CMC_CT_USERTASK ut set t.ANSWERTIME=ut.STARTTIME where t.UTID=ut.UTID and t.ANSWERSTATUS=1 and t.ANSWERTIME is null;
+		
+	#删除CMC_CT_USERTASK中审校相关字段：QCSTATUS、QCUSERID、QCSTARTTIME、QCFINISHTIME、QCREWARD、QCREWARDSTATUS、QCREWARDTIME、QCFINISHNUM
+
+2019.12.03
+1.翻译套餐增加版本控制
+2.数据库
+	新增表CMC_COMBO_PLATFORM
+
+2019.11.25
+1.新增接口：获取用户任务数量（getCount）
+2.数据库
+	CMC_CT_TASK删除字段：SETTLEMENTMETHOD
+
+2019.11.19
+1.任务分类（taskCat）拆分为任务来源（taskSource）和任务频率（taskFreq）
+2.获取任务详情（getTask）接口：增加请求uid，增加返回utid和status
+3.数据库
+	CMC_CT_TASK删除字段：TASKCAT
+	CMC_CT_TASK新增字段：TASKSOUCE、TASKFREQ、SETTLEMENTMETHOD
+4.上线后处理
+	新增的三个字段均设为必填
+	
+2019.11.19
+1.翻译调整为微软为主，百度为辅
+
+2019.11.18
+1.版本控制，自动创建天天领要复制版本控制内容
+2.数据类型：1数字2文本
+3.未完成用户任务提醒
+4.数据库
+	表CMC_CT_SUBJECT新增字段：CONTENTTYPE
+
+2019.11.14
+1.前置任务改成也从题库中随机获取
+2.未完成审核与审校众包任务数提醒
+
+2019.11.14
+1.奖励金帐户停用后，不能提现
+2.任务用户黑名单
+3.一个设备只能一个用户报名任务（只在iOS上实现，安卓uuid不唯一无法控制）
+4.从bdc.findPram获取审核员和审校员的用户编号
+5.天天领任务，每天自动创建新的任务
+6.数据库
+	CMC_REWARD_ACCOUNT新增字段：REMARK、STATUS
+	CMC_CT_TASK新增字段：PARENTTASKID
+	新增表CMC_CT_BLACKLIST、CMC_CT_DEVICE
+7.上线后处理
+	设为not null：CMC_REWARD_ACCOUNT.STATUS
+	
+	
+2019.11.12
+1.取消任务
+2.统计进行中任务数
+3.用户任务查询增加条件
+4.数据库
+	CMC_CT_TASK新增字段：INGNUM、PARENTTASKID
+	CMC_CT_USERTASK新增字段：CANCELNAME、CANCELCD
+
+2019.11.9
+1.上传报名资格测试文件时，校验文件格式，不符合16k16bit单通道的上传失败
+
+2019.11.08
+1.用户任务中记录任务奖励
+2.任务新增字段：任务分类（taskCat）
+3.用户任务新增字段：任务奖励（taskReward）
+4.数据库
+	UPDATE CMC_CT_USERTASK ut, CMC_CT_TASK t SET ut.TASKREWARD=t.TASKREWARD WHERE ut.TASKID=t.TASKID and ut.TASKREWARD is null;
+	TASKREWARD设置为 not null
+
+2019.11.8
+1.小额提现自动打款
+
+2019.11.7
+1.用户任务达标，给邀请人发放奖励
+
+2019.11.6
+1.注册赠送奖励金
+2.手工发放奖励金
+
+2019.10.31
+1.众包任务查询
+2.每日监控题库可用题目数
+3.自动创建天天领任务
+
+2019.10.30
+1.题库
+2.数据库
+	update CMC_CT_TASK set LIBID=TASKID;
+	update CMC_CT_LIB l, CMC_CT_TASK t set l.ASSIGNEDSUBJECTID=t.ASSIGNEDSUBJECTID where l.LIBID=t.LIBID;
+	新增cmc_ct_lib
+	cmc_ct_task：新增libId，删除assignedSubjectId
+	cmc_ct_subject：删除taskId、assignStatus，新增libId
+	cmc_ct_option：删除taskId，新增libId
+	
+2019.10.25
+1.题目增加字段：状态（status）
+
+2019.10.23
+1.题目及格分数passScore
+2.任务限定用户编号limitUserId
+
+2019.10.18
+1.维护功能：用户任务查询
+2.任务报名新增字段：用户设备标识（uuid）
+3.真人口译下单返回房间号，取订单号后6位，并记录
+
+2019.10.16
+1.订单列表（客服版）增加返回：下单平台（platform）和下单平台版本号（platformVersion）
+
+2019.10.14
+1.用户任务状态：1报名审核中2报名成功3报名失败4待完成5待验收6已取消7已完结
+
+2019.10.12
+1.用户任务自动审核、审校
+2.接口
+	1）以下接口增加返回：是否自动审核（autoVerify）、是否自动审校（autoQc）
+		获取任务详情（getTask）的任务信息、评测题目信息
+		获取用户任务详情（getUserTask）的任务信息、评测题目信息
+		获取用户题目列表（findUserSubject）
+	2）报名（applyTask）和答题（answerSubject）两个接口的答案（answer）增加得分信息，格式如下
+		 题目编号§|§选项编号§|§更多内容§|§录音§|§录音时长，秒§|§译文§|§得分§;§题目编号§|§选项编号§|§更多内容§|§录音§|§录音时长，秒§|§译文§|§得分
+
+2019.10.10
+1.用户任务题目在报名审核通过后，从任务题库中提取分配
+2.删除findSubject接口
+
+2019.10.8
+1.修正累计奖励计算有误
+2.奖励金提取增加最低限制
+3.接口
+	新增接口获取审核任务数（getCount）、获取审校任务数（getCount）
+	获取任务详情（getTask）前置任务的题目列表增加返回：题目背景图片（bgPic）
+	获取用户题目列表（findUserSubject）增加返回：题目背景图片（bgPic）
+
+2019.10.5
+1.用户答案增加字段：语音时长（voiceDuration）
+2.接口
+	任务报名（applyTask）和答题（answerSubject）的请求参数：答案（answer）增加语音时长信息
+	获取用户题目列表（findUserSubject）和获取用户任务详细信息（getUserTask）：增加返回语音时长信息（voiceDuration）
+
+2019.9.24
+1.众包任务：奖励金与提现
+
+2019.9.19
+1.众包任务：报名、做任务、报名审核、审校
+
+2019.9.5
+1.众包任务报名与审核
+2.数据库
+	众包任务相关表CMC_CT_***
+
+2019.8.27
+1.翻译套餐套餐包增加购买次数限制
+2.数据库
+	翻译套餐套餐包增加字段：每人限购次数（perBuyTimes）
+
+2019.8.8
+1.翻译套餐区分上课途径：APP和微信
+2.接口
+	以下接口增加返回服务途径（serviceWay）、服务账号（serviceAccount）
+	1）获取翻译套餐列表（findCombo）
+	2）获取翻译套餐信息（getCombo）
+	3）获取用户可用翻译套餐列表（findUserValidCombo）
+	4）获取翻译套餐订单详细信息（getComboOrder）
+	5）客服版分页获取真人口译订单列表（findVideo）
+3.数据库
+	新增字段：CMC_COMBO.SERVICEWAY,CMC_COMBO.SERVICEACCOUNT
+
+2019.7.25
+1.在app-1-bj上部署的cmc以1.5秒1次的频率使用个人开发正账户
+2.jar
+	更新framework-20190410.jar
+
+2019.6.13
+1.接口日志和访问日志采用AOP实现
+2.struts配置整合
+3.framework兼容处理
+4.jar
+	dmc-client-20181218.jar
+	framework-20190410.jar -> framework-20190610.jar
+	framework-compatibility-v1-20190610.jar
+
+2019.5.28
+1.灵云翻译结果xml特殊字符处理
+
+2019.5.23
+1.百度语音配置及版本控制
+
+2019.5.10
+1.每日一句不可见字符处理
+2.jar
+	framework-20190410.jar
+
+2019.5.5
+1.订单支持企业用户
+2.接口
+	下单接口新增请求参数用户类型（userType）、企业员工编号（employeeId）、企业员工姓名（employeeName）：添加图片翻译（addPic）、添加短文快译（addText）、添加真人口译订单（addVideo）、订阅资讯（subArticle）、创建活动套餐订单（addPackage）、创建翻译套餐订单（addComboOrder）
+	分页获取用户订单列表（findOrder）：新增请求参数企业员工编号（employeeId）
+3.jar
+	umc-client-20180612.jar -> umc-client-20190505.jar
+	framework-20190225.jar -> framework-20190410.jar
+	dmc-client-20181218.jar
+4.数据库
+	CMC_R_ORDER新增字段：USERTYPE、EMPLOYEEID、EMPLOYEENAME
+5.上线处理
+	update CMC_R_ORDER set USERTYPE=1 where USERTYPE is null;
+
+2019.4.23
+1.钱包充值新增苹果内付费方式
+2.数据库
+	CMC_WALLET_RECHARGE.IAPID
+	
+
+2019.4.16
+1.新增维吾尔语
+
+2019.3.28
+1.每日一句推送时间修改为8:00开始，持续1小时
+
+2019.3.15
+1.srmclient接口地址和登录地址分开，便于接口地址走内网
+2.配置
+	srmclient.properties：新增权限接口服务地址（wsserver.url）
+3.jar
+	srm-client-20181119.jar -> srm-client-20190315.jar
+
+2019.3.12
+1.阿里云OSS：根据本地Ip选择内外网EndPoint
+2.微软翻译更换chuguofanyiguan@outlook.com的key
+3.jar
+	framework-20180925.jar -> framework-20190225.jar
+	ueditorplus-20171220.jar
+
+2019.3.11
+1.记录用户套餐线下使用情况
+2.jar
+	
+3.数据库
+	用户套餐使用记录（CMC_U_COMBOHIS）增加字段：备注（REMARK）、操作人编号（OPERCD）、操作人姓名（OPERNAME）、操作时间（OPERTIME）
+4.数据
+	update CMC_U_COMBOHIS his, CMC_U_COMBO c set his.OPERCD=c.USERID, his.OPERNAME='用户', his.OPERTIME=his.USEDTIME where his.UCID=c.UCID and his.USEDORDERID is not null and his.USEDORDERID!=''; 
+	update CMC_U_COMBOHIS his set his.OPERCD='houlei', his.OPERNAME='阿炳', his.OPERTIME=his.USEDTIME where his.USEDORDERID is null; 
+	将CMC_U_COMBOHIS的OPERCD、OPERNAME、OPERTIME设置为not null
+
+2019.2.27
+1.非IOS版本和出国翻译官IOS2.9.8之前版本不返回IOS自带(proxyid=12)的语音能力
+
+2019.2.15
+1.部分客户端版本(Android:2.8.9和2.9.0；IOS：2.9.6和2.9.7)无法使用微软语音识别
+2.接口
+	获取场景字典列表（findScene）增加返回分类编号（catId）和分类名称（catName）
+	
+
+2019.1.29
+1.真人口译拆分为真人口译、精品课堂
+2.修改预约时间
+3.接口
+	增加接口：获取翻译套餐信息（getCombo）
+	获取翻译套餐列表（findCombo）增加参数：翻译套餐类型（comboType）
+	获取用户可用翻译套餐列表（findUserValidCombo）增加参数：翻译套餐类型（comboType）
+	客服版增加接口：修改预约时间（modAppointTime）	
+4.数据库
+	UMC_U_COMBO增加字段：COMBOTYPE
+	UPDATE CMC_U_COMBO uc,CMC_COMBO c SET uc.COMBOTYPE=c.COMBOTYPE where uc.COMBOID=c.COMBOID;	
+	
+2019.1.25
+1.安卓微软语音新配置版本兼容2.8.9以下
+
+2019.1.23
+1.谷歌翻译
+
+2019.1.10
+1.统一语音播放audioplayer.js
+
+2019.1.4
+1.获取代理账户接口返回微软翻译、OCR和语音账户key，并做版本兼容处理
+
+2019.1.2
+1.微软翻译更换新账户：1ba3b80fc24a4c9da84f455b34aa20a9
+2.微软翻译：请求json串特殊字符转义处理
+
+2018.12.24
+1.完善每日订单统计
+
+2018.12.19
+1.接口
+	保存翻译日志（saveTransLog）增加参数：jpushRegid
+	上传翻译语音文件（commitVoice）增加参数：jpushRegid
+2.jar
+	dmc-client-20180515.jar -> dmc-client-20181218.jar
+
+
+2018.12.14
+1.用户钱包手工充值
+2.jar
+	更新：framework-20180925.jar、umc-client-20180612.jar
+
+2018.12.13
+1.翻译特权订阅
+2.订阅订单列表整合
+3.jar
+	更新：dict-20150126.jar、framework-20180925.jar
+4.上线后处理：
+	调整订阅订单菜单以及连接
+
+2018.12.10
+1.预约时间，可以提前2分钟接单
+2.图片翻译翻转图片后，同时修改订单商品中的图片
+3.调整订单监控实现逻辑
+4.翻译套餐图片
+5.接口
+	添加真人口译订单（addVideo）增加参数:预约时间（appointTime）
+	分页获取用户订单列表（findOrder）增加返回：预约订单标识（appointFlag）、预约时间（appointTime）
+	获取真人口译订单详细信息（getVideo）增加返回：预约订单标志（appointFlag）、预约时间（appointTime）
+	获取翻译套餐列表（findCombo）增加返回：详情图片列表（pics）
+	
+	客服版订单列表（findPic/findText/findVideo）增加返回：订单类型（orderType）、预约订单标志（appointFlag）、是否可以接单（canAccept）
+	客服版订单详细（getPic/getText）增加返回：订单类型（orderType）、预约订单标志（appointFlag）、是否可以接单（canAccept）
+6.数据库
+	新增：CMC_COMBO.COMBOTYPE、CMC_R_ORDER.APPOINTFLAG、CMC_R_ORDER.APPOINTTIME、CMC_R_ORDER.SOONDEALSTATUS
+	APPOINTFLAG设为必填
+
+2018.12.3
+1.新增菜单功能“订单留言”
+2.订单详细页面统一到datamgr/order下
+3.接口
+	新增接口：以订单为单位分页获取用户最新留言列表（findRecentMsg）
+	分页获取用户订单列表（findOrder）：新增返回订单预计处理时长（needTime）
+4.jar
+	更新：framework-20180925.jar
+
+2018.11.29
+1.已处理列表评价展示错位
+2.翻译套餐按场景分类
+3.接口
+	增加接口：获取场景列表（findScene）
+	订单详情增加返回：评价状态（evalStatus）
+	添加真人口译订单接口（addVideo）：删除请求场景（scene），新增请求场景编号（sceneId）
+	获取真人口译订单详细信息（getVideo）:删除返回场景（scene），新增返回场景信息（sceneBean）
+
+	获取获取翻译套餐列表（findCombo）：新增返回套餐适用场景列表（scenes）
+	获取翻译套餐订单详细信息（getComboOrder）：新增返回套餐适用场景列表（scenes）
+	获取用户可用翻译套餐列表（findUserValidCombo）：新增返回套餐适用场景列表（scenes）
+
+	客服版分页获取真人口译订单列表（findVideo）：删除返回场景（scene），新增返回场景信息（sceneBean）
+4.数据库
+	删除CMC_VT_TRANS.SCENE
+	新增CMC_VT_TRANS.SCENEID
+
+2018.11.27
+1.将完成订单的后续处理（佣金结算、参加活动、通知用户、通知校对等）移到数据库事务外处理，以免死锁
+
+2018.11.26
+1.译员佣金结算：实时结算，保留2位小数截取；日套餐订单第二天结算
+2.接口
+	客服版分页获取图片翻译列表（findPic）增加返回佣金信息：佣金金额（commissionAmount）、佣金结算状态（commissionStatus）
+	客服版分页获取短文快译列表（findText）增加返回佣金信息：佣金金额（commissionAmount）、佣金结算状态（commissionStatus）
+	客服版分页获取真人口译订单列表（findVideo）增加返回佣金信息：佣金金额（commissionAmount）、佣金结算状态（commissionStatus）
+3.jar
+	更新：bdc-client-20180309.jar、framework-20180925.jar
+	更新：srm-client-20180622.jar -> srm-client-20181119.jar
+4.数据库
+	CMC_R_ORDER新增：COMMISSIONAMOUNT、COMMISSIONDATE、COMMISSIONSTATUS
+
+2018.11.19
+1.次套餐增加有效期
+2.接口
+	客服版分页获取图片翻译列表（findPic）：operator不需要扩展验证；不为空时，查询该操作员处理的订单
+3.数据
+	update CMC_U_COMBO set STARTTIME=STR_TO_DATE(DATE_FORMAT(CREATETIME,'%Y-%m-%d'),'%Y-%m-%d') where STARTTIME is null;
+	/*陪练次包6个月*/
+	update CMC_U_COMBO set ENDTIME=date_add(STARTTIME, interval 6 MONTH) where ENDTIME is null and COMBOID IN(13,14,15,16,17);
+	/*翻译次包1年*/
+	update CMC_U_COMBO set ENDTIME=date_add(STARTTIME, interval 1 year) where ENDTIME is null and COMBOID IN(2,4,6,8,10,12);
+	update CMC_U_COMBO set ENDTIME=STR_TO_DATE(CONCAT(DATE_FORMAT(ENDTIME,'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%S');
+
+
+2018.11.16
+1.分条推送通知译员改为分全职、兼职各推送一条通知
+2.套餐标签由;分隔改为用,分隔
+3.真人口译增加参数：通话类型（callType）
+4.接口
+	添加真人口译订单（addVideo）增加参数：通话类型（callType）	
+	客服版分页获取真人口译订单列表（findVideo）增加返回：通话类型（callType）
+5.jar
+	更新：framework-20180925.jar、srm-client-20180622.jar
+
+2018.11.12
+1.套餐增加字段：套餐标签（tags）、套餐包概要（pkgOverview）
+2.接口
+	翻译套餐列表（findCombo）增加返回：套餐标签列表（tags）、套餐包概要（pkgOverview）
+3.数据库
+	CMC_COMBO.TAGS
+	CMC_COMBO_PACKAGE.PKGOVERVIEW
+
+2018.11.7
+1.翻译套餐单位名称，用于展示
+2.修正bug：已完成订单不能保存翻译结果
+3.接口
+	翻译套餐列表（findCombo）增加返回：价格单位名称（unitName）
+	用户可用翻译套餐列表（findUserValidCombo）增加返回：价格单位名称（unitName）
+	
+	客服版获取图片翻译/短文快译/视频翻译订单列表返回调整（统一一下返回的信息）
+4.数据库
+	新增CMC_COMBO.UNITNAME
+
+2018.11.6
+1.订单预计处理时长
+2.完善翻译订单处理详细接口实现
+3.校对订单时可以修改语言
+4.接口：
+	图片翻译订单详情（getPic）增加返回：订单开始处理时间（operTime）、预计处理时长（needTime）
+	短文快译订单详情（getText）增加返回：订单开始处理时间（operTime）、预计处理时长（needTime）
+	视频翻译订单详情（getVideo）增加返回：订单开始处理时间（operTime）、预计处理时长（needTime）
+	
+	客服版图片翻译订单详情（getPic）增加返回：订单开始处理时间（operTime）、预计处理时长（needTime）、处理进度（dealProgress）
+	客服版短文快译订单详情（getText）增加返回：订单开始处理时间（operTime）、预计处理时长（needTime）、处理进度（dealProgress）
+	
+	客服版图片翻译保存翻译（saveTrans）增加参数：预计处理时长（needTime）
+	客服版短文快译保存翻译（saveTrans）增加参数：预计处理时长（needTime）
+5.jar
+	更新framework-20180925.jar
+6.数据库
+	新增CMC_R_ORDER.NEEDTIME
+
+
+2018.11.2
+1.11.5-11.11充多少返多少活动
+
+2018.10.29
+1.接单操作加锁
+2.评价订单返券、完成订单不返券
+3.评价字典增加字段：图标2（icon2）
+4.更新：umc-client-20180612.jar
+
+2018.10.19
+1.订单评价
+2.接口
+	新增接口：获取评价字典（findEval）、评价订单（evalOrder）、获取订单评价信息（getOrderEval）
+	订单列表接口（findOrder）增加返回：评价状态（evalStatus）
+	客服版图片翻译列表接口（findPic）增加返回：处理进度（dealProgress）、评价状态（evalStatus）、评价信息（evalBean）
+	客服版短文快译列表接口（findText）增加返回：处理进度（dealProgress）、评价状态（evalStatus）、评价信息（evalBean）
+	客服版真人口译列表接口（findVideo）增加返回：处理进度（dealProgress）、评价状态（evalStatus）、评价信息（evalBean）
+3.数据库
+	CMC_R_ORDER增加字段：评价状态（EVALSTATUS）
+	update CMC_R_ORDER set EVALSTATUS=0;
+	update CMC_R_ORDER set EVALSTATUS=1 where ORDERCAT=1 and DEALSTATUS='05';
+4.jar
+	更新：framework-20180925.jar
+
+2018.10.16
+1.sql索引与优化
+
+2018.10.15
+1.译员交单
+2.调整订单是否可以翻译、保存、完成等的判断条件
+3.framework-20180119.jar -> framework-20180925.jar
+
+2018.10.12
+1.图片、文本、视频翻译订单合并成翻译订单进行处理和查询
+2.译员修正图文订单的翻译语言
+
+2018.10.8
+1.手工添加用户翻译套餐 和用户兑换翻译套餐，发送用户通知并推送
+
+2018.9.29
+1.生成兑换码从下单生成改为直接生成待兑换的用户套餐信息
+2.使用套餐的订单总额为0
+3.数据库：
+	用户有效套餐列表增加返回：套餐图标（comboIcon）
+	用户套餐增加字段：付款方（PAYSIDE）、兑换码（EXCHANGECODE）、兑换时间（EXCHANGETIME）、兑换状态（EXCHANGESTATUS）
+	订单套餐删除字段：兑换码（EXCHANGECODE）、兑换时间（EXCHANGETIME）、兑换状态（EXCHANGESTATUS）、兑换用户编号（EXCHANGEUSERID）
+	SEQ_CMC_ORDERCOMBO修改为SEQ_CMC_USERCOMBO
+
+2018.9.25
+1.套餐增加字段：图标（icon）
+2.套餐订单详细返回对应的用户套餐信息（userCombo）
+
+2018.9.14
+1.翻译套餐订单
+2.接口：
+ 	订单详细接口，增加返回使用的套餐信息
+	真人口译下单接口增加字段：使用的用户套餐编号ucid
+	客服版分页获取真人口译列表接口，增加返回使用的套餐信息
+3.数据库：
+	订单增加字段：使用的用户套餐编号
+4.jar
+	更新：framework-20180119.jar
+
+2018.8.28
+1.优惠券包完成后，补充操作日志
+
+2018.8.27
+1.必应翻译接口换新版本v3，删除定时获取bingToken任务
+
+2018.8.27
+1.订单信息增加两个字段：源语言fromLang和目标语言toLang
+2.数据处理：
+  update CMC_R_ORDER r, CMC_PT_PIC p set r.FROMLANG=p.FROMLANG, r.TOLANG=p.TOLANG where p.ORDERID=r.ORDERID and r.FROMLANG is null;
+  update CMC_R_ORDER r, CMC_TT_TRANS t set r.FROMLANG=t.FROMLANG, r.TOLANG=t.TOLANG where t.ORDERID=r.ORDERID and r.FROMLANG is null;
+  update CMC_R_ORDER r, CMC_VT_TRANS t set r.FROMLANG=t.FROMLANG, r.TOLANG=t.TOLANG where t.ORDERID=r.ORDERID and r.FROMLANG is null;
+
+2018.8.24
+1.文本、图片翻译完成时，设置校对状态为待校对
+2.翻译订单校对
+3.获取翻译订单处理列表增加返回:订单使用优惠券金额couponAmount、校对人用户名checkCd、校对人姓名checkName、校对状态checkStatus
+4.jar更新：framework-20180119.jar、umc-client-20180612.jar
+5.数据处理：
+  update CMC_PT_PIC p, CMC_R_ORDER r set p.TRANSCD=r.OPERCD,p.TRANSNAME=r.OPERNAME,p.TRANSTIME=r.FINISHTIME where p.ORDERID=r.ORDERID and r.OPERCD is not null;
+  update CMC_TT_TRANS t, CMC_R_ORDER r set t.TRANSCD=r.OPERCD,t.TRANSNAME=r.OPERNAME,t.TRANSTIME=r.FINISHTIME where t.ORDERID=r.ORDERID and r.OPERCD is not null;
+
+2018.8.15
+1.优惠券包完善
+2.永久去广告订单
+3.优惠套餐记录活动描述
+
+2018.8.7
+1.bing更换帐户
+
+2018.7.10
+1.新订单、用户取消订单、订单监控的推送目标由标签改为别名
+2.jar：更新framework-20180119.jar、srm-client-20180622.jar
+
+2018.7.9
+1.视频口译订单不再发送短信通知译员
+
+2018.7.3
+1.套餐订单增加有效期起始时间startTime
+2.视频翻译完成通知扣款金额
+3.jar：更新umc-client-20180612.jar
+
+2018.6.29
+1.翻译机信息维护
+
+2018.6.26
+1.下单接口增加返回订单处理状态dealStatus
+2.订单列表显示用户昵称
+3.视频翻译订单取消时，dealProgress设置为已完成，便于客服可以见到用户取消的订单
+
+2018.6.25
+1.鉴权接口增加参数validTime，即多长时间（秒）内可用，默认60分钟
+2.套餐支付订单
+3.jar：
+	更新：framework-20180119.jar、umc-client-20180612.jar
+	替换：srm-client-20180507.jar -> srm-client-20180622.jar
+
+2018.6.22
+1.新增视频翻译接口:connectedAndBilling
+
+2018.6.20
+1.套餐携程订单
+
+2018.6.13
+1.视频翻译增加房间号
+
+2018.6.8
+1.用户取消视频翻译订单，通知译员
+
+2018.6.6
+1.钱包用户列表调整
+2.微信支付获取帐户算法调整
+3.钱包充值增加参数：openid
+4.按orderType查询订单
+
+2018.6.5
+1.客服版findVideo接口，增加返回订单使用优惠券金额couponAmount
+2.视频翻译->视频口译
+3.更新jar：srm-client-20180507.jar
+
+2018.6.4
+1.视频口译使用优惠券
+2.jar
+	更新：srm-client-20180507.jar
+
+2018.6.1
+1.更换百度翻译接口地址：http://api.fanyi.baidu.com/api/trans/vip/translate -> https://fanyi-api.baidu.com/api/trans/vip/translate
+
+2018.5.31
+1.翻译接口增加对翻译机码的校验
+2.删除TransInterface监控serviceType
+
+2018.5.29
+1.TransInterface监控serviceType
+
+2018.5.18
+1.视频口译超出工作时间下单失败
+
+2018.5.16
+1.文本翻译从翻译日志中获取并保存匹配的语音
+2.dmc-client-20171023.jar -> dmc-client-20180515.jar
+
+2018.5.15
+1.订单处理列表查询增加请求：语言langs
+2.视频口译测试新单不发短信
+
+2018.5.14
+1.订单处理列表查询增加请求：用户编号uid
+2.订单处理列表查询增加返回：用户编号uid、用户昵称nick
+3.图片翻译、文本翻译订单处理详细页增加返回：用户编号uid、用户提交翻译的订单数orderCount
+
+2018.5.11
+1.订单处理列表返回订单金额
+
+2018.5.10
+1.图片翻译处理格式调整
+
+2018.5.7
+1.短信通知操作员
+2.图片、文本、视频口译分组通知操作员
+3.srm-client-20170817.jar -> srm-client-20180507.jar
+
+2018.5.3
+1.推送取消订单通知时，将取消原因作为扩展字段一起推送
+
+2018.4.27
+1.订单统计
+2.订单详细接口翻译walletAmount
+
+2018.4.26
+1.处理列表“主线程中同步的 XMLHttpRequest 已不推荐使用”
+
+2018.4.25
+1.视频口译订单按用户组推送通知给客服
+
+2018.4.23
+1.findVideo返回用户余额（balance）和翻译单价（price）
+2.图片翻译处理findPic、findPickPic增加返回排序标识（sortId）
+3.接口调整
+  1).transVideo!addVideo增加参数:视频口译场景（scene）
+  2).transVideo!getVideo增加返回：视频口译场景（scene）、计费时长分钟（billingMinute）
+  3).transVideoDeal!findVideo增加返回：视频口译场景（scene）
+
+2018.4.20
+1.图片翻译订单捡漏
+2.取消超时未支付订单
+3.数据库
+	订单增加字段：捡漏状态 
+	update CMC_R_ORDER set pickstatus=0 where pickstatus is null;
+
+2018.4.18
+1.视频口译订单查询
+2.钱包退款
+3.数据库
+	钱包帐户字段调整：rechargeAmount->incomeAmount，consumeAmount->expensesAmount
+	充值订单字段调整：增加refundOutTradeId、refundTime，outTradeId->payOutTradeId
+
+2018.4.17
+1.视频口译
+2.地址、经度、纬度三个字段移到订单信息
+3.数据库
+	更新cmc_r_order
+	update CMC_R_ORDER t, CMC_PT_PIC p set t.ADDRESS=p.ADDRESS, t.LAT=p.LAT, t.LON=p.LON where t.ORDERID=p.ORDERID and t.ORDERTYPE=1 and t.LAT is null;	
+
+2018.4.13
+1.待处理订单监控
+2.图片翻译src为空时，默认为150字词
+3.翻译订单完成后送优惠券
+4.图片翻译增加按照(字符/6)计算价格
+
+2018.4.10
+1.用户钱包：充值与支付
+2.面包英语订阅
+3.第三方支付预支付时增加传送子业务类型：微信支付（attach）、支付宝支付（passbackParams）
+4.接口：
+     下单接口增加字段：钱包支付金额
+5.数据库
+  1)订单增加字段:钱包支付金额walletAmount
+    update CMC_R_ORDER t set t.WALLETAMOUNT=0;
+            字段设置为必填
+  2)订单增加字段：分类orderCat
+    update CMC_R_ORDER set ORDERCAT=1 where ORDERTYPE in(1,3);
+    update CMC_R_ORDER set ORDERCAT=2 where ORDERTYPE in(2,4);
+            字段设置为必填
+
+2018.4.4
+1.图片/文本翻译分语言计算价格
+
+2018.3.26
+1.短文快译处理
+
+2018.3.23
+1.打开短文快译新订单通知和未处理通知
+
+208.3.20
+1.短文快译通知和推送
+
+2018.3.19
+1.图片翻译处理列表增加版本控制
+
+2108.3.16
+1.订单信息增加字段：业务类型（serviceType）
+2.番茄翻译
+3.支付宝新版接口，删除帐户partnerid和partnerPublicKey
+4.通过人工翻译创建的短文快译订单，参照图片翻译推送订单处理；通过陪同翻译创建的短文快译订单，不推送订单处理
+5.db处理
+  update CMC_R_ORDER set SERVICETYPE='01' where SERVICETYPE is null;
+6.jar
+  alipay-sdk-java20160724220056.jar -> alipay-sdk-java20180309170622.jar
+
+2018.3.12
+1.增加接口：获取短文快译详细信息
+2.图片翻译订单和短文快译订单使用自定义提示音
+3.bdc-client-20171113.jar -> bdc-client-20180309.jar
+
+2018.3.9
+1.短文快译新订单通知只推给开发人员
+2.短文快译订单收费，使用优惠券等功能
+3.短文快译处理列表增加返回译文
+
+2018.3.8
+1.获取配置接口：含短文快译服务规则、图片翻译服务规则、代理账户列表、功能能力列表、语言信息列表
+2.短文快译接口：获取价格、下单
+3.给客服推送通知
+4.暂时关闭短文快译新订单通知和未处理通知
+5.翻译接口：增加请求参数（channel），重新封装请求，后台系统调用该接口需要调整
+
+2018.3.2
+1.陪同翻译以及文本翻译处理
+2.翻译接口：增加请求参数（transModel），增加返回信息（orderId、dealStatus）
+3.订单处理接口调整
+	开始翻译接口:TransPicDealWSAction.startTrans->OrderDealWSAction.acceptOrder
+	取消翻译接口：TransPicDealWSAction.cancelTrans->OrderDealWSAction.rejectOrder
+	客服留言接口：TransPicDealWSAction.addMsg->OrderDealWSAction.addMsg
+	留言列表接口：TransPicDealWSAction.findMsg->OrderDealWSAction.findMsg
+4.jar
+	bdc-client-20170828.jar -> bdc-client-20171113.jar
+
+
+2018.2.27
+1.用户纠错
+2.表cmc_trans_correct：删除transCd,transName,transTime，新增correctSource,operCd,operName,operTime
+
+2018.2.7
+1.对话翻译修正：增加将修正结果加入译库功能
+2.翻译修正查询
+
+2018.2.6
+1.删除CmcTransSimilar以及相关实现
+2.对话翻译人工修正
+3.删除定时任务：检测代理帐户、保存代理帐户访问次数
+4.停用接口：TransConfigWSAction.addCallCount()
+
+2018.2.6
+1.红包后台维护功能：用户列表、红包列表
+
+2018.2.1
+1.调整接口：查询用户发出红包列表
+
+2018.1.30
+1.一词多译
+2.删除配置“打印翻译日志开关”
+3.删除配置“放入译库缓存命中数阀值”，否则无法在缓存中实现一词多译
+4.译库初始化放在第一次使用时进行，加快启动速度
+
+2018.1.28
+1.提现接口增加参数：openid
+2.增加取消红包接口
+
+2018.1.25
+1.领红包上锁
+
+2018.1.24
+1.提现功能
+2.过期红包返回余额
+3.jar
+	umc-client-20171205.jar -> umc-client-20180122.jar
+
+2018.1.19
+1.获取用户帐户信息
+2.语音识别
+3.jar
+	framework-20170828.jar -> framework-20180119.jar
+	baidu-aip-3.4.1.jar
+	jave-1.0.2.jar
+
+2018.1.17
+1.节日图片存储从AzureBlob(f2.qcmuzhi.com)迁移到AliOss(f4.qcmuzhi.com)
+
+2018.1.16
+1.红包
+
+2018.1.10
+1.删除资讯标签功能
+2.删除tgs关键词功能
+3.翻译关键词
+
+2018.1.8
+1.梅出过国订阅参加返利活动
+
+2017.12.18
+1.梅出过国订阅半年和1年赠送翻译机优惠券
+2.增加任务功能
+3.jar
+	umc-client-20161124.jar -> umc-client-20171205.jar
+
+2017.12.14
+1.调整未完成订单监控逻辑
+
+2017.12.13
+1.订阅订单使用优惠券
+2.单篇订阅
+
+2017.12.8
+1.订单量监控
+2.小程序微信支付
+
+2017.12.6
+1.监控未完成订单
+2.订单管理（列表、留言、退款）
+3.订单状态字典：transPicDealStatus->orderDealStatus
+4.数据库
+	删除表CMC_PT_LOG、CMC_PT_MSG、CMC_PT_TRADE
+	表CMC_PT_PIC删除不再使用的字段
+
+	bdc_dict删除transPicDealStatus对应字典
+
+2017.11.29
+1.留言与推送完善
+2.下单接口如果上传tradeWay，则进行预支付处理
+
+2017.11.28
+1.序列功能从bdc复制到cmc
+2.订单（图片翻译、资讯订阅）
+3.苹果内付费
+4.数据库操作：
+	图片翻译订单导入
+	SEQ_CMC_TRANSPIC_ID->SEQ_CMC_ORDER_ID
+	SEQ_CMC_TRANSLIB_ID
+
+
+2017.11.16
+1.翻译机接口:getTm
+2.删除翻译机接口：checkTmcode 和 getLastVersion
+
+2017.11.13
+1.翻译机接口:getLastVersion
+
+2017.10.24
+1.应用用户黑名单：名单定时从dmc获取，翻译时直接返回原文
+2.译库合成ttssrc扩展为0译文合成1原文合成2指定译文合成
+3.翻译接口：将原文Md5后作为扩展验证串生成AuthToken
+
+2017.10.10
+1.连接池dbcp -> druid
+2.ios+2.5.4+en，由于英语图片识别未加空格处理，故不支持图片翻译
+3.jar
+      删除：commons-dbcp-1.3.jar、commons-pool-1.2.jar       
+      增加：druid-1.1.4.jar
+
+2017.10.9
+1.调整获取必应token，增加超时时间
+
+2017.9.30
+1.译库操作记录最近选择的语言
+
+2017.9.20
+1.增加校验翻译机编码接口checkTmcode
+
+2017.9.12
+1.ueditor自定义目录功能优化
+
+2017.9.5
+1.删除本地文件相关参数及操作
+2.删除文章功能
+3.删除翻译计数、差异日志功能
+4.ueditor -> ckeditor/ckfinder
+5.每日一句和主题的图片和Html从OSS迁移到AzureBlob
+
+2017.9.1
+1.语言三字码
+
+2017.8.30
+1.将接口日志和地址访问日志功能从bdc移到dmc
+2.jar
+	framework-20170801.jar -> framework-20170828.jar
+	bdc-client-20170707.jar -> bdc-client-20170828.jar
+	dmc-client-20170612.jar -> dmc-client-20170828.jar
+
+2017.8.24
+1.定时任务锁机制
+
+2017.8.17
+1.本地接口鉴权
+2.通过srm-client获取authAccount的serviceType和platform
+3.jar
+  srm-client-20161208.jar -> srm-client-20170817.jar
+  framework-20170801.jar -> framework-20170801.jar
+
+2017.8.14
+1.定时补全每日一句
+
+2017.8.10
+1.译库增加字段：按原文合成（ttssrc）
+2.翻译结果增加字段：按原文合成（ttsSrc）
+3.译库维护各服务器缓存同步更新
+4.framework-20170713.jar -> framework-20170801.jar
+  commons-codec-1.9.jar -> commons-codec-1.10.jar
+5.数据库：
+	alter table CMC_TRANS_LIBRARY add TTSSRC int default 0 comment '按原文合成，0否1是' AFTER VOICE;
+	...
+测试
+	1)译库维护与翻译
+	2)图片翻译
+
+2017.7.27
+1.strtus2.3.31 -> struts2.3.33
+
+2017.7.18
+1.保存翻译日志增加参数：serviceType
+2.framework-20170601.jar -> framework-20170713.jar
+
+2017.7.17
+1.定时清理临时文件
+
+2017.7.7
+1.bdc-client-20170302.jar -> bdc-client-20170707.jar
+2.取消接口访问次数限制
+
+2017.6.29
+1.Bing缓存没有可用Token时，直接从Bing获取，并发邮件
+2.翻译结果匹配资讯标签：源语言+标签
+3.cmc接口调用增加超时时间6秒
+4.更改支付宝和微信支付回调地址：
+	支付宝原回调地址：http://www.qcmuzhi.com:8088/cmc/services/paySynAli.do
+	支付宝新回调地址：http://trans.qcmuzhi.com:8088/cmc/services/paySynAli.do
+	微信原回调地址：http://www.qcmuzhi.com:8088/cmc/services/paySynWeixin.do
+	微信新回调地址：https://trans.qcmuzhi.com:8443/cmc/services/paySynWeixin.do
+5.bdc-client-20170220.jar->bdc-client-20170302.jar
+6.framework.jar：OSS服务地址修改为外网地址，便于azure上的服务使用
+
+2017.6.20
+1.翻译接口和保存翻译日志增加两个参数：tmcode和transType
+2.dmc-client-20170410.jar -> dmc-client-20170612.jar
+
+2017.6.9
+1.删除必应翻译老版本以及相关账户处理
+2.删除cmc_fee_***相关功能和数据库表
+3.多服务器缓存同步
+4.代理账户访问次数统计调整为累加入库，以支持多服务器
+5.代理账户分配增加条件：是否设备专用，可以把账户给绑定了熊美丽的用户专用
+6.数据库操作：删除CMC_FEE_***表
+7.获取代理帐户接口：新版本IOS2.4.6及以上,安卓2.2.5及以上，一个代理返回多个帐户供选择使用，使用原则：先通用再专用
+
+2017.6.6
+1.翻译结果匹配资讯标签
+2.新增定时任务：获取资讯标签任务
+      删除定时任务：翻译日志迁移任务、翻译日志分词任务
+3.framework-20170509.jar->framework-20170601.jar
+
+2017.5.27
+1.译库增加字段similar，用于标识翻译的准确度；已核对的为100，未核对的为0
+2.修正bug：高频词语重复
+3.删除翻译计数任务
+4.增加按照命中次数排序
+5.framework-20170330.jar -> framework-20170509.jar
+6.脚本：
+#设置准确度
+update CMC_TRANS_LIBRARY_KO2CN t set t.SIMILAR=100 where t.CHECKSTATUS=1;
+update CMC_TRANS_LIBRARY_KO2CN t set t.SIMILAR=0 where t.CHECKSTATUS=0;
+#去重
+delete from CMC_TRANS_LIBRARY_KO2CN 
+where 
+	LIBTYPE='03' 
+	and libid not in(
+		select * from (select max(libid) from CMC_TRANS_LIBRARY_KO2CN where LIBTYPE='03' group by FROMLANG,TOLANG,src,DST) as tmp
+	);
+
+2017.5.26
+1.译库下载文件增加返回md5信息
+
+2017.5.10
+1.重新实现保存翻译日志接口
+2.删除用户翻译收藏和查询接口
+3.命中缓存的翻译日志标识为无需处理
+
+2017.5.4
+1.作为翻译接口状态检测用的“出国翻译官”，不记录翻译日志
+
+2017.5.3
+1.调整翻译日志开关
+2.新增译库接口，提供译库文件下载
+
+2017.4.27
+1.applicationContext.xml：将import内容移到最后
+2.译库缓存命中次数调整为100条入库一次
+3.启动时初始化译库
+
+2017.4.20
+1.中法、中德通过中文-英文-目标语言进行翻译，其他照常
+
+2017.4.18
+1.中文翻译成其他语言，除了中英，中粤，中繁体，其他均通过中文-英文-目标语言进行翻译
+
+2017.4.13
+1.framework-20170122.jar->framework-20170330.jar
+2.fastjson-1.2.17.jar->fastjson-1.2.30.jar
+3.增加添加译库接口
+4.新增任务：译库缓存命中次数入库任务
+5.启动时不初始化译库
+6.译库缓存精确更新
+
+2017.4.10
+1.翻译日志通过dmc接口迁到Azure的数据库
+
+2017.3.24
+1.微软翻译新版接口
+
+2017.3.1
+1.译库增加字段：checkstatus
+数据库操作：
+update CMC_TRANS_LIBRARY t set t.CHECKSTATUS=t.STATUS where t.LIBTYPE='01';
+update CMC_TRANS_LIBRARY t set t.CHECKSTATUS=1 where t.LIBTYPE='02';
+update CMC_TRANS_LIBRARY t set t.CHECKSTATUS=0 where t.LIBTYPE='03';
+
+2017.2.27
+1.译库(08)和主题(04)中的分类合并，04->08
+2.临时译库整理时，同时导入指定主题
+3.翻译不再按照\r\n拆分返回译文
+
+2017.2.20
+1.bdc-client-20161124.jar->bdc-client-20170220.jar 无影响
+
+2017.2.17
+1.每日一句支持每日多句，每日每个语言最多一句
+
+2017.2.15
+1.新增25种语言的翻译
+
+2017.2.8
+1.framework-20170111.jar->framework-20170122.jar
+2.必应tts配置
+
+2017.1.17
+1.调整超频控制算法
+2.能力FuncCapMap增加兼容缓存，省去计算
+
+2017.1.11
+1.翻译接口提供webservice服务ITransWS
+2.cmc-client-20170111.jar
+3.framework-20161128.jar->framework-20170111.jar
+
+2016.12.30
+1.语言分类及相关接口调整
+
+2016.11.28
+1.校验必应帐户配额接口及实现调整
+2.新增4种语言：加泰罗尼亚语、罗马尼亚语、斯洛伐克语、克罗地亚语
+
+2016.11.24
+1.jdk6->jdk7
+2.tomcat 6.0.29->tomcat 7.0.73
+3.struts2.3.16->2.3.31
+4.framework20161028.jar->framework20161124.jar
+
+2016.11.17
+1.处理图片详细接口增加返回近几条留言
+2.处理图片增加给用户留言接口	
+
+2016.11.16
+1.分词按国家拆分，并提供查询接口
+2.文章重新生成静态页
+
+2016.11.15
+1.文章维护，并生成列表页和静态页
+
+2016.11.7
+1.图片翻译维护增加按照是否用券进行查询
+2.调整访问频率
+3.struts.devMode在struts.xml中显式声明为false
+
+2016.11.2
+1.记录访问日志
+2.TransConfigInterface.findCap/findProxyAccount/findSpeechAccount限制访问频率
+
+2016.10.31
+1.图片处理接口新增返回transWay
+2.修正bug：保存翻译结果时，没有保存图片和缩略图地址
+
+2016.10.29
+1.图片翻译文件迁移到OSS的voicetrans/transpic下
+2.批量迁移，换网内服务名
+
+2016.10.27
+1.提供译库导入途径：使用Navicat将excel导入cmc_trans_library_temp，在通过程序将temp中的数据分入各库
+
+2016.10.26
+1.图片翻译详细，src展示
+2.翻译价格增加字段：原起步价
+
+2016.10.25
+1.翻译日志中文分词和计数
+
+2016.10.24
+1.调整获取图片翻译价格接口findPrice，价格保留两位小数，其余直接舍去
+
+2016.10.20
+1.智能翻译拆分为概要翻译和文档翻译，transPic!findLang增加返回文档翻译的语言列表
+2.价格从数据库动态获取
+3.添加图片翻译时，如果地址为空，则根据经纬度去获取一下地址
+4.0元订单退款（退优惠券）
+5.cmc_pt_pic增加字段：opertime
+6.新增接口：transPic!findPrice
+7.作废接口：transPic!getPrice
+8.数据库处理
+	update CMC_PT_PIC t, CMC_PT_LOG l set t.OPERTIME=l.OPERTIME where t.PICID=l.PICID and l.DEALSTATUS='04' and t.OPERTIME is null;
+	update CMC_PT_PIC t, CMC_PT_LOG l set t.OPERTIME=l.OPERTIME where t.PICID=l.PICID and l.DEALSTATUS='06' and t.OPERTIME is null;
+
+2016.10.14
+1.umc-client-20160906.jar-->umc-client-20161012.jar
+2.使用优惠券
+3.增加必应OCR能力，并做兼容处理：OCR能力/图片机器翻译语言列表ok
+4.接口transPic!addPic请求增加使用的优惠券信息：couponId,couponAmount,amount
+5.接口transPic!getPic增加返回使用优惠券金额和应付金额两个信息
+6.接口transPicDeal!getPic增加返回OCR识别的原文src
+7.增加用户取消图片翻译接口transPic!cancelPic
+8.CmcPtPic增加字段：payableamount,couponamount,platformversion
+9.数据处理：
+	update CMC_PT_PIC t set t.PAYABLEAMOUNT=t.AMOUNT,t.COUPONAMOUNT=0 where t.PAYABLEAMOUNT is null;
+	调整图片机器翻译能力
+
+2016.9.30
+1.必应OCR帐户与额度管理
+2.语言检测能力列表
+3.客户留言只通知客服主管邮箱app@qcmuzhi.com
+4.用户通知中的时间由创建时间调整为待处理时间
+5.取消原因字典
+6.提供旋转图片接口
+7.代理帐户增加两个字段：quota和called
+8.findProxyAccount增加返回accountId，便于上传访问次数
+9.取消记录完成时间
+10.人工翻译列表展示优化：等待处理时间，补全取消的完成时间
+
+2016.9.28
+1.给客户留言的推送
+2.图片列表返回拼接的翻译内容transResult
+3.客服版：完成时间、支付时间
+4.繁体中文版服务条款
+5.最新留言列表接口findLastMsg
+
+2016.9.27
+1.图片翻译列表展示用户信息
+2.客户留言与客服回复
+3.处理状态调整
+	新状态：01机器翻译02已提交03已支付04翻译中05已完成06已取消07已退款08已关闭09待支付10待翻译
+	原状态：01机器翻译02已提交03已支付04翻译中05已完成06已取消07已退款
+4.放开客服权限，加强日志记录；客服版上传旋转后的图片
+5.用户图片列表增加返回源语言和目标语言代码
+
+数据处理：
+	02已提交-->09待支付
+	03已支付-->10待翻译
+
+2016.9.23
+1.记录下单平台
+
+2016.9.22
+1.文章
+2.图片翻转
+3.修改图片翻译结果的传递格式
+4.人工翻译列表展示缩略图
+5.session时间加长为120分钟
+6.fastjson-1.2.7.jar->fastjson-1.2.17.jar
+7.更换翻译结果分隔符
+
+2016.9.19
+1.扩展图片翻译原文、译文长度为4000
+2.修正：翻译通道没有按照优先级排序
+
+2016.9.18
+1.调整图片翻译条款
+2.调整检查必应语音帐户的实现，新增语音配置speech.properties
+3.支付宝退款成功结果以异步通知为准
+4.已处理（已完成、已取消、已退款）的订单均返回翻译结果
+
+2016.9.14
+1.图片翻译维护：退款成功，提示失败；
+2.已完成的图片翻译可以继续翻译
+3.客服工作时间、通知发短信
+4.新增用户留言接口
+5.bdc-client-20160517.jar->bdc-client-20160915.jar
+
+2016.9.13
+1.增加字段：处理进度（dealProgress）
+2.图片翻译处理接口：删除findPicDealt，接口findPic通过dealProgress查询待处理、处理中和已处理的订单
+3.已处理订单倒序展示
+4.价格为0的订单提交后，无需支付进入待处理
+5.通知客服：待处理、超时未完成
+历史数据处理：
+UPDATE CMC_PT_PIC SET DEALPROGRESS=NULL WHERE DEALSTATUS IN('01','02');
+UPDATE CMC_PT_PIC SET DEALPROGRESS='01' WHERE DEALSTATUS IN('03');
+UPDATE CMC_PT_PIC SET DEALPROGRESS='02' WHERE DEALSTATUS IN('04');
+UPDATE CMC_PT_PIC SET DEALPROGRESS='03' WHERE DEALSTATUS IN('05','06','07');
+
+
+2016.9.12
+1.导出的翻译日志增加用户标识字段
+2.ipicture输入框Input改为textarea
+3.图片翻译处理用window.open打开，增大可是区域
+
+2016.9.8
+1.Bing帐户检测维护
+
+2016.9.6
+1.增加jar：umc-client-20160906.jar
+2.将图片翻译的状态变化加入用户通知
+
+2016.9.5
+1.删除字段：CmcLang.baiducode、CmcLang.biyingcode、CmcLang.langen
+2.删除表：CmcApikey、CmcApikeyCalllog、CmcLangProxy，以及相关操作类
+3.删除接口：ak!getApiKey.do、trans!findSpeechAccount.do
+4.调整接口：transPic!findLang.do返回参数
+5.语音、翻译 帐户与通道配置
+6.客服版推送支付成功通知
+
+2016.8.24
+1.增加从淘宝获取IP所在国家接口开关
+2.图片处理：获取图片列表接口调整
+
+2016.8.23
+1.图片翻译增加上传缩略图，不上传则系统自动生成
+2.图片翻译处理相关接口
+3.支付成功给“transOperator”推送，并给app@qcmuzhi.com发送邮件
+4.用户删除：机器翻译从数据库删除，人工翻译置状态为删除
+5.获取图片翻译语言列表接口transPic!findLang.do，增加返回参数：翻译途径（transWay）
+6.从booking抓取酒店名称，支持以国家为单位进行断点续抓
+7.添加图片翻译增加语言校验，支付预处理增加金额校验
+8.nuance帐户配置调整
+9.已完成订单可以到“图片翻译维护”中退款
+
+2016.8.18
+1.增加Nuance帐户：出行翻译官
+2.关闭小米帐户
+3.记录翻译日志，定时导出excel并上传到阿里云OSS
+
+2016.8.16
+1.解析支付宝退款异步通知
+2.AlipayProxy和WxpayProxy日志打印请求与返回日志
+3.定时任务处理退款失败
+4.获取图片翻译列表接口调整
+
+2016.8.12
+1.图片翻译：字符限制、开关和营业时间
+2.高频翻译结果入库后直接启用
+
+2016.8.4
+1.取消订单及退款
+2.支持的语言列表接口
+
+2016.8.1
+1.支付宝支付
+2.微信支付、支付宝支付异步通知处理
+
+2016.7.28
+1.图片全屏标注
+2.微信支付
+
+2016.7.25
+1.图片标注时，缩放图片，便于标注
+
+2016.7.25
+1.人工翻译开始处理和完成翻译时，给用户发送PUSH
+2.配置缩略图大小
+
+2016.7.22
+1.dict-20140515.jar -> dict-20150126.jar
+2.framework-20160616.jar -> framework-20160715.jar
+3.拍照翻译
+
+2016.7.12
+1.在采集booking酒店名称中使用百度翻译语言自动检测
+2.分库后修正主题维护功能
+
+2014.06.09
+创建系统
+
+2014.9.4
+1、增加保存翻译日志（saveTransLog）接口
+2、增加校验翻译许可（canTrans）接口
+
+2014.9.22
+1.srm-client-20140429.jar --> srm-client-20140918.jar
+2.framework-20140725.jar --> framework-20140918.jar
+3.com.company --> com.qcmz
+
+2014.9.25
+1.增加翻译接口，提供百度和必应翻译
+
+2014.9.28
+1.完善翻译接口逻辑
+2.增加收藏翻译结果、分页查询日常用语、分页查询用户收藏接口
+3.调整检验翻译许可接口逻辑
+4.数据库从bdc中分离出来，创建新库cmc
+
+2014.10.9
+1.CMC_TRANS_LOG.SOURCE字符集由utf8调整为utf8mb4（特殊字符无法入库的问题依然未解决）
+
+2014.10.28
+1.framework-20140926.jar --> framework-20141028.jar
+
+2014.11.04
+1.申请多个必应翻译的客户端ID并从CMC_APIKEY获取
+2.关闭apikey使用监控定时任务
+3.增加缓存重载功能
+4.增加译库功能
+
+2014.11.24
+1.翻译多条语句功能
+
+2014.12.09
+1.翻译通道配置，无可用通道预警
+2.必应key轮换、停用、预警
+
+2014.12.10
+1.翻译日志增加开关控制，默认关闭
+
+2014.12.11
+1.增加数据库连接数配置
+2.必应翻译创建并使用token池
+3.图文字典检索开关
+4.完善通道配置实现逻辑
+
+2014.12.12
+1.必应翻译Ajax超时后转Http请求
+
+2015.1.15
+1.重新实现中转翻译逻辑
+2.关闭webservice接口，需要的时候再开放，涉及applicationContext.xml和web.xml
+
+2015.1.27
+1.翻译结果增加匹配度信息
+2.翻译日志、翻译差异日志、打印翻译信息等实现逻辑完善
+3.emoji表情处理
+4.接口struts2全局异常处理
+
+2015.2.2
+1.翻译结果增加翻译代理编号
+
+2015.3.9
+1.译库维护
+
+2015.3.13
+1.翻译主题与分类
+
+2015.4.17
+1.百度翻译接口返回增加字段align_info
+
+2015.7.14
+1.每日一句，生成静态页并上传到阿里云OSS
+
+2015.7.30
+1.收费
+2.翻译增加translate接口，该接口相较于trans增加了接口权限
+3.主题下载接口getDownload从缓存中获取信息
+4.apikey状态：由0启用1停用更改为0停用1启用
+5.代理proxy分类：01翻译02支付
+
+2015.8.5
+1.每日一句增加接口preSentence
+2.返回
+
+2015.8.25
+1.bingkey增加自动停用和启用功能
+
+2015.9.11
+1.保存接口日志
+
+2015.10.8
+1.framework-20150916.jar-->framework-20151008.jar
+1.quartz-1.5.2.jar-->quartz-2.2.1.jar
+2.更换数据库用户密码
+
+2015.10.10
+1.增加定时任务监控
+2.获取BingToken在定时任务中起线程获取，超时则中断线程
+3.bdc-client-20150916.jar-->bdc-client-20151009.jar
+
+2015.11.23
+1.百度翻译更换新接口，并设置了新旧版本的开关
+
+2015.12.29
+1.翻译计数
+
+2016.1.4
+1.有道翻译
+2.翻译相似度计数
+
+2016.2.26
+1.翻译结果缓存，出现一定次数后存入译库
+
+2016.2.29
+1.译库增加字段：命中次数
+
+2016.3.2
+1.翻译统计增加字段：国家名称
+
+2016.3.14
+1.翻译日志增加字段：请求IP和请求国家
+
+2016.4.15
+1.翻译计数调整
+2.接口trans.trans增加开关
+
+2016.5.23
+1.bdc-client-20151125.jar -> bdc-client-20160517.jar
+2.framework-20160301.jar -> framework-20160422.jar
+3.百度翻译余额不足是发送提醒邮件
+
+2016.5.31
+1.从百度获取翻译例句并入库
+
+2016.6.16
+1.数据维护功能：批量生成每日一句静态页
+
+2016.6.22
+1.framework-20160301.jar -> framework-20160422.jar
+2.tgs-client-20141211.jar --> tgs-client-20160622.jar
+3.接口translate增加参数：经度lon 纬度lat
+
+2016.6.29
+1.高频翻译结果入库后经人工处理再生效
+
+2016.6.30
+1.每日一句增加字段小图
+2.每日一句列表接口返回的图片为小图
+
+2016.7.8
+1.从booking采集酒店名称（中->英日韩阿拉伯）入译库
+2.译库拆库，lib编号从bdc.sequence中获取
+3.清理不再使用的配置
+4.删除查询日常用语接口findDaily
+
+
+
+差异修正

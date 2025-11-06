@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>关键字查询</title>
+	<style type="text/css">
+		body{
+			margin:0;
+			height:100%;
+			width:100%;
+			position:absolute;
+			font-size:12px;
+		}
+		#mapContainer{
+			position: absolute;
+			top:0;
+			left: 0;
+			right:0;
+			bottom:0;
+		}
+      #tip{
+			height: 100px;
+			background-color: #fff;
+			padding-left: 10px;
+			padding-right: 10px;
+			position:absolute;
+			font-size: 12px;
+			right: 10px;
+			bottom: 30px;
+			border-radius: 3px;
+			line-height: 30px;
+			border:1px solid #ccc;
+		}
+		#tip input{
+			border:1px solid #ddd;
+			height:23px;
+			border-radius:3px;
+			outline:none;
+		}
+	</style>
+</head>
+<body> 
+    <div id="mapContainer"></div> 
+	<div id="tip"> 
+		<b>鼠标左键在地图上单击获取坐标</b>
+		<br>
+		<div>
+			X：<input type="text" id="lngX" name="lngX" value=""/>&nbsp;Y：<input type="text" id="latY" name="latY" value=""/>
+			<p align="center" style="margin: 0;padding: 0">
+				<input type="button" id="btnOK" value="确定" onclick="ok();" style="cursor: pointer;">
+				&nbsp;
+				<input type="button" id="btnCancel" value="取消" onclick="window.close();" style="cursor: pointer;">
+			</p>
+		</div>
+	</div>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ed91ed8356f80c781733b77835d9f532"></script>
+	<script type="text/javascript">
+		var city = getQueryStringByName("city");
+	    if(city==undefined || city==null){
+	    	city = "";
+	    }
+	    
+		var map = new AMap.Map("mapContainer", {
+			resizeEnable: true
+		});
+		map.setCity(city);
+		//为地图注册click事件获取鼠标点击出的经纬度坐标
+		var clickEventListener=AMap.event.addListener(map,'click',function(e){
+			document.getElementById("lngX").value=e.lnglat.getLng();
+			document.getElementById("latY").value=e.lnglat.getLat();  
+		});
+		var marker = new Array();
+		var windowsArr = new Array();
+		//基本地图加载
+		function placeSearch(){
+		    var MSearch;
+		    
+		    var place = getQueryStringByName("addr");
+		    if(place==undefined || place==null || place==""){
+		    	return;
+		    }
+		    AMap.service(["AMap.PlaceSearch"], function() {       
+		        MSearch = new AMap.PlaceSearch({ //构造地点查询类
+		            pageSize:10,
+		            pageIndex:1,
+		            city:city //城市
+		        });
+		        //关键字查询
+		        MSearch.search(place, function(status, result){
+		        	if(status === 'complete' && result.info === 'OK'){
+		        		keywordSearch_CallBack(result);
+		        	}
+		        }); 
+		    });
+		}
+		
+		//添加marker&infowindow   
+		function addmarker(i, d) {
+		    var lngX = d.location.getLng();
+		    var latY = d.location.getLat();
+		    var markerOption = {
+		        map:map,
+		        icon:"http://webapi.amap.com/images/" + (i + 1) + ".png",
+		        position:new AMap.LngLat(lngX, latY),
+		        topWhenMouseOver:true
+		
+		    };
+		    var mar = new AMap.Marker(markerOption);         
+		    marker.push(new AMap.LngLat(lngX, latY));
+		 
+		    var infoWindow = new AMap.InfoWindow({
+		        content:"<h3><font color=\"#00a6ac\">  " + (i + 1) + ". " + d.name + "</font></h3>" + TipContents(d.type, d.address, d.tel),
+		        size:new AMap.Size(300, 0),
+		        autoMove:true, 
+		        offset:new AMap.Pixel(0,-20)
+		    });
+		    windowsArr.push(infoWindow);
+		    var aa = function (e) {infoWindow.open(map, mar.getPosition());};
+		    AMap.event.addListener(mar, "mouseover", aa);
+		}
+		//回调函数
+		function keywordSearch_CallBack(data) {
+		    var resultStr = "";
+		    var poiArr = data.poiList.pois;
+		    var resultCount = poiArr.length;
+		    for (var i = 0; i < resultCount; i++) {
+		        resultStr += "<div id='divid" + (i + 1) + "' onmouseover='openMarkerTipById1(" + i + ",this)' onmouseout='onmouseout_MarkerStyle(" + (i + 1) + ",this)' style=\"font-size: 12px;cursor:pointer;padding:0px 0 4px 2px; border-bottom:1px solid #C1FFC1;\"><table><tr><td><img src=\"http://webapi.amap.com/images/" + (i + 1) + ".png\"></td>" + "<td><h3><font color=\"#00a6ac\">名称: " + poiArr[i].name + "</font></h3>";
+		            resultStr += TipContents(poiArr[i].type, poiArr[i].address, poiArr[i].tel) + "</td></tr></table></div>";
+		            addmarker(i, poiArr[i]);
+		    }
+		    map.setFitView();
+		}
+		function TipContents(type, address, tel) {  //窗体内容
+		    if (type == "" || type == "undefined" || type == null || type == " undefined" || typeof type == "undefined") {
+		        type = "暂无";
+		    }
+		    if (address == "" || address == "undefined" || address == null || address == " undefined" || typeof address == "undefined") {
+		        address = "暂无";
+		    }
+		    if (tel == "" || tel == "undefined" || tel == null || tel == " undefined" || typeof address == "tel") {
+		        tel = "暂无";
+		    }
+		    var str = "  地址：" + address + "<br />  电话：" + tel + " <br />  类型：" + type;
+		    return str;
+		}
+		function openMarkerTipById1(pointid, thiss) {  //根据id 打开搜索结果点tip
+		    thiss.style.background = '#CAE1FF';
+		    windowsArr[pointid].open(map, marker[pointid]);
+		}
+		function onmouseout_MarkerStyle(pointid, thiss) { //鼠标移开后点样式恢复
+		    thiss.style.background = "";
+		}
+		
+		function getQueryStringByName(name){
+			var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i"));
+			if(result == null || result.length < 1){
+			    return "";
+			}
+			return decodeURI(result[1]);
+		}
+		
+		function ok(){
+			if(window.opener && window.opener.pickerCallback && typeof(window.opener.pickerCallback)=='function'){
+				window.opener.pickerCallback(
+					getQueryStringByName("id")
+					, document.getElementById("lngX").value
+					, document.getElementById("latY").value
+					);
+			}
+			window.close();
+		}
+		
+		placeSearch();
+	</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+@CHARSET "UTF-8";
+
+body{
+	background-position : left top;
+	margin:0px; padding:0px;
+	scrollbar-face-color : #eeeeee; 
+	scrollbar-highlight-color : #aaaaaa; 
+	scrollbar-shadow-color : #aaaaaa; 
+	scrollbar-3dlight-color : #eeeeee; 
+	scrollbar-arrow-color : #aaaaaa; 
+	scrollbar-track-color : #eeeeee; 
+	scrollbar-darkshadow-color : #eeeeee;
+}
+
+a:link {color:#000000;text-decoration: none;}
+a:active {color:#E90000;text-decoration: none;}
+a:visited {color:#335500;text-decoration: none;}
+a:hover {color:#034BAE;text-decoration: underline;}
+
+img {
+	border: none;
+}
+
+#outTicketArea,#FlighInfoArea,#payTypeArea,#deliveryArea,#contactArea,#orderLevArea,#orderLevArea{
+	width:100%;
+	font-size:12px;
+	background-color : #F7FAFE;
+}
+
+#tokenDiv{
+	border: 1px solid silver; 
+	padding: 5px; 
+	background: #ffd; 
+	width:90%; 
+	text-align: left; 
+	font-size:9pt;
+}
+
+.navDiv{
+	width:100%;
+	height:32px; 
+	line-height:32px;
+	background-image:url(../images/top-t.jpg);
+	vertical-align:middle; padding:0px; margin:0px
+}
+
+.condition{ background-color:#F6F6F6; border:#9EAEC4 solid 1px; margin:0 auto 0}
+.conditiontop{margin:0px; padding:0px;width:100%}
+.searchDiv{
+	background-color:#F6F6F6;border:#CBDAE6 solid 1px; margin:0 auto 0; 
+}
+
+.editDiv{
+	background-color:#ffffff;
+	width:98%
+	
+}
+
+#main{
+	position: absolute;
+	left: expression((document.body.clientWidth-410)/2);
+	top: expression((document.body.clientHeight-450)/2);
+	width:400px;
+	border-bottom: 1px solid #B2CFFB; 
+	border-left: 1px solid #B2CFFB; 
+	border-right: 1px solid #B2CFFB; 
+	border-top: 1px solid #B2CFFB;
+	background-color : #F7FAFE;
+}
+
+input{
+	font-size:12px;
+	font-color:#000000;
+	background:#ffffff
+}
+
+select{
+	font-size:12px;
+	font-color:#000000;
+}
+
+.tab1 {
+	font-size:12px;
+	color: #000000;
+	background-color: #eeeeee;
+}
+.tab2 {
+	font-size:12px;
+	color: #000000;
+	background-color: #FFFFFF;
+}
+
+.tableGlobal{
+	font-size:12px;
+	text-align : center;
+	cellpading : 4;
+	cellspacing : 1;
+	bgcolor : #7CB9F4;
+}
+
+.textLeft { text-align: left; }
+.textMid { text-align: center; }
+.textRight { text-align: right; }
+.pt { font-size:12px; font-color:#000000; }
+
+.tableTr td {height: 25px; }
+
+.tipMsg { font-size:12px; font-color:#FF0000;}
+
+#fixedtipdiv{
+	position:absolute;
+	padding: 2px;
+	border:1px solid black;
+	font:normal 12px Verdana;
+	line-height:18px;
+	z-index:100;
+}
+
+.STYLE1 {color: #FF0000}
+.STYLE2 {color: #0000FF}

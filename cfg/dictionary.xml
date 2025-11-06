@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>		
+	<table id="common">
+		<field id="status" desc="启用状态">
+			<item key="1" value="已启用" desc=""/>
+			<item key="0" value="已停用" desc=""/>
+		</field>
+		<field id="checkstatus" desc="核对状态">
+			<item key="1" value="已核对" desc=""/>
+			<item key="0" value="待核对" desc=""/>
+		</field>
+		<field id="dealstatus" desc="处理状态">
+			<item key="0" value="待处理" desc=""/>
+			<item key="1" value="已处理" desc=""/>
+		</field>
+		<field id="exchangestatus" desc="兑换状态">
+			<item key="0" value="未兑换" desc=""/>
+			<item key="1" value="已兑换" desc=""/>
+			<item key="2" value="已作废" desc=""/>
+		</field>
+		<field id="commissionstatus" desc="佣金结算状态">
+			<item key="1" value="待结算" desc=""/>
+			<item key="2" value="已结算" desc=""/>
+		</field>
+		<field id="isNot" desc="是否">
+			<item key="1" value="是" desc=""/>
+			<item key="0" value="否" desc=""/>
+		</field>
+		<field id="boolean" desc="真假">
+			<item key="true" value="是" desc=""/>
+			<item key="false" value="否" desc=""/>
+		</field>
+		<field id="switch" desc="开关">
+			<item key="0" value="关闭" desc=""/>
+			<item key="1" value="开启" desc=""/>
+		</field>
+		<field id="translog" desc="翻译日志开关">
+			<item key="0" value="关闭" desc=""/>
+			<item key="1" value="存入本地库" desc=""/>
+			<item key="2" value="存入远程库" desc=""/>
+		</field>
+		<field id="transcountswitch" desc="翻译计数开关">
+			<item key="0" value="关闭" desc=""/>
+			<item key="1" value="语言" desc=""/>
+			<item key="2" value="国家" desc=""/>
+			<item key="3" value="用户" desc=""/>
+		</field>
+		<field id="backtrans" desc="回译开关">
+			<item key="0" value="关闭" desc=""/>
+			<item key="1" value="开启" desc=""/>
+			<item key="2" value="多通道开启" desc=""/>
+		</field>
+		<field id="twoway" desc="双向互译">
+			<item key="0" value="单向翻译" desc=""/>
+			<item key="1" value="双向互译" desc=""/>
+		</field>
+		<field id="logAccessSwitch" desc="访问日志开关">
+			<item key="0" value="关闭" desc=""/>
+			<item key="1" value="记录访问次数" desc=""/>
+			<item key="2" value="记录访问日志和次数" desc=""/>
+		</field>
+		<field id="week" desc="星期">
+			<item key="1" value="一" desc=""/>
+			<item key="2" value="二" desc=""/>
+			<item key="3" value="三" desc=""/>
+			<item key="4" value="四" desc=""/>
+			<item key="5" value="五" desc=""/>
+			<item key="6" value="六" desc=""/>
+			<item key="7" value="日" desc=""/>
+		</field>
+		<field id="translibOrderby" desc="译库排序">
+			<item key="1" value="命中次数倒序" desc=""/>
+		</field>
+		<field id="cashdeal" desc="提现处理">
+			<item key="3" value="审核通过" desc=""/>
+			<item key="2" value="驳回申请" desc=""/>
+		</field>
+		<field id="auto" desc="自动">
+			<item key="1" value="自动" desc=""/>
+			<item key="0" value="人工" desc=""/>
+		</field>
+		<field id="fileProxy" desc="文件服务通道">
+			<item key="local" value="当前服务器" desc=""/>
+			<item key="oss" value="阿里云存储" desc=""/>
+			<item key="azure" value="微软云存储" desc=""/>
+			<item key="fileServer" value="指定文件服务器" desc=""/>
+		</field>
+	</table>	
+	<inithead id = "head">
+		<item key="0" value="--请选择--"/>
+		<item key="1" value="--全部--"/>
+		<item key="2" value="--"/>
+		<item key="3" value="所有"/>
+	</inithead>
+</dictionary>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<project name="package_jar" default="package" basedir=".">
+
+	<property file="build.properties" />
+	<property name="OUTPUT" value="${PACK_HOME}/dest" />
+	<property name="SRC" value="${PROJECT_HOME}/src" />
+	<property name="CLASSES" value="${PACK_HOME}/dist/${PROJECT_NAME}/classes" />
+	<property name="DEST" value="${PACK_HOME}/dest" />
+	
+	<target name="package">
+		<echo message="package interface to jar" />
+		<jar jarfile="${OUTPUT}/${PROJECT_NAME}-client-${PROJECT_VERSION}.jar">
+			<manifest>
+				<attribute name="Built-By" value="${PROJECT_NAME}" />
+			</manifest>
+			<fileset dir="${CLASSES}">
+				<include name="/com/qcmz/cmc/ws/provide/webservice/*.class" />
+				<include name="/com/qcmz/cmc/ws/provide/vo/*.class" />
+				<include name="/com/qcmz/cmc/ws/provide/locator/*.class" />
+			</fileset>
+			<fileset dir="${SRC}">
+				<include name="/com/qcmz/cmc/ws/provide/webservice/*.java" />
+				<include name="/com/qcmz/cmc/ws/provide/vo/*.java" />
+				<include name="/com/qcmz/cmc/ws/provide/locator/*.java" />
+			</fileset>
+			<fileset dir="${DEST}">
+				<include name="/client.txt" />
+			</fileset>
+		</jar>
+		<echo message="package interface success!" />
+	</target>
+</project>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<project name="compile" default="package" basedir=".">
+	<property file="build.properties" />
+	<property environment="env" />
+	<property name="SRC" value="${PROJECT_HOME}/src" />
+	<property name="SRC_CFG" value="${PROJECT_HOME}/cfg" />
+	<property name="LIB" value="${PROJECT_HOME}/lib" />
+	<property name="LIB_JEE" value="${PACK_HOME}/lib" />
+	<property name="LIB_SYS" value="${env.CLASSPATH}" />
+	<property name="OUTPUT" value="${PACK_HOME}/dist/${PROJECT_NAME}/classes" />
+	<property name="OUTPUT_JAR" value="${PACK_HOME}/dist/${PROJECT_NAME}.jar" />
+
+
+	<path id="project.class.path">
+		<fileset dir="${LIB}" includes="**/*.jar" />
+		<fileset dir="${LIB_JEE}" includes="**/*.jar" />
+		<pathelement path="${LIB_SYS}" />
+		<pathelement path="${OUTPUT}" />
+	</path>
+
+	<target name="compile">
+		<echo message="compile project ${PROJECT_NAME} to ${OUTPUT}" />
+		<copy includeemptydirs="false" todir="${OUTPUT}">
+			<fileset dir="${SRC}" excludes="**/*.launch, **/*.java" />
+			<fileset dir="${SRC_CFG}" />
+		</copy>
+		<javac encoding="${JAVA_ENCODING}" debug="true" deprecation="false" destdir="${OUTPUT}">
+			<src path="${SRC}" />
+			<classpath refid="project.class.path" />
+		</javac>
+		<echo message="compile project ${PROJECT_NAME} success!" />
+	</target>
+
+	<target name="package" depends="compile">
+		<echo message="package ${PROJECT_NAME} to jar" />
+		<jar jarfile="${OUTPUT_JAR}">
+			<manifest>
+				<attribute name="Built-By" value="${PROJECT_NAME}" />
+			</manifest>
+			<fileset dir="${OUTPUT}">
+				<include name="**/*.class" />
+				<include name="**/*.hbm.xml" />
+			</fileset>
+		</jar>
+		<echo message="package ${PROJECT_NAME} success!" />
+	</target>
+</project>
+

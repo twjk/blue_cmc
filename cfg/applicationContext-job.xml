@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	<!-- 每日一句推送任务 -->
+	<bean id="daySentencePushTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="daySentencePushJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />	<!-- job会否并发运行 -->
+	</bean>
+	<bean id="daySentencePushTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="daySentencePushTask" />
+		<property name="cronExpression" value="${job.daysentence.push.cronExpression}" />
+	</bean>
+	<!-- 每日一句缓存刷新任务 -->
+	<bean id="daySentenceRefreshTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="daySentenceRefreshJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="daySentenceRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="daySentenceRefreshTask" />
+		<property name="cronExpression" value="${job.daysentence.refresh.cronExpression}" />
+	</bean>
+	<!-- 每日一句生产任务 -->
+	<bean id="daySentenceProduceTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="daySentenceProduceJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="daySentenceProduceTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="daySentenceProduceTask" />
+		<property name="cronExpression" value="${job.daysentence.produce.cronExpression}" />
+	</bean>
+	<!-- 清除过期翻译缓存任务 -->
+	<bean id="transCacheClearExpirationTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="transCacheClearExpirationJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="transCacheClearExpirationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="transCacheClearExpirationTask" />
+		<property name="cronExpression" value="${job.transCache.clearExpiration.cronExpression}" />
+	</bean>
+	<!-- 译库入库任务 -->
+	<bean id="transLibSaveTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="transLibSaveJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="transLibSaveTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="transLibSaveTask" />
+		<property name="cronExpression" value="${job.transLib.save.cronExpression}" />
+	</bean>
+	<!-- 译库缓存重载任务 -->
+	<bean id="transLibCacheRefreshTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="transLibCacheRefreshJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="transLibCacheRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="transLibCacheRefreshTask" />
+		<property name="cronExpression" value="${job.transLibCache.refresh.cronExpression}" />
+	</bean>
+	<!-- 译库缓存命中次数入库任务 -->
+	<bean id="transLibCacheHitSaveTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="transLibCacheHitSaveJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="transLibCacheHitSaveTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="transLibCacheHitSaveTask" />
+		<property name="cronExpression" value="${job.transLibCache.saveHit.cronExpression}" />
+	</bean>
+	<!-- 翻译差异入库任务 -->
+	<bean id="transDiffSaveTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="transDiffSaveJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="transDiffSaveTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="transDiffSaveTask" />
+		<property name="cronExpression" value="${job.transDiff.save.cronExpression}" />
+	</bean>
+	<!-- 翻译差异清除任务 -->
+	<bean id="transDiffClearTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="transDiffClearJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="transDiffClearTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="transDiffClearTask" />
+		<property name="cronExpression" value="${job.transDiff.clear.cronExpression}" />
+	</bean>
+	<!-- 资讯订阅处理任务 -->
+	<bean id="articleSubDealTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="articleSubDealJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="articleSubDealTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="articleSubDealTask" />
+		<property name="cronExpression" value="${job.articleSub.successDeal.cronExpression}" />
+	</bean>
+	<!-- 套餐订单处理任务 -->
+	<bean id="packageOrderDealTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="packageOrderDealJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="packageOrderDealTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="packageOrderDealTask" />
+		<property name="cronExpression" value="${job.packageOrder.deal.cronExpression}" />
+	</bean>
+	<!-- 众包任务计数入库任务 -->
+	<bean id="crowdTaskCountSaveTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="crowdTaskCountSaveJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="crowdTaskCountSaveTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="crowdTaskCountSaveTask" />
+		<property name="cronExpression" value="${job.crowdtask.countSave.cronExpression}" />
+	</bean>
+	<!-- 众包任务自动创建任务 -->
+	<bean id="crowdTaskAutoCreateTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="crowdTaskAutoCreateJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="crowdTaskAutoCreateTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="crowdTaskAutoCreateTask" />
+		<property name="cronExpression" value="${job.crowdtask.autoCreate.cronExpression}" />
+	</bean>
+	<!-- 众包任务过期取消任务 -->
+	<bean id="crowdTaskCancelTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="crowdTaskCancelJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="crowdTaskCancelTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="crowdTaskCancelTask" />
+		<property name="cronExpression" value="${job.crowdtask.cancel.cronExpression}" />
+	</bean>
+	<!-- 用户众包任务奖励发放任务 -->
+	<bean id="userCrowdRewardGrantTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="userCrowdRewardGrantJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="userCrowdRewardGrantTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="userCrowdRewardGrantTask" />
+		<property name="cronExpression" value="${job.userCrowdtask.rewardGrant.cronExpression}" />
+	</bean>
+	<!-- 用户众包任务提醒用户完成任务 -->
+	<bean id="userCrowdTaskRemindToFinishTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="userCrowdRemindToFinishJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="userCrowdTaskRemindToFinishTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="userCrowdTaskRemindToFinishTask" />
+		<property name="cronExpression" value="${job.userCrowdtask.remindToFinish.cronExpression}" />
+	</bean>
+	<!-- 用户众包任务过期取消 -->
+	<bean id="userCrowdTaskCancelTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="userCrowdTaskCancelJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="userCrowdTaskCancelTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="userCrowdTaskCancelTask" />
+		<property name="cronExpression" value="${job.userCrowdtask.cancel.cronExpression}" />
+	</bean>
+	<!-- 用户众包任务删除文件 -->
+	<bean id="userCrowdTaskDeleteFileTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="userCrowdTaskDeleteFileJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="userCrowdTaskDeleteFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="userCrowdTaskDeleteFileTask" />
+		<property name="cronExpression" value="${job.userCrowdtask.deleteFile.cronExpression}" />
+	</bean>
+	
+	<!-- 同城采集结果分拣 -->
+	<bean id="localTaskSpiderSortingTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="localTaskSpiderSortingJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="localTaskSpiderSortingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="localTaskSpiderSortingTask" />
+		<property name="cronExpression" value="${job.localTask.spiderSorting.cronExpression}" />
+	</bean>
+	<!-- 就业精选订阅通知 -->
+	<bean id="localTaskSubNotifyTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="localTaskSubNotifyJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="localTaskSubNotifyTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="localTaskSubNotifyTask" />
+		<property name="cronExpression" value="${job.localTask.subNotify.cronExpression}" />
+	</bean>
+	
+	<!-- 资讯标签缓存重载任务 -->
+	<bean id="articleTagCacheRefreshTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="articleTagCacheRefreshJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="articleTagCacheRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="articleTagCacheRefreshTask" />
+		<property name="cronExpression" value="${job.articleTagCache.refresh.cronExpression}" />
+	</bean>
+	<!-- 红包过期处理任务 -->
+	<bean id="redPacketExpireDealTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="redPacketExpireDealJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="redPacketExpireDealTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="redPacketExpireDealTask" />
+		<property name="cronExpression" value="${job.redPacket.expireDeal.cronExpression}" />
+	</bean>
+	<!-- 红包取消处理任务 -->
+	<bean id="redPacketCancelDealTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="redPacketCancelDealJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="redPacketCancelDealTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="redPacketCancelDealTask" />
+		<property name="cronExpression" value="${job.redPacket.cancelDeal.cronExpression}" />
+	</bean>
+	<!-- 用户黑名单缓存重载任务 -->
+	<bean id="appUserForbidCacheRefreshTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="appUserForbidCacheRefreshJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="appUserForbidCacheRefreshTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="appUserForbidCacheRefreshTask" />
+		<property name="cronExpression" value="${job.appUserForbidCache.refresh.cronExpression}" />
+	</bean>
+	<!-- 超时拒单任务 -->
+	<bean id="orderRejectTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="orderRejectJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="orderRejectTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderRejectTask" />
+		<property name="cronExpression" value="${job.order.reject.cronExpression}" />
+	</bean>
+	<!-- 订单退款任务 -->
+	<bean id="orderRefundTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="orderRefundJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="orderRefundTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderRefundTask" />
+		<property name="cronExpression" value="${job.order.refund.cronExpression}" />
+	</bean>
+	<!-- 取消超时订单任务 -->
+	<bean id="orderCancelTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="orderCancelJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="orderCancelTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderCancelTask" />
+		<property name="cronExpression" value="${job.order.cancel.cronExpression}" />
+	</bean>
+	<!-- 订单佣金结算任务 -->
+	<bean id="orderCommissionTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="orderCommissionJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="orderCommissionTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderCommissionTask" />
+		<property name="cronExpression" value="${job.order.commission.cronExpression}" />
+	</bean>
+	<!-- 即将开始处理订单监控任务 -->
+	<bean id="orderMonitorSoonDealTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="orderMonitorSoonDealJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="orderMonitorSoonDealTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderMonitorSoonDealTask" />
+		<property name="cronExpression" value="${job.orderMonitor.soonDeal.cronExpression}" />
+	</bean>
+	<!-- 待处理订单监控任务 -->
+	<bean id="orderMonitorWaitDealTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="orderMonitorWaitDealJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="orderMonitorWaitDealTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderMonitorWaitDealTask" />
+		<property name="cronExpression" value="${job.orderMonitor.waitDeal.cronExpression}" />
+	</bean>
+	<!-- 未完成订单监控任务 -->
+	<bean id="orderMonitorUndealtTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="orderMonitorUndealtJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="orderMonitorUndealtTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderMonitorUndealtTask" />
+		<property name="cronExpression" value="${job.orderMonitor.undealt.cronExpression}" />
+	</bean>
+	<!-- 参加完成订单活动 -->
+	<bean id="taskFinishOrderTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="taskFinishOrderJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="taskFinishOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="taskFinishOrderTask" />
+		<property name="cronExpression" value="${job.task.finishActivity.cronExpression}" />
+	</bean>
+	<!-- 每日监控任务 -->
+	<bean id="monitorPerdayTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="monitorPerdayJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="monitorPerdayTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="monitorPerdayTask" />
+		<property name="cronExpression" value="${job.monitor.perday.cronExpression}" />
+	</bean>
+	<!-- 清理临时文件任务 -->
+	<bean id="tempFileCleanTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tempFileCleanJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="tempFileCleanTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="tempFileCleanTask" />
+		<property name="cronExpression" value="${job.file.cleanTemp.cronExpression}" />
+	</bean>
+	<!-- 清除过期锁任务 -->
+	<bean id="lockClearTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="lockClearJob" />
+		<property name="targetMethod" value="work" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="lockClearTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="lockClearTask" />
+		<property name="cronExpression" value="${job.lock.clear.cronExpression}" />
+	</bean>
+	<bean id="schedulerFactory" lazy-init="false" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="daySentencePushTrigger"/>
+				<ref bean="daySentenceRefreshTrigger"/>
+				<ref bean="daySentenceProduceTrigger"/>
+				<ref bean="transCacheClearExpirationTrigger"/>
+				<ref bean="transLibSaveTrigger"/>
+				<ref bean="transLibCacheRefreshTrigger"/>
+				<ref bean="transLibCacheHitSaveTrigger"/>
+				<ref bean="transDiffSaveTrigger"/>
+				<ref bean="transDiffClearTrigger"/>
+				<ref bean="packageOrderDealTrigger"/>
+				<ref bean="crowdTaskCountSaveTrigger"/>
+				<ref bean="crowdTaskAutoCreateTrigger"/>
+				<ref bean="crowdTaskCancelTrigger"/>
+				<ref bean="userCrowdRewardGrantTrigger"/>
+				<ref bean="userCrowdTaskRemindToFinishTrigger"/>
+				<ref bean="userCrowdTaskCancelTrigger"/>
+				<ref bean="userCrowdTaskDeleteFileTrigger"/>
+				<ref bean="localTaskSpiderSortingTrigger"/>
+				<ref bean="localTaskSubNotifyTrigger"/>
+				<ref bean="articleSubDealTrigger"/>
+				<ref bean="articleTagCacheRefreshTrigger"/>
+				<ref bean="redPacketExpireDealTrigger"/>
+				<ref bean="redPacketCancelDealTrigger"/>
+				<ref bean="appUserForbidCacheRefreshTrigger"/>
+				<ref bean="orderRejectTrigger"/>
+				<ref bean="orderRefundTrigger"/>
+				<ref bean="orderCancelTrigger"/>
+				<ref bean="orderCommissionTrigger"/>
+				<ref bean="orderMonitorSoonDealTrigger"/>
+				<ref bean="orderMonitorWaitDealTrigger"/>
+				<ref bean="orderMonitorUndealtTrigger"/>
+				<ref bean="taskFinishOrderTrigger"/>
+				<ref bean="monitorPerdayTrigger"/>
+				<ref bean="tempFileCleanTrigger"/>
+				<ref bean="lockClearTrigger"/>
+			</list>
+		</property>
+		<property name="schedulerListeners">
+			<list>
+				<ref bean="mySchedulerListener"/>
+			</list>
+		</property>
+	</bean>
+</beans>

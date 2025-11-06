@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<project name="set_env" default="make_L1_dirs" basedir=".">
+
+	<property file="build.properties" />
+
+	<target name="clear_dirs">
+		<echo message="delete temp path" />
+		<delete dir="${PACK_HOME}/dist" />
+		<delete dir="${PACK_HOME}/web" />
+	</target>
+
+	<target name="make_L1_dirs" depends="clear_dirs">
+		<echo message="create Level 1 path" />
+		<mkdir dir="${PACK_HOME}/dist" />
+		<mkdir dir="${PACK_HOME}/web" />
+	</target>
+</project>
+

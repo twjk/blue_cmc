@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="services"  namespace="/services" extends="struts-custom" >
+		<!-- 帐户与配置接口 -->
+		<action name="cfg" class="com.qcmz.cmc.ws.provide.action.TransConfigWSAction"></action>
+		<!-- 翻译接口 -->
+		<action name="trans" class="com.qcmz.cmc.ws.provide.action.TransWSAction"></action>
+		<!-- 主题接口 -->
+		<action name="theme" class="com.qcmz.cmc.ws.provide.action.ThemeWSAction"></action>
+		<!-- 每日一句接口 -->
+		<action name="day" class="com.qcmz.cmc.ws.provide.action.DayWSAction"></action>
+		<!-- 分词接口 -->
+		<action name="word" class="com.qcmz.cmc.ws.provide.action.TransWordWSAction"></action>
+
+		<!-- 图片翻译接口 -->
+		<action name="transPic" class="com.qcmz.cmc.ws.provide.action.TransPicWSAction"></action>
+		<!-- 图片翻译处理接口 -->
+		<action name="transPicDeal" class="com.qcmz.cmc.ws.provide.action.TransPicDealWSAction"></action>
+		<!-- 支付宝支付回调 -->
+		<action name="paySynAli" class="com.qcmz.cmc.ws.provide.action.PaySynAliAction"></action>
+		<!-- 微信支付回调 -->
+		<action name="paySynWeixin" class="com.qcmz.cmc.ws.provide.action.PaySynWeixinAction"></action>
+		<!-- 微信支付回调 -->
+		<action name="paySynWeixin4Mini" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4MiniAction"></action>
+		<!-- 红包微信支付回调 -->
+		<action name="paySynWeixin4RedPacket" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4RedPacketAction"></action>
+		
+		<!-- 缓存接口 -->
+		<action name="cacheSyn" class="com.qcmz.cmc.ws.provide.action.CacheSynWSAction"/>
+	</package>
+	
+	<!-- 强制https接口 -->
+	<package name="/services-ssl" namespace="/services-ssl" extends="struts-custom" >
+		<!-- 帐户与配置接口 -->
+		<action name="cfg" class="com.qcmz.cmc.ws.provide.action.TransConfigWSAction"></action>
+		<!-- 主题接口 -->
+		<action name="theme" class="com.qcmz.cmc.ws.provide.action.ThemeWSAction"></action>
+		<!-- 每日一句接口 -->
+		<action name="day" class="com.qcmz.cmc.ws.provide.action.DayWSAction"></action>
+		<!-- 分词接口 -->
+		<action name="word" class="com.qcmz.cmc.ws.provide.action.TransWordWSAction"></action>
+
+		<!-- 翻译接口 -->
+		<action name="trans" class="com.qcmz.cmc.ws.provide.action.TransWSAction"></action>
+		<!-- 译库接口 -->
+		<action name="transLib" class="com.qcmz.cmc.ws.provide.action.TransLibWSAction"></action>
+		<!-- 翻译机接口 -->
+		<action name="tm" class="com.qcmz.cmc.ws.provide.action.TransMachineWSAction"></action>
+		
+		<!-- 语音接口 -->
+		<action name="speech" class="com.qcmz.cmc.ws.provide.action.SpeechWSAction"></action>
+		
+		<!-- 钱包接口 -->
+		<action name="wallet" class="com.qcmz.cmc.ws.provide.action.WalletWSAction"></action>
+		<!-- 钱包充值接口 -->
+		<action name="walletRecharge" class="com.qcmz.cmc.ws.provide.action.WalletRechargeWSAction"></action>
+		
+		<!-- 奖励金接口 -->
+		<action name="reward" class="com.qcmz.cmc.ws.provide.action.RewardWSAction"></action>
+		
+		<!-- 订单接口 -->
+		<action name="order" class="com.qcmz.cmc.ws.provide.action.OrderWSAction"></action>
+		<!-- 资讯订阅订单接口 -->
+		<action name="articleOrder" class="com.qcmz.cmc.ws.provide.action.ArticleOrderWSAction"></action>
+		<!-- 图片翻译订单接口 -->
+		<action name="transPic" class="com.qcmz.cmc.ws.provide.action.TransPicWSAction"></action>
+		<!-- 短文快译订单接口 -->
+		<action name="transText" class="com.qcmz.cmc.ws.provide.action.TransTextWSAction"></action>
+		<!-- 视频口译订单接口 -->
+		<action name="transVideo" class="com.qcmz.cmc.ws.provide.action.TransVideoWSAction"></action>
+		<!-- 优惠券包订单接口 -->
+		<action name="packageOrder" class="com.qcmz.cmc.ws.provide.action.PackageOrderWSAction"></action>
+		
+		<!-- 翻译套餐订单接口 -->
+		<action name="transCombo" class="com.qcmz.cmc.ws.provide.action.TransComboWSAction"></action>
+		<!-- 配音订单接口 -->
+		<action name="dub" class="com.qcmz.cmc.ws.provide.action.DubWSAction"></action>
+		<!-- 众包任务订单接口 -->
+		<action name="crowdTaskOrder" class="com.qcmz.cmc.ws.provide.action.CrowTaskOrderWSAction"></action>
+
+		<!-- 订单处理接口 -->
+		<action name="orderDeal" class="com.qcmz.cmc.ws.provide.action.OrderDealWSAction"></action>
+		<!-- 图片翻译订单处理接口 -->
+		<action name="transPicDeal" class="com.qcmz.cmc.ws.provide.action.TransPicDealWSAction"></action>
+		<!-- 短文快译订单处理接口 -->
+		<action name="transTextDeal" class="com.qcmz.cmc.ws.provide.action.TransTextDealWSAction"></action>
+		<!-- 视频口译订单处理接口 -->
+		<action name="transVideoDeal" class="com.qcmz.cmc.ws.provide.action.TransVideoDealWSAction"></action>
+		
+		<!-- 众包任务接口 -->
+		<action name="crowdTask" class="com.qcmz.cmc.ws.provide.action.CrowdTaskWSAction"></action>
+		<!-- 用户众包任务接口 -->
+		<action name="userCrowdTask" class="com.qcmz.cmc.ws.provide.action.UserCrowdTaskWSAction"></action>
+		<!-- 用户众包报名审核接口 -->
+		<action name="userCrowdTaskVerify" class="com.qcmz.cmc.ws.provide.action.UserCrowdTaskVerifyWSAction"></action>
+		<!-- 用户众包报名审核接口 -->
+		<action name="userCrowdTaskQc" class="com.qcmz.cmc.ws.provide.action.UserCrowdTaskQcWSAction"></action>
+		
+		
+		<!-- 同城任务接口 -->
+		<action name="localTask" class="com.qcmz.cmc.ws.provide.action.LocalTaskWSAction"></action>
+		<!-- 招聘接口 -->
+		<action name="zhaopin" class="com.qcmz.cmc.ws.provide.action.LocalZhaopinWSAction"></action>
+		<!-- 公司接口 -->
+		<action name="company" class="com.qcmz.cmc.ws.provide.action.LocalCompanyWSAction"></action>
+		<!-- 就业信息接口 -->
+		<action name="jobArticle" class="com.qcmz.cmc.ws.provide.action.JobArticleWSAction"></action>
+		
+		<!-- 对话接口 -->
+		<action name="dialog" class="com.qcmz.cmc.ws.provide.action.DialogWSAction"></action>
+		
+		<!-- 图像识别接口 -->
+		<action name="image" class="com.qcmz.cmc.ws.provide.action.ImageRecognitionWSAction"></action>
+		
+		<!-- 尖叫红包接口 -->
+		<action name="rp" class="com.qcmz.cmc.ws.provide.action.RedPacketWSAction"></action>
+		
+		<!-- 出国翻译官支付宝支付回调 -->
+		<action name="paySynAli" class="com.qcmz.cmc.ws.provide.action.PaySynAliAction"></action>
+		<!-- 番茄翻译支付宝支付回调 -->
+		<action name="paySynAli4Tomato" class="com.qcmz.cmc.ws.provide.action.PaySynAli4TomatoAction"></action>
+		<!-- 语音聊天变声器支付宝支付回调 -->
+		<action name="paySynAli4Voice" class="com.qcmz.cmc.ws.provide.action.PaySynAli4VoiceAction"></action>
+		<!-- 众测支付宝支付回调 -->
+		<action name="paySynAli4Zc" class="com.qcmz.cmc.ws.provide.action.PaySynAli4ZcAction"></action>
+		<!-- 蓝猫星球支付宝支付回调 -->
+		<action name="paySynAli4BlueCat" class="com.qcmz.cmc.ws.provide.action.PaySynAli4BlueCatAction"></action>
+		<!-- 旅行翻译官支付宝支付回调 -->
+		<action name="paySynAli4TravelTrans" class="com.qcmz.cmc.ws.provide.action.PaySynAli4TravelTransAction"></action>
+		<!-- 标注易支付宝支付回调 -->
+		<action name="paySynAli4AnnotEase" class="com.qcmz.cmc.ws.provide.action.PaySynAli4AnnotEaseAction"></action>
+		<!-- 趣答题支付宝支付回调 -->
+		<action name="paySynAli4Quiz" class="com.qcmz.cmc.ws.provide.action.PaySynAli4QuizAction"></action>
+		
+		<!-- 出国翻译官微信支付回调 -->
+		<action name="paySynWeixin" class="com.qcmz.cmc.ws.provide.action.PaySynWeixinAction"></action>
+		<!-- 梅出过国小程序微信支付回调 -->
+		<action name="paySynWeixin4Mini" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4MiniAction"></action>
+		<!-- 尖叫红包微信支付回调 -->
+		<action name="paySynWeixin4RedPacket" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4RedPacketAction"></action>
+		<!-- 番茄翻译微信支付回调 -->
+		<action name="paySynWeixin4Tomato" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4TomatoAction"></action>
+		<!-- 语音聊天变声器微信支付回调 -->
+		<action name="paySynWeixin4Voice" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4VoiceAction"></action>
+		<!-- 众测微信支付回调 -->
+		<action name="paySynWeixin4Zc" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4ZcAction"></action>
+		<!-- 蓝猫星球微信支付回调 -->
+		<action name="paySynWeixin4BlueCat" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4BlueCatAction"></action>
+		<!-- 旅行翻译官微信支付回调 -->
+		<action name="paySynWeixin4TravelTrans" class="com.qcmz.cmc.ws.provide.action.PaySynWeixin4TravelTransAction"></action>
+	</package>
+</struts>

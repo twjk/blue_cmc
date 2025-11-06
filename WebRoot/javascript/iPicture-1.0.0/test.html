@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>iPicture first demo</title>
+<link rel="stylesheet" type="text/css" media="screen" href="css/jQuery.iPicture.css"/>
+<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/jQuery.iPicture.js"></script>
+<script type="text/javascript">
+var tagJson = '${tagJson}';
+alert(tagJson);
+jQuery(document).ready(function(){
+	$( "#iPicture" ).iPicture({
+		animation: true,
+		animationBg: "bgblack",
+		animationType: "ltr-slide",
+		pictures: ["picture1"],
+		button: "moreblack",
+		moreInfos:{"picture1":[{"id":"tooltip1","descr":"furniture: 299$","top":"185px","left":"393px"},{"id":"tooltip2","descr":"sofa: 199$","top":"346px","left":"483px"}]},
+		modify: true,
+		initialize: false
+	});
+});
+</script>
+
+</head>
+<body>
+<div id="pageContainer">
+	<h1>iPicture slideshow demo</h1>
+	<div id="slideshow">
+    <div id="iPicture">
+    <div class="slide"><div id="picture1" style="background: url('images/christmas.jpg') no-repeat scroll 0 0 #393737; width: 900px; height: 528px;position: relative; margin:0 auto;"></div></div><br/>
+	</div>	
+  </div>
+</div>
+</body>
+</html>

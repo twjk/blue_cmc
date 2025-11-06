@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<project name="build_was" default="war" basedir=".">
+
+	<property file="build.properties" />
+	<property name="OUTPUT" value="${PACK_HOME}/web/${PROJECT_NAME}" />
+	<property name="OUTPUT_WAR" value="${PACK_HOME}/dest/${PROJECT_NAME}.war" />
+	<property name="LIB" value="${PROJECT_HOME}/lib" />
+	<property name="CLASSES" value="${PACK_HOME}/dist/${PROJECT_NAME}/classes" />
+	<property name="WEB_ROOT" value="${PROJECT_HOME}/WebRoot" />
+
+	<target name="make_dirs">
+		<echo message="create web path" />
+		<mkdir dir="${OUTPUT}" />
+		<mkdir dir="${OUTPUT}/WEB-INF" />
+		<mkdir dir="${OUTPUT}/WEB-INF/lib" />
+		<mkdir dir="${OUTPUT}/WEB-INF/classes" />
+	</target>
+
+	<target name="build_web" depends="make_dirs">
+		<echo message="build web" />
+
+		<copy todir="${OUTPUT}">
+			<fileset dir="${WEB_ROOT}">
+				<include name="**/*" />
+				<exclude name="WEB-INF/lib/**/*" />
+				<exclude name="WEB-INF/classes/**/*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${OUTPUT}/WEB-INF/lib" flatten="true">
+			<fileset dir="${LIB}" includes="**/*.jar" />
+			<fileset dir="${PACK_HOME}/dist" includes="${PROJECT_NAME}.jar" />
+		</copy>
+
+		<copy todir="${OUTPUT}/WEB-INF/classes" includeemptydirs="false">
+			<fileset dir="${CLASSES}" includes="**/*" excludes="**/*.hbm.xml,**/*.class" />
+		</copy>
+	</target>
+
+	<target name="war" depends="build_web">
+		<echo message="war ${PROJECT_NAME}" />
+		<tstamp prefix="${PROJECT_NAME}">
+			<format property="TimeSign" pattern="yyyyMMdd" />
+		</tstamp>
+		<war destfile="${OUTPUT_WAR}" basedir="${OUTPUT}" webxml="${OUTPUT}/WEB-INF/web.xml" />
+	</target>
+</project>

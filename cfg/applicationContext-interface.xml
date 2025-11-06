@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+	default-autowire="byName">
+	
+	<bean id="addressingHandler" class="org.codehaus.xfire.addressing.AddressingInHandler"/>
+    
+    <!-- 翻译配置接口 -->
+	<bean name="TransConfigWS" class="org.codehaus.xfire.spring.ServiceBean">
+        <property name="serviceBean" ref="transConfigWSImpl"/>
+        <property name="serviceClass" value="com.qcmz.cmc.ws.provide.webservice.ITransConfigWS"/>
+    </bean>
+    
+    <!-- 翻译接口 -->
+	<bean name="TransWS" class="org.codehaus.xfire.spring.ServiceBean">
+        <property name="serviceBean" ref="transWSImpl"/>
+        <property name="serviceClass" value="com.qcmz.cmc.ws.provide.webservice.ITransWS"/>
+    </bean>
+    
+    <!-- 译库接口 -->
+	<bean name="TransLibWS" class="org.codehaus.xfire.spring.ServiceBean">
+        <property name="serviceBean" ref="transLibWSImpl"/>
+        <property name="serviceClass" value="com.qcmz.cmc.ws.provide.webservice.ITransLibWS"/>
+    </bean>
+    
+    <!-- 套餐订单接口 -->
+	<bean name="PackageOrderWS" class="org.codehaus.xfire.spring.ServiceBean">
+        <property name="serviceBean" ref="packageOrderWSImpl"/>
+        <property name="serviceClass" value="com.qcmz.cmc.ws.provide.webservice.IPackageOrderWS"/>
+    </bean>
+    
+    <!-- 奖励金接口 -->
+	<bean name="RewardWS" class="org.codehaus.xfire.spring.ServiceBean">
+        <property name="serviceBean" ref="rewardWSImpl"/>
+        <property name="serviceClass" value="com.qcmz.cmc.ws.provide.webservice.IRewardWS"/>
+    </bean>
+    
+</beans>
