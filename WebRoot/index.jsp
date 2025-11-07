@@ -8,6 +8,14 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/style.css">
+	<!-- Font Awesome 图标库 -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<!-- 现代化样式 -->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/modern.css?v=2.1">
 	<script language="javascript" src="<%=request.getContextPath() %>/javascript/jquery-1.11.0.min.js"></script>
 	<script language="javascript">var contextPath='<%=request.getContextPath() %>';</script>
 	<script language="Javascript" src="<%=request.getContextPath() %>/javascript/main.js"></script>
@@ -17,37 +25,38 @@
 	</style>
   </head>
   
-  <body  style="background-color: #014FA2;">
- 	<div><img id="slink" src="<%=request.getContextPath() %>/images/main/arrow_l.gif" onclick="switchBar();" alt="收起" style="cursor:pointer;position: absolute;top: 25px;left: 0px;"></div>
+  <body style="background-color: #F9FAFB;">
 	<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
-		    <td colspan="3" height="25" style="text-align: right">
-		    	<span class="Textcolor3">${sessionScope.userbean.name }（${sessionScope.userbean.username }）</span>
-		    	<a href="javascript:logout();" target="_top"><span class="Textcolor1" style="cursor: pointer;">安全退出</span></a>
+		
+		    <td colspan="3" height="25" style="text-align: right; padding: 12px 24px; position: relative;"> 
+		    	<!--<span class="Textcolor3" style="margin-right: 16px;">${sessionScope.userbean.name }（${sessionScope.userbean.username }）</span>-->
+		    	<a href="javascript:logout();" target="_top" style="color: #3B82F6; text-decoration: none; font-weight: 500; cursor: pointer;">安全退出</a>
 		    	<!-- <a href="javascript:modpwd();"><span class="Textcolor1" style="cursor: pointer;">修改密码</span></a> -->
 			</td>
 		</tr>
 		<tr>
-  			<td id="ltd" height="100%" width="15%">
+  			<td id="ltd" height="100%" style="position: relative; z-index: 100;">
 				<table width="100%" border="0" cellpadding="0" cellspacing="0" height="100%">
-				    <tr><td height="4"  bgcolor="#1C6FDC"></td></tr>
+				    <tr><td height="2"  bgcolor="#007AFF"></td></tr>
 					<tr>
-						<td height="28" bgcolor="#9AC1EF">
+						<td height="28" bgcolor="#FFFFFF" style="border-bottom: 1px solid #E5E7EB; padding: 12px 16px;">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	                       <tr>
-	                        <td align="center"><img src="<%=request.getContextPath() %>/images/home.jpg" >&nbsp;<span class="textgray14"><%=SrmClient.getAppName() %></span></td>
+	                        <td align="left" style="font-weight: 600; font-size: 15px; color: #111827;"><i class="fa-regular fa-house" style="margin-right: 8px; color: #3B82F6;"></i><%=SrmClient.getAppName() %></td>
 	                       </tr>
 	                    </table>
 						</td>
 					</tr>
 					<tr>
-				        <td  valign="top" bgcolor="#B9D6F4" height="100%">
+				        <td  valign="top" bgcolor="#F9FAFB" height="100%">
 							<iframe name="leftFrame" id="leftFrame" src="<%=request.getContextPath() %>/frame/left.jsp" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="0" scrolling="auto"></iframe>
 						</td>
 					</tr>
 				</table>
+				
 			</td>
- 			<td align="left" valign="top" height="100%" width="85%">
+ 			<td align="left" valign="top" height="100%" style="width: auto;">
 				<table width="100%" border="0" cellpadding="0" cellspacing="0" height="100%"> 
 				<tr>
 		        	<td valign="top" bgcolor="#FFFFFF" height="100%">
@@ -59,9 +68,7 @@
   		</tr>
 		<tr><td colspan="3">
 		<table width="100%" border="0" cellpadding="0" cellspacing="0">
-			<tr>
-			  <td class="bottom">北京蓝色链接科技有限公司 版权所有 </td>
-			</tr>
+			
 		</table>
 		</td><tr>
 	</table>

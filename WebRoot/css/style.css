@@ -180,7 +180,7 @@ background-color: #8dbdd8;
 /**评价*/
 .eval{cursor: pointer;border:1px solid #05a4ff;padding: 2px;color:#05a4ff}
 
-#qryForm input{width:153px;}
+/* #qryForm input{width:153px;} */ /* 已由modern.css覆盖，注释掉以避免冲突 */
 #qryForm select{width:153px;}
 
 #editForm input{width:200px;}

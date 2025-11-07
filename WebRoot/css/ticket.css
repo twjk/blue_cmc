@@ -40,7 +40,7 @@ img {
 	width:100%;
 	height:32px; 
 	line-height:32px;
-	background-image:url(../images/top-t.jpg);
+	/* background-image:url(../images/top-t.jpg); 已移除渐变背景 */
 	vertical-align:middle; padding:0px; margin:0px
 }
 

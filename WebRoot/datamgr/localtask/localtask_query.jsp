@@ -31,12 +31,8 @@
 		<table border="0" align="center" cellpadding="0" cellspacing="4" width="100%" class="condition" >
 		    <tr height="6"><td colspan="6"></td></tr>
 			<tr>
-				<td class="textRight" width="8%">公司：</td>
-				<td class="textLeft" width="25%">
-					<input id="qry_companyname" name="companyname" />
-					&nbsp;
-					<input type="checkbox" name="isact" value="true" style="width:20px;" >活动
-				</td>
+				<td class="textRight">创建途径：</td>
+				<td class="textLeft"><dict:select id="qry_createwary" name="createway" field="localTaskCreateWay" inithead="0"/></td>
 				<td class="textRight" width="8%">岗位：</td>
 				<td class="textLeft"  width="25%"><input id="qry_title" name="title" /></td>
 				<td class="textRight" width="9%">状态：</td>
@@ -54,8 +50,10 @@
 				<td class="textLeft"><input name="sourcename" type="text"></td>
 			</tr>
 			<tr>
-				<td class="textRight">创建途径：</td>
-				<td class="textLeft"><dict:select id="qry_createwary" name="createway" field="localTaskCreateWay" inithead="0"/></td>
+				<td class="textRight" width="8%">公司：</td>
+				<td class="textLeft" width="25%">
+					<input id="qry_companyname" name="companyname" />活动<input type="checkbox" name="isact" value="true" style="width:20px;" >
+				</td>
 				<td class="textRight"></td>
 				<td class="textLeft"></td>
 				<td class="textRight"></td>

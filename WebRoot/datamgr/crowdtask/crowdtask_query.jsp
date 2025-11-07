@@ -18,7 +18,7 @@
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" height="32">
 		<tr>
 		    <td width="1%">&nbsp;</td>
-		    <td width="1%"><img src="<lt:contextPath/>/images/wei.jpg" ></td>
+		    <td width="1%"><i class="fa-solid fa-location-dot" style="color: #007AFF;"></i></td>
 		    <td width="98%" class="text12black">&nbsp;现在您的位置：任务管理  &gt;&gt; 众包任务维护</td>
 		</tr>
 		</table>

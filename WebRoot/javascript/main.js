@@ -69,19 +69,129 @@ function showBgiframe(id,x,y){
 }
 
 /*
- * 显示或隐藏左侧功能树帧
+ * 显示或隐藏左侧功能树帧 - Cloudflare风格平滑动画
+ * 收起时只显示图标，展开时显示图标+文字
  */
 function switchBar(){
-	var img = $("#slink")
+	console.log('switchBar called');
+	var btn = $("#slink");
 	var ltd = $("#ltd");
-	if(img.attr("src") == contextPath+"/images/main/arrow_l.gif" ){
-		ltd.hide();
-		img.attr("src",contextPath+"/images/main/arrow_r.gif");
-		img.attr("alt","展开");
+	
+	if(!ltd || ltd.length === 0) {
+		console.error('找不到ltd元素');
+		ltd = document.getElementById("ltd");
+	}
+	
+	if(!ltd) {
+		console.error('无法找到侧边栏元素');
+		return;
+	}
+	
+	var isCollapsed = false;
+	if(typeof jQuery !== 'undefined' && ltd.jquery) {
+		isCollapsed = ltd.hasClass("sidebar-collapsed");
+	} else {
+		isCollapsed = ltd.classList.contains("sidebar-collapsed");
+	}
+	
+	console.log('当前状态 - isCollapsed:', isCollapsed);
+	
+	var leftFrame = document.getElementById("leftFrame");
+	
+	if(isCollapsed){
+		// 展开侧边栏
+		console.log('展开侧边栏');
+		if(typeof jQuery !== 'undefined' && ltd.jquery) {
+			ltd.removeClass("sidebar-collapsed");
+		} else {
+			ltd.classList.remove("sidebar-collapsed");
+		}
+		if(btn && btn.length > 0) {
+			btn.removeClass("collapsed");
+			btn.find("i").removeClass("fa-angles-right").addClass("fa-angles-left");
+			btn.attr("alt","收起");
+			btn.attr("title","收起侧边栏");
+		} else {
+			var btnEl = document.getElementById("slink");
+			if(btnEl) {
+				btnEl.classList.remove("collapsed");
+				var icon = btnEl.querySelector("i");
+				if(icon) {
+					icon.classList.remove("fa-angles-right");
+					icon.classList.add("fa-angles-left");
+				}
+				btnEl.setAttribute("alt","收起");
+				btnEl.setAttribute("title","收起侧边栏");
+			}
+		}
+		// 保存状态到 localStorage
+		localStorage.setItem("sidebarCollapsed", "false");
 	}
 	else{
-		ltd.show();
-		img.attr("src",contextPath+"/images/main/arrow_l.gif");
-		img.attr("alt","收起");
+		// 收起侧边栏
+		console.log('收起侧边栏');
+		if(typeof jQuery !== 'undefined' && ltd.jquery) {
+			ltd.addClass("sidebar-collapsed");
+		} else {
+			ltd.classList.add("sidebar-collapsed");
+		}
+		if(btn && btn.length > 0) {
+			btn.addClass("collapsed");
+			btn.find("i").removeClass("fa-angles-left").addClass("fa-angles-right");
+			btn.attr("alt","展开");
+			btn.attr("title","展开侧边栏");
+		} else {
+			var btnEl = document.getElementById("slink");
+			if(btnEl) {
+				btnEl.classList.add("collapsed");
+				var icon = btnEl.querySelector("i");
+				if(icon) {
+					icon.classList.remove("fa-angles-left");
+					icon.classList.add("fa-angles-right");
+				}
+				btnEl.setAttribute("alt","展开");
+				btnEl.setAttribute("title","展开侧边栏");
+			}
+		}
+		// 保存状态到 localStorage
+		localStorage.setItem("sidebarCollapsed", "true");
+	}
+	
+	// 通知iframe内部更新状态
+	if(leftFrame && leftFrame.contentWindow) {
+		try {
+			leftFrame.contentWindow.postMessage({type: 'sidebar-toggle', collapsed: !isCollapsed}, '*');
+		} catch(e) {
+			console.log('无法通知iframe:', e);
+		}
 	}
 }
+
+// 页面加载时恢复侧边栏状态
+$(document).ready(function(){
+	var isCollapsed = localStorage.getItem("sidebarCollapsed") === "true";
+	var btn = $("#slink");
+	var ltd = $("#ltd");
+	var leftFrame = document.getElementById("leftFrame");
+	
+	if(isCollapsed){
+		ltd.addClass("sidebar-collapsed");
+		btn.addClass("collapsed");
+		if(btn.find("i").length > 0){
+			btn.find("i").removeClass("fa-angles-left").addClass("fa-angles-right");
+		}
+		btn.attr("alt","展开");
+		btn.attr("title","展开侧边栏");
+		
+		// 通知iframe内部更新状态
+		setTimeout(function(){
+			if(leftFrame && leftFrame.contentWindow) {
+				try {
+					leftFrame.contentWindow.postMessage({type: 'sidebar-toggle', collapsed: true}, '*');
+				} catch(e) {
+					console.log('无法通知iframe:', e);
+				}
+			}
+		}, 500);
+	}
+});

@@ -1,0 +1,1512 @@
+/**
+ * Cloudflare风格 UI样式
+ * 模仿 Cloudflare 的极简、现代设计风格
+ */
+
+/* ========== CSS变量定义 - Cloudflare配色 ========== */
+:root {
+    /* 主色调 - Cloudflare蓝色 */
+    --primary-color: #F6821F; /* Cloudflare橙色，但我们可以用蓝色 */
+    --primary-blue: #3B82F6; /* 更接近Cloudflare的蓝色 */
+    --primary-hover: #2563EB;
+    --primary-light: #EFF6FF;
+    
+    /* 背景色 - Cloudflare风格 */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F9FAFB;
+    --bg-tertiary: #F3F4F6;
+    --bg-sidebar: #F9FAFB;
+    
+    /* 文字颜色 */
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-tertiary: #9CA3AF;
+    
+    /* 边框颜色 */
+    --border-color: #E5E7EB;
+    --border-light: #F3F4F6;
+    
+    /* 间距 */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* 圆角 */
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-full: 9999px;
+    
+    /* 阴影 */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* ========== 全局重置 ========== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    color: var(--text-primary) !important;
+    background-color: var(--bg-secondary) !important;
+    line-height: 1.5;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px;
+}
+
+/* ========== 主框架布局 - Cloudflare风格 ========== */
+body[style*="background-color"] {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* 顶部导航栏 - Cloudflare风格 */
+td[height="25"][colspan="3"] {
+    background-color: var(--bg-primary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 12px 24px !important;
+    height: auto !important;
+    box-shadow: none !important; /* Cloudflare不使用阴影 */
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+td[height="25"][colspan="3"] .Textcolor3 {
+    color: var(--text-primary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+td[height="25"][colspan="3"] a {
+    color: var(--primary-blue) !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    transition: color 0.15s ease !important;
+}
+
+td[height="25"][colspan="3"] a:hover {
+    color: var(--primary-hover) !important;
+    text-decoration: underline !important;
+}
+
+/* 左侧菜单区域 */
+td[bgcolor="#B9D6F4"],
+td[bgcolor="#FFFFFF"],
+td[id="ltd"],
+td#ltd {
+    background-color: var(--bg-sidebar) !important;
+    border-right: 1px solid var(--border-color) !important;
+    width: 240px !important; /* Cloudflare侧边栏宽度 */
+    min-width: 240px !important;
+    max-width: 240px !important;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+/* 侧边栏收起状态 - 只显示图标，宽度缩小到60px */
+td#ltd.sidebar-collapsed,
+td[id="ltd"].sidebar-collapsed,
+td[id="ltd"][class*="sidebar-collapsed"] {
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+    z-index: 1000 !important; /* 收起时确保在最上层 */
+    position: relative !important;
+}
+
+/* 侧边栏收起时，隐藏文字，只显示图标 */
+td[id="ltd"].sidebar-collapsed iframe {
+    pointer-events: auto !important;
+}
+
+/* 侧边栏标题收起时隐藏文字 */
+td[id="ltd"].sidebar-collapsed td[height="28"] {
+    padding: 12px 8px !important;
+    text-align: center !important;
+}
+
+td[id="ltd"].sidebar-collapsed td[height="28"] table td {
+    text-align: center !important;
+}
+
+td[id="ltd"].sidebar-collapsed td[height="28"] i {
+    margin-right: 0 !important;
+}
+
+td[id="ltd"].sidebar-collapsed td[height="28"] .Textcolor3,
+td[id="ltd"].sidebar-collapsed td[height="28"] span:not(:has(i)) {
+    display: none !important;
+}
+
+/* 左侧菜单iframe容器 */
+td[valign="top"][bgcolor="#FFFFFF"]:has(iframe[name="leftFrame"]) {
+    background-color: var(--bg-sidebar) !important;
+}
+
+/* 左侧菜单iframe - 允许滚动 */
+iframe[name="leftFrame"] {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* 左侧菜单滚动条样式 - 美化滚动条 */
+iframe[name="leftFrame"]::-webkit-scrollbar {
+    width: 8px;
+}
+
+iframe[name="leftFrame"]::-webkit-scrollbar-track {
+    background: #F9FAFB;
+}
+
+iframe[name="leftFrame"]::-webkit-scrollbar-thumb {
+    background: #D1D5DB;
+    border-radius: 4px;
+}
+
+iframe[name="leftFrame"]::-webkit-scrollbar-thumb:hover {
+    background: #9CA3AF;
+}
+
+/* 左侧菜单标题栏 */
+td[height="28"][bgcolor],
+td[bgcolor="#9AC1EF"],
+td[bgcolor="#FAFAFA"],
+td[bgcolor="#FFFFFF"][style*="border-bottom"] {
+    background-color: var(--bg-primary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 12px 16px !important;
+    height: auto !important;
+    line-height: 1.5 !important;
+    vertical-align: middle !important;
+}
+
+/* 菜单标题文字样式 */
+td[height="28"][bgcolor] td,
+td[bgcolor="#FFFFFF"][style*="border-bottom"] td {
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    color: var(--text-primary) !important;
+    line-height: 1.5 !important;
+    vertical-align: middle !important;
+}
+
+td[height="28"][bgcolor] i,
+td[bgcolor="#FFFFFF"][style*="border-bottom"] i {
+    color: var(--primary-blue) !important;
+    margin-right: 8px !important;
+}
+
+/* 顶部装饰条 */
+td[bgcolor="#1C6FDC"],
+td[bgcolor="#007AFF"] {
+    background-color: transparent !important;
+    height: 0 !important;
+    display: none !important;
+}
+
+/* 右侧内容区域 */
+td[bgcolor="#FFFFFF"][valign="top"]:not([id="ltd"]) {
+    background-color: var(--bg-primary) !important;
+    padding: 0 !important; /* 移除所有padding，让面包屑导航可以对齐 */
+    position: relative !important;
+    z-index: 1 !important; /* 确保在主内容区，但低于侧边栏 */
+}
+
+/* iframe内部body样式 - 移除顶部间距 */
+iframe[name="mainFrame"] {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 确保iframe内部body没有顶部间距 - 通过CSS变量注入到iframe */
+/* 注意：这需要在iframe内部页面也加载modern.css才能生效 */
+
+/* ========== 左侧菜单 - Cloudflare风格 ========== */
+body[style*="background-color:#B9D6F4"],
+body[style*="background-color:#FFFFFF"],
+iframe[name="leftFrame"] {
+    background-color: var(--bg-sidebar) !important;
+}
+
+#nav {
+    border: none !important;
+    background: transparent !important;
+    padding: 8px 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+#nav > li {
+    margin: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    list-style: none !important;
+}
+
+#nav > li > a {
+    color: #1F2937 !important; /* 非激活文字：深灰色/近黑色 */
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    padding: 10px 16px !important;
+    border-radius: var(--radius-md) !important;
+    margin: 2px 8px !important;
+    display: block !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+    line-height: 1.5 !important;
+}
+
+/* 非激活状态：悬停时背景变浅灰，文字保持深灰 */
+#nav > li > a:hover {
+    background-color: #F9FAFB !important; /* 悬停背景：浅灰色 */
+    color: #1F2937 !important; /* 悬停文字：保持深灰色 */
+}
+
+/* 非激活状态：悬停时图标变蓝 */
+#nav > li > a:hover i[class*="fa-"] {
+    color: #3B82F6 !important; /* 悬停图标：鲜艳中蓝色 */
+}
+
+/* 确保图标始终显示 - 直接针对Font Awesome类，使用最高优先级 */
+#nav > li > a i.fa-solid,
+#nav > li > a i.fa-regular,
+#nav > li > a i.fa-brands,
+#nav > li > a i[class*="fa-solid"],
+#nav > li > a i[class*="fa-regular"],
+#nav > li > a i[class*="fa-brands"],
+#nav > li > a i[class*="fa-"],
+#nav > li > a > i {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    max-width: 20px !important;
+    font-size: 18px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #6B7280 !important; /* 非激活图标：中灰色 */
+    flex-shrink: 0 !important;
+    transition: color 0.15s ease !important;
+    /* Font Awesome 6 必须属性 - 覆盖所有其他样式 */
+    font-family: "Font Awesome 6 Free", "FontAwesome" !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    line-height: 1 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    speak: none !important;
+}
+
+/* Regular线条图标使用400字重 */
+#nav > li > a i.fa-regular,
+#nav > li > a i[class*="fa-regular"] {
+    font-weight: 400 !important;
+    color: #6B7280 !important; /* 非激活状态：中灰色 */
+}
+
+/* Solid实心图标使用900字重（作为fallback） */
+#nav > li > a i.fa-solid,
+#nav > li > a i[class*="fa-solid"] {
+    font-weight: 900 !important;
+    color: #6B7280 !important; /* 非激活状态：中灰色 */
+}
+
+/* Regular线条图标的::before使用400字重 */
+#nav > li > a i.fa-regular::before,
+#nav > li > a i[class*="fa-regular"]::before {
+    font-weight: 400 !important;
+}
+
+/* Solid实心图标的::before使用900字重 */
+#nav > li > a i.fa-solid::before,
+#nav > li > a i[class*="fa-solid"]::before {
+    font-weight: 900 !important;
+}
+
+/* Font Awesome图标通过::before伪元素显示，确保正确渲染 - 最高优先级 */
+/* 注意：Font Awesome的content是由CSS根据类名自动设置的，我们不能覆盖它 */
+#nav > li > a i.fa-solid::before,
+#nav > li > a i.fa-regular::before,
+#nav > li > a i.fa-brands::before,
+#nav > li > a i[class*="fa-solid"]::before,
+#nav > li > a i[class*="fa-regular"]::before,
+#nav > li > a i[class*="fa-brands"]::before {
+    font-family: "Font Awesome 6 Free", "FontAwesome" !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    display: inline-block !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    speak: none !important;
+    /* 不设置content，让Font Awesome CSS自动设置 */
+}
+
+/* Solid图标的::before使用900字重 */
+#nav > li > a i.fa-solid::before,
+#nav > li > a i[class*="fa-solid"]::before {
+    font-weight: 900 !important;
+}
+
+/* Regular图标的::before使用400字重 */
+#nav > li > a i.fa-regular::before,
+#nav > li > a i[class*="fa-regular"]::before {
+    font-weight: 400 !important;
+}
+
+/* 非激活状态：悬停时图标变蓝 */
+#nav > li > a:hover i[class*="fa-"] {
+    color: #3B82F6 !important; /* 悬停时：鲜艳中蓝色 */
+}
+
+/* 激活状态：背景浅蓝色，图标和文字都是鲜艳中蓝色 */
+#nav li.sfhover > a,
+#nav li > a.active {
+    background-color: #E0F2FE !important; /* 激活背景：浅蓝色 */
+    color: #3B82F6 !important; /* 激活文字：鲜艳中蓝色 */
+}
+
+#nav li.sfhover > a i[class*="fa-"],
+#nav li > a.active i[class*="fa-"] {
+    color: #3B82F6 !important; /* 激活图标：鲜艳中蓝色 */
+}
+
+/* 删除重复的激活状态样式，已在上面定义 */
+
+#nav li.sfhover > a .fa-icon-menu,
+#nav li > a.active .fa-icon-menu,
+#nav li:hover > a .fa-icon-menu {
+    color: #FFFFFF !important;
+}
+
+/* 二级菜单 */
+#nav li ul {
+    background: transparent !important;
+    margin: 4px 0 8px 0 !important;
+    padding-left: 0 !important;
+    list-style: none !important;
+}
+
+#nav li ul li {
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    list-style: none !important;
+}
+
+#nav li ul a {
+    color: var(--text-secondary) !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+    padding: 8px 16px 8px 48px !important; /* 与一级菜单文字对齐：16px(padding) + 20px(图标) + 12px(gap) = 48px */
+    border-radius: var(--radius-md) !important;
+    margin: 1px 8px !important;
+    display: block !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+    line-height: 1.5 !important;
+}
+
+#nav li ul a:hover {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--primary-blue) !important;
+}
+
+/* 二级菜单激活状态 - 浅灰背景+蓝色文字（与截图效果一致） */
+#nav li ul a.active {
+    background-color: #F3F4F6 !important;
+    color: #3B82F6 !important;
+    font-weight: 500 !important;
+}
+
+/* 确保激活状态的优先级高于hover状态 */
+#nav li ul a.active:hover {
+    background-color: #F3F4F6 !important;
+    color: #3B82F6 !important;
+}
+
+/* 去除二级菜单的圆点 */
+#nav li ul a::before {
+    content: '' !important;
+    display: none !important;
+}
+
+/* 确保菜单项没有默认的list样式 */
+#nav li,
+#nav li ul li {
+    list-style: none !important;
+    list-style-type: none !important;
+}
+
+/* 菜单项之间的间距 */
+#nav > li {
+    margin-bottom: 2px !important;
+}
+
+/* 展开的菜单项样式 */
+#nav li ul.expanded {
+    display: block !important;
+}
+
+/* 菜单项图标 - Cloudflare风格 */
+#nav > li > a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 16px !important;
+    position: relative !important;
+    min-height: 40px !important;
+    white-space: nowrap !important;
+}
+
+/* 确保图标和文字不重叠 - 图标固定宽度，不伸缩 */
+#nav > li > a i[class*="fa-"] {
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    width: 20px !important;
+    min-width: 20px !important;
+    max-width: 20px !important;
+    margin-right: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 侧边栏收起时，确保图标显示并居中 - 最高优先级 */
+td[id="ltd"].sidebar-collapsed #nav > li > a i[class*="fa-"],
+td[id="ltd"].sidebar-collapsed #nav > li > a > i,
+td[id="ltd"].sidebar-collapsed #nav > li > a i,
+body.sidebar-collapsed #nav > li > a i[class*="fa-"],
+body.sidebar-collapsed #nav > li > a > i,
+body.sidebar-collapsed #nav > li > a i {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    max-width: 20px !important;
+    font-size: 18px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    font-family: "Font Awesome 6 Free", "FontAwesome" !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    color: #6B7280 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* 确保图标的::before伪元素也显示 */
+td[id="ltd"].sidebar-collapsed #nav > li > a i[class*="fa-"]::before,
+td[id="ltd"].sidebar-collapsed #nav > li > a > i::before,
+td[id="ltd"].sidebar-collapsed #nav > li > a i::before,
+body.sidebar-collapsed #nav > li > a i[class*="fa-"]::before,
+body.sidebar-collapsed #nav > li > a > i::before,
+body.sidebar-collapsed #nav > li > a i::before {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-family: "Font Awesome 6 Free", "FontAwesome" !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
+
+/* 侧边栏收起时，确保CMC文字显示 */
+td[id="ltd"].sidebar-collapsed #nav > li > a span[data-cmc="true"],
+body.sidebar-collapsed #nav > li > a span[data-cmc="true"] {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 40px !important;
+    height: 20px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    margin-right: 0 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #3B82F6 !important;
+    background-color: #E0F2FE !important;
+    border-radius: 4px !important;
+}
+
+/* 确保文字部分可以正常显示，不被图标覆盖 */
+#nav > li > a span {
+    flex: 1 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    color: inherit !important; /* 继承父元素的颜色 */
+}
+
+#nav > li > a .fa-icon-menu {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    display: inline-block !important;
+    text-align: center !important;
+    line-height: 20px !important;
+    font-size: 18px !important;
+    color: var(--text-secondary) !important;
+    flex-shrink: 0 !important;
+    transition: all 0.15s ease !important;
+    font-family: 'Font Awesome 6 Free' !important;
+    font-weight: 900 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* 确保Font Awesome图标正确显示 */
+#nav > li > a .fa-icon-menu::before {
+    display: inline-block !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+}
+
+#nav > li > a:hover .fa-icon-menu {
+    color: var(--primary-blue) !important;
+}
+
+#nav > li > a span {
+    flex: 1 !important;
+    line-height: 1.5 !important;
+}
+
+/* 二级菜单图标（可选） */
+#nav li ul a .fa-icon-submenu {
+    width: 14px !important;
+    height: 14px !important;
+    display: inline-block !important;
+    margin-right: 8px !important;
+    font-size: 12px !important;
+    color: var(--text-tertiary) !important;
+    text-align: center !important;
+}
+
+#nav li ul a:hover .fa-icon-submenu {
+    color: var(--primary-blue) !important;
+}
+
+/* ========== 按钮样式 - Cloudflare风格（轮廓按钮） ========== */
+.btn1, .btn2, .btn3, .btn5, .btn8, .btn40,
+.button01, .button02, .button03, .button04,
+#qryForm .btn2, #editForm .btn2,
+#qryForm .btn3, #editForm .btn3,
+#qryForm .btn5, #editForm .btn5 {
+    background: #FFFFFF !important; /* 白色背景 */
+    background-image: none !important;
+    color: var(--primary-blue) !important; /* 蓝色文字 */
+    border: 1px solid var(--primary-blue) !important; /* 蓝色边框 */
+    border-radius: var(--radius-md) !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    box-shadow: none !important; /* 移除阴影 */
+    height: auto !important;
+    width: auto !important;
+    min-width: 80px !important;
+    line-height: 1.5 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+}
+
+/* 按钮图标 */
+.btn1 i, .btn2 i, .btn3 i, .btn5 i,
+.button01 i, .button02 i, .button03 i, .button04 i {
+    font-size: 14px !important;
+    margin: 0 !important;
+}
+
+.btn1:hover, .btn2:hover, .btn3:hover, .btn5:hover,
+.button01:hover, .button02:hover, .button03:hover, .button04:hover,
+#qryForm .btn2:hover, #editForm .btn2:hover {
+    background: var(--primary-light) !important; /* hover时浅蓝背景 */
+    color: var(--primary-hover) !important; /* hover时深蓝文字 */
+    border-color: var(--primary-hover) !important; /* hover时深蓝边框 */
+    box-shadow: none !important;
+    transform: none !important; /* 移除上移效果 */
+}
+
+/* 重置按钮 - 与其他按钮保持一致的轮廓风格 */
+.btn2[type="reset"] {
+    background: #FFFFFF !important;
+    color: var(--primary-blue) !important;
+    border: 1px solid var(--primary-blue) !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+}
+
+.btn2[type="reset"]:hover {
+    background: var(--primary-light) !important;
+    color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+    text-decoration: none !important;
+    transform: none !important;
+}
+
+/* ========== 表格样式 - Cloudflare极简风格 ========== */
+.resultListFence {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-sm) !important;
+    overflow: hidden;
+    width: 100% !important;
+    margin: var(--spacing-lg) 0 !important;
+}
+
+.resultListFence th {
+    background: var(--bg-secondary) !important;
+    background-image: none !important;
+    color: var(--text-secondary) !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 12px 16px !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    height: auto !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
+    position: relative !important;
+}
+
+/* 表格排序图标 - Cloudflare风格 */
+.resultListFence th[style*="cursor"] {
+    cursor: pointer !important;
+    user-select: none !important;
+}
+
+.resultListFence th[style*="cursor"]:hover {
+    background-color: var(--bg-tertiary) !important;
+}
+
+.resultListFence th[style*="cursor"]::after {
+    content: '\f0dc' !important; /* Font Awesome sort icon */
+    font-family: 'Font Awesome 6 Free' !important;
+    font-weight: 400 !important;
+    font-size: 10px !important;
+    color: var(--text-tertiary) !important;
+    margin-left: 6px !important;
+    opacity: 0.5 !important;
+}
+
+.resultListFence th[style*="cursor"]:hover::after {
+    opacity: 1 !important;
+    color: var(--primary-blue) !important;
+}
+
+.resultListFence td {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border-light) !important;
+    padding: 16px !important;
+    font-size: 14px !important;
+    height: auto !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
+}
+
+.resultListFence tr {
+    background-color: var(--bg-primary) !important;
+    transition: background-color 0.15s ease !important;
+}
+
+.resultListFence tr:hover td {
+    background-color: var(--bg-secondary) !important;
+}
+
+.resultListFence tr:last-child td {
+    border-bottom: none !important;
+}
+
+.resultListFence tr.t3 td {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* ========== 表头样式 ========== */
+.tableHeader, .tableHeaderNoBottom {
+    background: var(--bg-primary) !important;
+    background-image: none !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    padding: 16px 20px !important;
+    height: auto !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+}
+
+/* ========== 表单样式 - Cloudflare风格 ========== */
+/* 统一所有文本输入框的样式 - 包括没有type属性的input */
+input[type="text"], 
+input[type="password"], 
+input[type="number"],
+input:not([type]), /* 匹配没有type属性的input（浏览器默认text类型） */
+input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="image"]),
+textarea, 
+select {
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important; /* 6px圆角，与"城市"字段一致 */
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    color: var(--text-primary) !important;
+    background-color: var(--bg-primary) !important;
+    transition: all 0.15s ease !important;
+    height: auto !important;
+    width: 100% !important;
+    min-width: 200px !important; /* 确保最小宽度，避免输入框太小 */
+    max-width: 100% !important;
+    box-sizing: border-box !important; /* 确保padding不会影响宽度 */
+}
+
+/* ========== 强制覆盖style.css中的输入框宽度限制 ========== */
+/* 直接覆盖 #qryForm input{width:153px;} 规则 - 使用最高优先级选择器 */
+/* 关键：必须覆盖所有 #qryForm input，包括没有显式type="text"的input */
+/* 因为"公司"和"岗位"字段的input没有type属性，浏览器默认是text类型 */
+/* 合并所有选择器到一个规则中，确保覆盖所有情况 */
+#qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+#qryForm input[type="text"],
+#qryForm input:not([type]),
+#qryForm input[type="password"],
+#qryForm input[type="number"],
+.condition input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition input[type="text"],
+.condition input:not([type]),
+.condition input[type="password"],
+.condition input[type="number"],
+.condition #qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition #qryForm input[type="text"],
+.condition #qryForm input:not([type]),
+.condition #qryForm input[type="password"],
+.condition #qryForm input[type="number"],
+form#qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+form#qryForm input[type="text"],
+form#qryForm input:not([type]),
+form#qryForm input[type="password"],
+form#qryForm input[type="number"],
+.condition form#qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition form#qryForm input[type="text"],
+.condition form#qryForm input:not([type]),
+.condition form#qryForm input[type="password"],
+.condition form#qryForm input[type="number"],
+.condition td input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition td input[type="text"],
+.condition td input:not([type]),
+.condition td input[type="password"],
+.condition td input[type="number"],
+.condition td #qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition td #qryForm input[type="text"],
+.condition td #qryForm input:not([type]),
+.condition td #qryForm input[type="password"],
+.condition td #qryForm input[type="number"],
+table.condition #qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+table.condition #qryForm input[type="text"],
+table.condition #qryForm input:not([type]),
+table.condition #qryForm input[type="password"],
+table.condition #qryForm input[type="number"],
+.condition table #qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition table #qryForm input[type="text"],
+.condition table #qryForm input:not([type]),
+.condition table #qryForm input[type="password"],
+.condition table #qryForm input[type="number"] {
+    width: 100% !important; /* 覆盖style.css中的153px固定宽度 */
+    min-width: 200px !important; /* 最小宽度，确保不会太小 */
+    max-width: 100% !important;
+    border-radius: var(--radius-md) !important; /* 6px圆角 */
+    border: 1px solid var(--border-color) !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+    display: block !important; /* 确保输入框是块级元素，可以填满容器 */
+}
+
+input[type="text"]:focus, input[type="password"]:focus, 
+input[type="number"]:focus, textarea:focus, select:focus {
+    outline: none !important;
+    border-color: var(--primary-blue) !important;
+    box-shadow: 0 0 0 3px var(--primary-light) !important;
+}
+
+input[type="text"]:hover, input[type="password"]:hover,
+select:hover {
+    border-color: var(--text-tertiary) !important;
+}
+
+/* ========== 查询条件区域 - Cloudflare卡片风格 ========== */
+/* 查询区域容器 - 往上缩进10px */
+#searchArea {
+    margin-top: 0 !important; /* 移除顶部margin，让condition面板可以往上移动 */
+}
+
+.condition {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: var(--spacing-lg) !important;
+    margin: var(--spacing-lg) 0 !important;
+    margin-top: 12px !important; /* 往上缩进12px：24px - 12px = 12px */
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.condition table {
+    width: 100% !important;
+}
+
+.condition td {
+    padding: 8px 4px !important;
+    vertical-align: middle !important;
+}
+
+/* 确保输入面板中的输入框容器有足够的宽度 */
+.condition td.textLeft,
+.condition td.textRight {
+    width: auto !important;
+    min-width: 0 !important;
+}
+
+/* 输入面板中的输入框容器 - 允许在同一行显示多个控件 */
+.condition td.textLeft,
+.condition td.textRight {
+    position: relative !important; /* 为浮动元素提供定位上下文 */
+}
+
+/* 输入面板中的输入框 - 统一宽度和圆角样式，覆盖style.css中的固定宽度 */
+/* 使用最通用的选择器，确保覆盖所有input */
+.condition td.textLeft input:not([type="checkbox"]):not([type="radio"]),
+.condition td.textRight input:not([type="checkbox"]):not([type="radio"]),
+.condition td input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition td input[type="text"],
+.condition td input:not([type]),
+.condition td input[type="password"],
+.condition td input[type="number"],
+.condition td #qryForm input,
+.condition td #qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition td #qryForm input[type="text"],
+.condition td #qryForm input:not([type]),
+.condition td #qryForm input[type="password"],
+.condition td #qryForm input[type="number"],
+.condition td form#qryForm input,
+.condition td form#qryForm input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.condition td form#qryForm input[type="text"],
+.condition td form#qryForm input:not([type]),
+.condition td form#qryForm input[type="password"],
+.condition td form#qryForm input[type="number"] {
+    width: 100% !important;
+    min-width: 200px !important; /* 最小宽度，确保不会太小 */
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    border-radius: var(--radius-md) !important; /* 6px圆角，与"城市"字段一致 */
+    border: 1px solid var(--border-color) !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    display: inline-block !important; /* 改为inline-block，允许在同一行显示 */
+    vertical-align: middle !important;
+}
+
+/* 输入框后面有复选框的情况 - 让复选框和文字靠右对齐 */
+.condition td.textLeft:has(input[type="checkbox"]),
+.condition td.textRight:has(input[type="checkbox"]) {
+    white-space: nowrap !important; /* 防止换行 */
+    overflow: visible !important; /* 允许重叠 */
+    line-height: 1.5 !important;
+    font-size: 14px !important;
+    text-align: right !important; /* 让整个td内容右对齐，包括复选框和文字 */
+}
+
+/* 输入框后面紧跟着复选框 - 复选框和文字靠右对齐 */
+.condition td.textLeft input:not([type="checkbox"]):not([type="radio"]) + input[type="checkbox"],
+.condition td.textLeft input:not([type="checkbox"]):not([type="radio"]) ~ input[type="checkbox"],
+.condition td.textRight input:not([type="checkbox"]):not([type="radio"]) + input[type="checkbox"],
+.condition td.textRight input:not([type="checkbox"]):not([type="radio"]) ~ input[type="checkbox"] {
+    float: none !important; /* 取消浮动，使用text-align */
+    margin-left: 4px !important; /* 复选框和文字之间的间距 */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+    vertical-align: middle !important;
+    z-index: 10 !important;
+    width: 20px !important;
+    height: 20px !important;
+    flex-shrink: 0 !important;
+    display: inline-block !important;
+}
+
+/* 复选框后面的文字节点会自然跟随复选框（因为text-align: right） */
+/* 确保输入框在有复选框时不会占满整行，为复选框和文字留出空间 */
+.condition td.textLeft:has(input[type="checkbox"]) > input:not([type="checkbox"]):not([type="radio"]),
+.condition td.textRight:has(input[type="checkbox"]) > input:not([type="checkbox"]):not([type="radio"]) {
+    width: calc(100% - 80px) !important; /* 为复选框和文字留出空间（复选框20px + 文字约40px + 间距） */
+    max-width: calc(100% - 80px) !important;
+    margin-right: 0 !important;
+    float: none !important; /* 确保输入框不浮动 */
+    display: inline-block !important; /* 保持inline-block以便与复选框在同一行 */
+}
+
+/* 确保表格列不会限制输入框宽度 - 移除HTML中的width属性限制 */
+.condition table td[width],
+.condition table td[width="25%"],
+.condition table td[width="8%"],
+.condition table td[width="9%"] {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+}
+
+/* 确保包含输入框的td列有足够的宽度 - 更激进的覆盖 */
+.condition table tr td.textLeft[width="25%"],
+.condition table tr td.textRight[width="25%"],
+.condition table tr td.textLeft,
+.condition table tr td.textRight {
+    width: auto !important;
+    min-width: 200px !important;
+    max-width: none !important;
+}
+
+/* 确保包含input的td有足够空间 */
+.condition td:has(input:not([type="button"]):not([type="reset"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"])) {
+    width: auto !important;
+    min-width: 200px !important;
+    max-width: none !important;
+}
+
+/* 确保包含输入框的td有足够的空间 */
+.condition td.textLeft:has(input[type="text"]),
+.condition td.textLeft:has(input[type="password"]),
+.condition td.textLeft:has(input[type="number"]),
+.condition td.textRight:has(input[type="text"]),
+.condition td.textRight:has(input[type="password"]),
+.condition td.textRight:has(input[type="number"]) {
+    width: auto !important;
+    min-width: 200px !important;
+}
+
+/* 输入面板中的按钮容器默认右对齐 */
+/* 使用:has()选择器定位包含按钮的td（现代浏览器） */
+.condition td:has(.btn1),
+.condition td:has(.btn2),
+.condition td:has(.btn3),
+.condition td:has(.btn5),
+.condition td:has(.btn8),
+.condition td:has(.btn40),
+.condition td:has(.button01),
+.condition td:has(.button02),
+.condition td:has(.button03),
+.condition td:has(.button04),
+.condition td:has(input[class*="btn"]),
+.condition td:has(input[type="button"][class*="btn"]),
+.condition td:has(input[type="reset"][class*="btn"]) {
+    text-align: right !important;
+}
+
+/* 如果浏览器不支持:has()，使用JavaScript类名或直接针对包含按钮的td */
+/* 通过设置按钮之间的间距来确保右对齐效果 */
+.condition td input.btn1 + input[class*="btn"],
+.condition td input.btn2 + input[class*="btn"],
+.condition td input.btn3 + input[class*="btn"],
+.condition td input.btn5 + input[class*="btn"] {
+    margin-left: 8px !important;
+}
+
+/* ========== 导航栏样式 - Cloudflare风格 ========== */
+.navDiv,
+#funcNavigator.navDiv,
+div.navDiv {
+    background: var(--bg-primary) !important;
+    background-color: var(--bg-primary) !important;
+    background-image: none !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 12px 16px !important; /* 与左侧标题栏一致：12px上下padding，16px左右padding */
+    margin: 0 !important; /* 移除底部margin，确保与左侧标题栏对齐 */
+    box-shadow: none !important;
+    display: table !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    line-height: 1.5 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+}
+
+.navDiv .text12black {
+    color: var(--text-secondary) !important;
+    font-size: 15px !important; /* 与左侧标题栏字体大小一致 */
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    vertical-align: middle !important;
+    display: inline-block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 面包屑导航 */
+.navDiv table {
+    border: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    vertical-align: middle !important;
+    margin: 0 !important;
+}
+
+.navDiv td {
+    padding: 0 !important;
+    vertical-align: middle !important;
+    line-height: 1.5 !important;
+    height: auto !important;
+}
+
+.navDiv tr {
+    vertical-align: middle !important;
+    height: auto !important;
+}
+
+/* 面包屑图标替换 */
+.navDiv img[src*="wei.jpg"],
+.navDiv img[src*="location"] {
+    display: none !important;
+}
+
+.navDiv td:has(img[src*="wei.jpg"])::before,
+.navDiv td:has(img[src*="location"])::before {
+    content: '\f3c5' !important; /* Font Awesome map-marker-alt */
+    font-family: 'Font Awesome 6 Free' !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    color: var(--primary-blue) !important;
+    margin-right: 8px !important;
+    display: inline-block !important;
+}
+
+/* ========== 图标样式 - Cloudflare风格 ========== */
+.fa-icon {
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin: 0 2px;
+}
+
+.fa-icon:hover {
+    color: var(--primary-blue);
+}
+
+/* 操作图标按钮 */
+a .fa-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-md);
+    transition: all 0.15s ease;
+}
+
+a:hover .fa-icon {
+    background-color: var(--primary-light);
+    color: var(--primary-blue);
+}
+
+/* ========== 文字样式 ========== */
+.text12black {
+    color: var(--text-primary) !important;
+    font-size: 14px !important;
+}
+
+.textgray14 {
+    color: var(--text-secondary) !important;
+    font-size: 14px !important;
+}
+
+.Textcolor3 {
+    color: var(--text-primary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+.Textcolor1 {
+    color: var(--primary-blue) !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+.Textcolor1:hover {
+    color: var(--primary-hover) !important;
+    text-decoration: underline !important;
+}
+
+/* ========== 底部样式 ========== */
+.bottom {
+    background: var(--bg-primary) !important;
+    background-image: none !important;
+    border-top: 1px solid var(--border-color) !important;
+    color: var(--text-secondary) !important;
+    padding: var(--spacing-md) var(--spacing-lg) !important;
+    font-size: 13px !important;
+}
+
+/* ========== 状态标签 - Cloudflare风格 ========== */
+/* 可以用于状态显示，类似Cloudflare的绿色"活动"标签 */
+.status-active,
+span[style*="background"][style*="活动"],
+span[style*="background"][style*="启用"],
+span[style*="background"][style*="正常"] {
+    display: inline-block !important;
+    padding: 4px 10px !important;
+    background-color: #D1FAE5 !important;
+    color: #065F46 !important;
+    border-radius: var(--radius-full) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    border: none !important;
+}
+
+.status-inactive,
+span[style*="background"][style*="停用"],
+span[style*="background"][style*="禁用"],
+span[style*="background"][style*="异常"] {
+    display: inline-block !important;
+    padding: 4px 10px !important;
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-secondary) !important;
+    border-radius: var(--radius-full) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    border: none !important;
+}
+
+/* 状态文字自动应用样式 */
+.resultListFence td:has-text("活动"),
+.resultListFence td:has-text("启用"),
+.resultListFence td:has-text("正常") {
+    color: #065F46 !important;
+    font-weight: 500 !important;
+}
+
+.resultListFence td:has-text("停用"),
+.resultListFence td:has-text("禁用"),
+.resultListFence td:has-text("异常") {
+    color: var(--text-secondary) !important;
+}
+
+/* ========== 页面标题区域 - Cloudflare风格 ========== */
+.page-header {
+    margin-bottom: var(--spacing-xl) !important;
+}
+
+.page-title {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    margin: 0 0 var(--spacing-sm) 0 !important;
+}
+
+.page-description {
+    font-size: 14px !important;
+    color: var(--text-secondary) !important;
+    margin: 0 0 var(--spacing-lg) 0 !important;
+    line-height: 1.6 !important;
+}
+
+/* ========== 响应式调整 ========== */
+@media (max-width: 768px) {
+    .condition {
+        padding: var(--spacing-md) !important;
+    }
+    
+    .resultListFence {
+        font-size: 12px !important;
+    }
+    
+    td[bgcolor="#B9D6F4"] {
+        width: 200px !important;
+    }
+}
+
+/* ========== 强制覆盖内联样式 ========== */
+table[width="100%"] td[bgcolor] {
+    background-color: var(--bg-primary) !important;
+}
+
+/* 确保iframe无边框 */
+iframe[name="mainFrame"],
+iframe[name="leftFrame"] {
+    border: none !important;
+}
+
+/* ========== 链接样式 ========== */
+a {
+    color: var(--primary-blue) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+
+a:hover {
+    color: var(--primary-hover) !important;
+    text-decoration: underline !important;
+}
+
+/* ========== 选择框样式优化 ========== */
+select {
+    appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    padding-right: 36px !important;
+}
+
+/* ========== 侧边栏切换按钮 - Cloudflare风格，位于底部左下角 ========== */
+.sidebar-toggle-btn,
+#slink {
+    position: absolute !important;
+    bottom: 4px !important;
+    left: 16px !important;
+    width: 36px !important;
+    height: 36px !important;
+    background-color: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 1000 !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: var(--shadow-sm) !important;
+    color: var(--text-secondary) !important;
+}
+
+.sidebar-toggle-btn:hover,
+#slink:hover {
+    background-color: var(--bg-tertiary) !important;
+    border-color: var(--text-tertiary) !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.sidebar-toggle-btn:active,
+#slink:active {
+    transform: scale(0.95) !important;
+}
+
+/* 侧边栏收起时，按钮位置调整到左侧边缘 */
+td[id="ltd"].sidebar-collapsed .sidebar-toggle-btn,
+td[id="ltd"].sidebar-collapsed #slink {
+    left: 12px !important;
+}
+
+.sidebar-toggle-btn i,
+#slink i {
+    font-size: 16px !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    color: inherit !important;
+}
+
+/* ========== 分页控件样式 - Cloudflare风格 ========== */
+/* 分页容器 */
+div[align="center"]:has(table):has(input[id="nowpage"]),
+div:has(table):has(input[id="nowpage"]),
+table:has(input[id="nowpage"]) {
+    margin: var(--spacing-lg) auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--spacing-sm) !important;
+    flex-wrap: wrap !important;
+}
+
+/* 分页表格 */
+table:has(input[id="nowpage"]) {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* 分页表格行 */
+table:has(input[id="nowpage"]) tr {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+    background: transparent !important;
+}
+
+/* 分页表格单元格 */
+table:has(input[id="nowpage"]) td {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+/* 统计信息（共XX条/XX页） */
+table:has(input[id="nowpage"]) td:first-child {
+    background: var(--primary-light) !important; /* 浅蓝色背景 */
+    color: var(--primary-blue) !important;
+    padding: 8px 16px !important;
+    border-radius: var(--radius-md) 0 0 var(--radius-md) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    border: 1px solid var(--border-color) !important;
+    border-right: none !important;
+    white-space: nowrap !important;
+}
+
+/* 包含"共"字的单元格 */
+table:has(input[id="nowpage"]) td:contains("共"),
+table:has(input[id="nowpage"]) td {
+    /* 如果第一个td包含"共"字，应用统计信息样式 */
+}
+
+/* 页码按钮容器 */
+table:has(input[id="nowpage"]) td:has(a[href*="javascript"]),
+table:has(input[id="nowpage"]) td:has(a[onclick*="dataQuery"]) {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+}
+
+/* 页码按钮链接 */
+table:has(input[id="nowpage"]) td a,
+table:has(input[id="nowpage"]) a[href*="javascript"],
+table:has(input[id="nowpage"]) a[onclick*="dataQuery"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 40px !important;
+    height: 36px !important;
+    padding: 0 12px !important;
+    background: var(--bg-primary) !important; /* 白色背景 */
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-left: none !important;
+    border-right: none !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+    user-select: none !important;
+}
+
+/* 当前页按钮（激活状态） */
+table:has(input[id="nowpage"]) td a[style*="background"],
+table:has(input[id="nowpage"]) td a[style*="BACKGROUND"],
+table:has(input[id="nowpage"]) td a.active,
+table:has(input[id="nowpage"]) td a:active {
+    background: var(--bg-tertiary) !important; /* 浅灰色背景 */
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    border-color: var(--border-color) !important;
+}
+
+/* 页码按钮悬停效果 */
+table:has(input[id="nowpage"]) td a:hover {
+    background: var(--bg-secondary) !important;
+    color: var(--primary-blue) !important;
+    border-color: var(--primary-blue) !important;
+}
+
+/* 跳转输入框 */
+table:has(input[id="nowpage"]) input[type="text"][id="nowpage"],
+table:has(input[id="nowpage"]) input[type="text"]:not([id="nowpage"]) {
+    width: 60px !important;
+    height: 36px !important;
+    padding: 0 12px !important;
+    margin: 0 var(--spacing-sm) !important;
+    background: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    color: var(--text-primary) !important;
+    transition: all 0.15s ease !important;
+}
+
+table:has(input[id="nowpage"]) input[type="text"]:focus {
+    outline: none !important;
+    border-color: var(--primary-blue) !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* "转入"按钮 */
+table:has(input[id="nowpage"]) input[type="button"][value*="转入"],
+table:has(input[id="nowpage"]) input[type="button"][value*="转"],
+table:has(input[id="nowpage"]) input[type="button"][onclick*="dataQuery"],
+table:has(input[id="nowpage"]) input[type="button"]:not([class*="btn"]) {
+    background: var(--bg-primary) !important; /* 白色背景 */
+    color: var(--primary-blue) !important; /* 蓝色文字 */
+    border: 1px solid var(--primary-blue) !important; /* 蓝色边框 */
+    border-radius: var(--radius-md) !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    box-shadow: none !important;
+    height: 36px !important;
+    min-width: 60px !important;
+    margin-left: var(--spacing-sm) !important;
+}
+
+table:has(input[id="nowpage"]) input[type="button"]:hover {
+    background: var(--primary-light) !important; /* hover时浅蓝背景 */
+    color: var(--primary-hover) !important; /* hover时深蓝文字 */
+    border-color: var(--primary-hover) !important; /* hover时深蓝边框 */
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* 确保分页控件整体布局美观 */
+table:has(input[id="nowpage"]) {
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* 兼容性：如果浏览器不支持:has()，使用类名选择器 */
+.pagination-container,
+.pagination-wrapper {
+    margin: var(--spacing-lg) auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--spacing-sm) !important;
+    flex-wrap: wrap !important;
+}

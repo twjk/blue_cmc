@@ -27,7 +27,7 @@
 			<tr onDblClick="editData('${taskid}')" >
 				<td>
 					<s:if test="activity!=null">
-						<img src="<lt:contextPath/>/images/activity.png" alt="活动" title="${activity.title }">
+						<i class="fa-solid fa-gift" style="color: #007AFF;" title="${activity.title }"></i>
 					</s:if>
 				</td>
 				<td>
@@ -67,10 +67,14 @@
 					</a>
 				</td>
 				<td>
-					<a href="javascript:editData('${taskid}');"><img src="<lt:contextPath/>/images/edit.gif" alt="编辑" title="编辑"></a>
+					<a href="javascript:editData('${taskid}');" title="编辑">
+						<i class="fa-solid fa-pen fa-icon"></i>
+					</a>
 					&nbsp;&nbsp;
 					<s:if test="@com.qcmz.cmc.constant.DictConstant@DICT_CROWDTASK_TASKTYPE_PRETASK!=tasktype">
-						<a href="javascript:showCancel('${taskid }','${title }');"><img src="<lt:contextPath/>/images/cancel.png" alt="取消未完成用户任务" title="取消未完成用户任务"></a>
+						<a href="javascript:showCancel('${taskid }','${title }');" title="取消未完成用户任务">
+							<i class="fa-solid fa-xmark fa-icon"></i>
+						</a>
 					</s:if>
 				</td>
 			</tr>
