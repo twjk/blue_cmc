@@ -19,6 +19,11 @@ function getList(result) {
 	
 	listStyle();
 	
+	// 触发resultArea高度调整（如果页面有定义adjustResultAreaHeight函数）
+	if (typeof adjustResultAreaHeight === 'function') {
+		setTimeout(adjustResultAreaHeight, 100);
+	}
+	
 	btnEnabled();
 }
 

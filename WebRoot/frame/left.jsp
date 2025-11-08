@@ -193,7 +193,7 @@ body:not(.sidebar-collapsed) #nav li ul.collapsed {
 <body style="background-color:#F9FAFB;overflow-y:auto;overflow-x:hidden;height:100vh;">
 <div style="height:10px"></div>
 <div id="PARENT">
-<ul id="nav">
+	<ul id="nav">
 <s:iterator value="#session.userbean.treeRights" id="right" status="st">
 <li>
 	<a href="javascript:void(0);"  onclick="DoMenu('ChildMenu${st.count }')" data-menu-name="${right.rightname }">
@@ -204,6 +204,9 @@ body:not(.sidebar-collapsed) #nav li ul.collapsed {
 		<s:iterator value="chdrights">
 			<li><a href="<s:property value="url"/>" target="mainFrame" data-submenu-name="<s:property value="rightname"/>"><s:property value="rightname"/></a></li>
 		</s:iterator>
+		<s:if test="rightname == '系统管理'">
+			<li><a href="javascript:void(0);" onclick="try { if(typeof parent.logout === 'function') { parent.logout(); } else if(typeof top.logout === 'function') { top.logout(); } else { top.location.href='<%=request.getContextPath() %>/caslogout.jsp'; } } catch(e) { top.location.href='<%=request.getContextPath() %>/caslogout.jsp'; }" data-submenu-name="安全退出">安全退出</a></li>
+		</s:if>
 	 </ul>
 </li>
 </s:iterator>

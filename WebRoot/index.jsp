@@ -27,14 +27,7 @@
   
   <body style="background-color: #F9FAFB;">
 	<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-		<tr>
-		
-		    <td colspan="3" height="25" style="text-align: right; padding: 12px 24px; position: relative;"> 
-		    	<!--<span class="Textcolor3" style="margin-right: 16px;">${sessionScope.userbean.name }（${sessionScope.userbean.username }）</span>-->
-		    	<a href="javascript:logout();" target="_top" style="color: #3B82F6; text-decoration: none; font-weight: 500; cursor: pointer;">安全退出</a>
-		    	<!-- <a href="javascript:modpwd();"><span class="Textcolor1" style="cursor: pointer;">修改密码</span></a> -->
-			</td>
-		</tr>
+
 		<tr>
   			<td id="ltd" height="100%" style="position: relative; z-index: 100;">
 				<table width="100%" border="0" cellpadding="0" cellspacing="0" height="100%">
@@ -66,11 +59,11 @@
 			</table>
 			</td>
   		</tr>
-		<tr><td colspan="3">
-		<table width="100%" border="0" cellpadding="0" cellspacing="0">
-			
-		</table>
-		</td><tr>
+		<tr><td colspan="3" height="40" style="background-color: #FFFFFF; border-top: 1px solid #E5E7EB;">
+		<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);">
+			<span style="color: #6B7280; font-size: 14px; font-weight: 500; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: 0.5px;">CMC System</span>
+		</div>
+		</td></tr>
 	</table>
 	
 	<div id="modpwd" style="width:380px;height:150px;display:none" >
